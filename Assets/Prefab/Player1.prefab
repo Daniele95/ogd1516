@@ -491,16 +491,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 150352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f96b73dedd84e04bb3a3ef167bee1e8, type: 3}
+  m_Script: {fileID: 11500000, guid: 195df886e9beedb459da53dcdd95a4fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: 1
-  acceleration: 120
-  accelerationSteer: 2
+  acceleration: 40
+  accelerationSteer: 40
   wheelBase: 0
   GRAVITY: 9.81
   FRICTION: 4
-  STEER_FRICTION: 25
+  STEER_FRICTION: 4
   deltaGround: 2
   lerpSpeed: 2
 --- !u!114 &11434040
@@ -511,14 +511,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 150352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 379eeb68a144f21468936c218d2864e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnpoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  Player: 1
+  shoot: {fileID: 0}
+  shooter: {fileID: 0}
+  startTimerShoot: 0.25
+  numBullets: 1
+  maxNumBullets: 10
 --- !u!114 &11443296
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -527,7 +528,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 150352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c68a654f606ebe843b3e42d82bb94e26, type: 3}
+  m_Script: {fileID: 11500000, guid: e3c6d4651db7fbb40a2dee30d40345a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Player: 1
@@ -541,15 +542,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 150352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70efb577d45421e40b6ac93f9d048644, type: 3}
+  m_Script: {fileID: 11500000, guid: 743eed06536b94147bb901ca83de51ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: 1
-  shoot: {fileID: 159640, guid: 16357bb2895b98742b48313362325c7f, type: 2}
-  shooter: {fileID: 164366}
-  startTimerShoot: 0.25
-  numBullets: 1
-  maxNumBullets: 10
+  spawnpoints: []
 --- !u!136 &13620208
 CapsuleCollider:
   m_ObjectHideFlags: 1
