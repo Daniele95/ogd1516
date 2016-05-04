@@ -52,7 +52,7 @@ public class GuiVehicle : MonoBehaviour {
 		if (life <= 0) {
 			life = 100;
 
-			spawnPoints respawn = GetComponent<spawnPoints> ();
+			SpawnPoints respawn = GetComponent<SpawnPoints> ();
 			respawn.respawn ();
 
 			ControllerGame controller = GameObject.Find ("ControllerGame").GetComponent<ControllerGame> ();
