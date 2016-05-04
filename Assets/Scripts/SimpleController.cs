@@ -10,7 +10,7 @@ public class SimpleController : MonoBehaviour
     public float GRAVITY = 9.81f;
     public float FRICTION = 4f;
     public float STEER_FRICTION = 4f;
-    public float deltaGround = 0.2f;
+    public float deltaGround = 2f;
     public float lerpSpeed = 2f;
 
     private Vector3 velocity = Vector3.zero;
@@ -27,7 +27,7 @@ public class SimpleController : MonoBehaviour
     private Collider carCollider;
 
     //private float distGround;
-    private bool isGrounded;
+    private int isGrounded;
 
     private Vector3 frontWheel;
     private Vector3 backWheel;
@@ -47,10 +47,45 @@ public class SimpleController : MonoBehaviour
         ray = new Ray();
     }
 
+    private float cost = -2f;
+
     void FixedUpdate()
     {
-        body.AddForce(-GRAVITY * myNormal, ForceMode.Acceleration);
-        body.MovePosition(body.position + velocity * Time.deltaTime);
+        Vector3 realGravity = -GRAVITY * myNormal;
+
+        if (isGrounded == 1)
+        {
+            cost = 0.05f;
+            body.AddRelativeForce(realGravity * cost, ForceMode.Force);
+        }
+        else if (isGrounded == 2)
+        {
+            if (cost > 0f)
+                cost = -2f;
+
+            cost += Time.fixedDeltaTime;
+
+            if (cost > 0f)
+                cost = 0f;
+
+            body.AddForce(realGravity * cost, ForceMode.Acceleration);
+        }
+        else if (isGrounded == 3)
+        {
+            if (cost < 0f)
+                cost = 1f;
+
+            cost -= Time.fixedDeltaTime;
+
+            if (cost < 0f)
+                cost = 0f;
+
+            body.AddForce(realGravity * cost, ForceMode.Acceleration);
+        }
+
+        
+
+        body.MovePosition(body.position + velocity * Time.fixedDeltaTime);
     }
     // Update is called once per frame
     void Update()
@@ -76,16 +111,23 @@ public class SimpleController : MonoBehaviour
 
         RaycastHit hit;
 
-        ray.origin = transform.position;
+        ray.origin = body.position;
         ray.direction = -myNormal; // cast ray downwards
         if (Physics.Raycast(ray, out hit))
         { // use it to update myNormal and isGrounded
-            isGrounded = hit.distance <= deltaGround; //distGround + 
+            if (hit.distance <= deltaGround*2.5f)
+                isGrounded = 2; //distGround + 
+            else// if (hit.distance > deltaGround * 4f)
+                isGrounded = 3;
+            //else isGrounded = 1;
+
+            if(player)
+            print(hit.distance + " " + cost + " " + isGrounded);
             //print(hit.distance + " " + (deltaGround) + " " + isGrounded);
             surfaceNormal = hit.normal;
         }
         else {
-            isGrounded = false;
+            isGrounded = 0;
             // assume usual ground normal to avoid "falling forever"
             surfaceNormal = Vector3.up;
         }
@@ -102,9 +144,11 @@ public class SimpleController : MonoBehaviour
 
         body.angularVelocity = Vector3.zero;
 
-        Debug.DrawRay(transform.position, transform.TransformDirection(myForward) * 10f, Color.red);
-        Debug.DrawRay(transform.position, transform.TransformDirection(transform.right) * 10f, Color.green);
-        Debug.DrawRay(transform.position, transform.TransformDirection(myNormal) * 10f, Color.blue);
+        Debug.DrawRay(body.position, -myNormal * 10f, Color.red);
+        //Debug.DrawRay(transform.position, transform.TransformDirection(transform.right) * 10f, Color.green);
+        //Debug.DrawRay(transform.position, transform.TransformDirection(myNormal) * 10f, Color.blue);
+
+        
     }
 
     void GetInput()
