@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/NoWheelColliders/experiments.unity
-  isLoaded: 1
-  isActive: 1
