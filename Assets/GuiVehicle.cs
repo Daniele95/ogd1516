@@ -13,7 +13,7 @@ public class GuiVehicle : NetworkBehaviour {
 	//public float timerRespawnHit = 1f;
 
 	//private int whichTeam = -1;
-	private Rigidbody body;
+	//private Rigidbody body;
 
 	private Text text;
 	private Image healthRect;
@@ -90,7 +90,7 @@ public class GuiVehicle : NetworkBehaviour {
 	void Start () {
 		//whichTeam = gameObject.CompareTag ("VehicleTeam0") ? 0 : 1;
 
-		body = GetComponent<Rigidbody> ();
+		//body = GetComponent<Rigidbody> ();
 
 		text = this.GetComponentInChildren<Text> ();
 		healthRect = this.GetComponentInChildren<Image> ();

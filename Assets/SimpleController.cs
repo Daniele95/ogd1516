@@ -54,8 +54,8 @@ public class SimpleController : NetworkBehaviour
 
     private int isGrounded = 3;
 
-    private Vector3 frontWheel;
-    private Vector3 backWheel;
+    //private Vector3 frontWheel;
+    //private Vector3 backWheel;
     private Ray ray;
 
 	private Vector3 dirDrift;
@@ -91,8 +91,8 @@ public class SimpleController : NetworkBehaviour
 
         myNormal = transform.up;
 
-        frontWheel = new Vector3();
-        backWheel = new Vector3();
+        //frontWheel = new Vector3();
+        //backWheel = new Vector3();
 
         ray = new Ray();
 
@@ -104,13 +104,13 @@ public class SimpleController : NetworkBehaviour
 			script.target = this;
 		}
 
-		if (team == 0) {
+		/*if (team == 0) {
 			GetComponent<MeshRenderer> ().material.color = Color.blue;
 			gameObject.tag = "VehicleTeam0";
 		} else if(team == 1){
 			GetComponent<MeshRenderer> ().material.color = Color.red;
 			gameObject.tag = "VehicleTeam1";
-		}
+		}*/
     }
 
     //private float cost = 0f;
@@ -212,7 +212,7 @@ public class SimpleController : NetworkBehaviour
 
 						CmdIsDoingCamping (false);
 
-						print ("ENDCAMPING");
+						//print ("ENDCAMPING");
 					}
 				} else {
 					standardUpdate ();

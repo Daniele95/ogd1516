@@ -4,7 +4,8 @@ using UnityEngine.Networking;
 
 public class ShootMineBehavior : NetworkBehaviour {
 	private Rigidbody body;
-	public int hitPoints = 70;
+	public int hitPoints = 50;
+	public float radius = 15f;
 
 	// Use this for initialization
 	void Start () {
@@ -27,31 +28,46 @@ public class ShootMineBehavior : NetworkBehaviour {
 		body.angularVelocity = Vector3.zero;
 
 		if (gameObject.CompareTag ("BulletTeam1")) {
+			bool damage = false;
+
 			GameObject[] playersEnemy = GameObject.FindGameObjectsWithTag ("VehicleTeam0");
 
 			for (int i = 0; i < playersEnemy.Length; i++) {
-				if (Vector3.Distance (playersEnemy[i].transform.position, transform.position) <= 5f) {
+				if (Vector3.Distance (playersEnemy[i].transform.position, transform.position) <= radius) {
 					GuiVehicle gui = playersEnemy[i].GetComponent<GuiVehicle> ();
-					gui.TakeDamage (hitPoints);
+					if (gui != null) {
+						gui.TakeDamage (hitPoints);
 
-					Destroy (gameObject);
+						damage = true;
+					}
 
-					break;
+					//break;
 				}
 			}
+
+			if(damage)
+				Destroy (gameObject);
+
 		}else if (gameObject.CompareTag ("BulletTeam0")) {
+			bool damage = false;
+
 			GameObject[] playersEnemy = GameObject.FindGameObjectsWithTag ("VehicleTeam1");
 
 			for (int i = 0; i < playersEnemy.Length; i++) {
-				if (Vector3.Distance (playersEnemy[i].transform.position, transform.position) <= 5f) {
+				if (Vector3.Distance (playersEnemy[i].transform.position, transform.position) <= radius) {
 					GuiVehicle gui = playersEnemy[i].GetComponent<GuiVehicle> ();
-					gui.TakeDamage (hitPoints);
+					if (gui != null) {
+						gui.TakeDamage (hitPoints);
 
-					Destroy (gameObject);
+						damage = true;
+					}
 
-					break;
+					//break;
 				}
 			}
+
+			if(damage)
+				Destroy (gameObject);
 		}
 	}
 

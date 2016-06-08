@@ -12,8 +12,26 @@ public class ControllerNet : NetworkManager {
 		
 	}*/
 
+	/*public override void OnClientConnect (NetworkConnection conn)
+	{
+		base.OnClientConnect (conn);
+
+
+	}*/
+
+	/*public override void OnServerConnect (NetworkConnection conn)
+	{
+		base.OnServerConnect (conn);
+
+		LoaderClass loaderScript = GameObject.Find ("Player").GetComponent<LoaderClass> ();
+
+		RpcChooseClass (loaderScript.typeClass);
+
+		print ("ON SERVER CONNNECT: " + loaderScript.typeClass);
+	}*/
+
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
-	{	
+	{
 		GameObject player = (GameObject)Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 		//SpawnPoints scriptSpawnPoints = player.GetComponent<SpawnPoints> ();
 		string whichTagTeam = "SpawnTeam0";
@@ -22,13 +40,16 @@ public class ControllerNet : NetworkManager {
 			firstTeam = false;
 
 			player.GetComponent<SimpleController> ().team = 0;
-			player.gameObject.GetComponent<MeshRenderer> ().material.color = Color.blue;
+			//player.gameObject.GetComponent<MeshRenderer> ().material.color = Color.blue;
 			player.gameObject.tag = "VehicleTeam0";
+			player.gameObject.GetComponent<LoaderClass>().tagTeam = "VehicleTeam0";
 			whichTagTeam = "SpawnTeam0";
 		} else {
 			player.GetComponent<SimpleController> ().team = 1;
-			player.gameObject.GetComponent<MeshRenderer> ().material.color = Color.red;
+			//player.gameObject.GetComponent<MeshRenderer> ().material.color = Color.red;
 			player.gameObject.tag = "VehicleTeam1";
+
+			player.gameObject.GetComponent<LoaderClass>().tagTeam = "VehicleTeam1";
 			whichTagTeam = "SpawnTeam1";
 		}
 

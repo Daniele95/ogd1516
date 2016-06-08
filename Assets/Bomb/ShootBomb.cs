@@ -6,9 +6,11 @@ public class ShootBomb : NetworkBehaviour {
 	private Rigidbody body;
 	public float speed = 50f;
 	public float speedVehicle = 1f;
-	public int hitPoints = 10;
+	public int hitPoints = 50;
 	public float MAX_SPEED_VEHICLE = 20f;
 	public float MIN_SPEED_VEHICLE = 5f;
+	public int FACTOR_HIT_PLAYER = 2;
+	public float radius = 10f;
 
 	// Use this for initialization
 	void Start () {
@@ -39,11 +41,46 @@ public class ShootBomb : NetworkBehaviour {
 
 		if (col.gameObject.CompareTag ("VehicleTeam0") && gameObject.CompareTag("BulletTeam1") || col.gameObject.CompareTag ("VehicleTeam1") && gameObject.CompareTag("BulletTeam0")) {
 			GuiVehicle gui = col.gameObject.GetComponent<GuiVehicle> ();
-			//gui.life -= hitPoints;
 
-			gui.TakeDamage (hitPoints);
-		}else if (!col.gameObject.CompareTag ("VehicleTeam0") && !col.gameObject.CompareTag ("VehicleTeam1")) {
+			gui.TakeDamage (hitPoints * FACTOR_HIT_PLAYER);
+
 			Destroy (gameObject);
+		}else if (!col.gameObject.CompareTag ("VehicleTeam0") && !col.gameObject.CompareTag ("VehicleTeam1")) {// && !col.gameObject.CompareTag ("Vehicle")
+			if (gameObject.CompareTag ("BulletTeam1")) {
+				GameObject[] playersEnemy = GameObject.FindGameObjectsWithTag ("VehicleTeam0");
+
+				for (int i = 0; i < playersEnemy.Length; i++) {
+					if (Vector3.Distance (playersEnemy[i].transform.position, transform.position) <= radius) {
+						GuiVehicle gui = playersEnemy[i].GetComponent<GuiVehicle> ();
+						if (gui != null) {
+							gui.TakeDamage (hitPoints);
+
+							//Destroy (gameObject);
+						}
+
+						//break;
+					}
+				}
+			}else if (gameObject.CompareTag ("BulletTeam0")) {
+				GameObject[] playersEnemy = GameObject.FindGameObjectsWithTag ("VehicleTeam1");
+
+				for (int i = 0; i < playersEnemy.Length; i++) {
+					if (Vector3.Distance (playersEnemy[i].transform.position, transform.position) <= radius) {
+						GuiVehicle gui = playersEnemy[i].GetComponent<GuiVehicle> ();
+						if (gui != null) {
+							gui.TakeDamage (hitPoints);
+
+							//Destroy (gameObject);
+						}
+
+						//break;
+					}
+				}
+			}
+
+			Destroy (gameObject);
+
+			//print ("onground");
 		}
 	}
 }

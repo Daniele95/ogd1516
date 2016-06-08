@@ -9,13 +9,25 @@ public class LoaderClass : NetworkBehaviour {
 	public GameObject bazookaShot;
 	public GameObject bombShot;
 
-	private int typeClass = 1;
+	public string tagTeam = "";
 
-	// Use this for initialization
-	void Start () {
+	//public GameObject drifterMesh;
+	//public GameObject camperMesh;
+	//public GameObject minerMesh;
+
+	[SyncVar]
+	public int typeClass = 0;
+
+	void setClass(int typeClass){
 		SimpleController scriptMovement = GetComponent<SimpleController> ();
 		GuiVehicle scriptGUI = GetComponent<GuiVehicle> ();
 		Shooting scriptShooting = GetComponent<Shooting> ();
+		GameObject renderer = transform.Find ("positionRenderMesh").gameObject;
+		GameObject drifterMesh = transform.Find ("drifter").gameObject;
+		GameObject minerMesh = transform.Find ("miner").gameObject;
+		GameObject camperMesh = transform.Find ("camper").gameObject;
+
+		//MeshFilter mesh = GetComponent<MeshFilter> ();
 
 		if (typeClass == 0) {//DRIFTER
 			scriptMovement.acceleration = 20000f;
@@ -35,6 +47,11 @@ public class LoaderClass : NetworkBehaviour {
 			scriptShooting.startTimerShootSecondWeapon = 0.125f;
 			scriptMovement.damageDrift = 5;
 			scriptShooting.shootSecond = null;
+
+			drifterMesh.SetActive (true);
+			//drifterMesh.tag = tagTeam;
+
+			//mesh.mesh = drifterMesh;
 		}else if(typeClass == 1){//MINER
 			scriptMovement.acceleration = 15000f;
 			scriptMovement.FRICTION = 5f;
@@ -51,6 +68,11 @@ public class LoaderClass : NetworkBehaviour {
 			scriptShooting.maxNumBulletsSecondWeapon = 15;
 			scriptShooting.startTimerShootSecondWeapon = 4f;
 			scriptShooting.shootSecond = bombShot;
+
+			minerMesh.SetActive (true);
+			//minerMesh.tag = tagTeam;
+
+			//mesh.mesh = minerMesh;
 		}else if(typeClass == 2){//CAMPER
 			scriptMovement.acceleration = 20000f;
 			scriptMovement.FRICTION = 5f;
@@ -68,11 +90,41 @@ public class LoaderClass : NetworkBehaviour {
 			scriptShooting.maxNumBulletsSecondWeapon = 20;
 			scriptShooting.startTimerShootSecondWeapon = 1f;
 			scriptShooting.shootSecond = laserShot;
+
+			camperMesh.SetActive (true);
+			//camperMesh.tag = tagTeam;
+
+			//mesh.mesh = camperMesh;
 		}
 	}
-	
+
+	[Command]
+	void CmdSetClass(int typeClass)//float rx, float ry, float rz
+	{
+		setClass (typeClass);
+	}
+
+	// Use this for initialization
+	void Start () {
+		if (isLocalPlayer) {
+			NetworkManagerHUD netScript = GameObject.Find ("ControllerNet").gameObject.GetComponent<NetworkManagerHUD> ();
+
+			typeClass = netScript.classType;
+
+			setClass (typeClass);
+
+			CmdSetClass (typeClass);
+		}
+	}
+
+	private bool haveToSetClass = true;
+
 	// Update is called once per frame
 	void Update () {
-	
+		if (!isLocalPlayer && haveToSetClass) {
+			setClass (typeClass);
+
+			haveToSetClass = false;
+		}
 	}
 }

@@ -72,7 +72,7 @@ public class LaserBeam : NetworkBehaviour {
 
 				gui.TakeDamage (hitPoints);
 
-				print ("hiT:" + hitPoints);
+				//print ("hiT:" + hitPoints);
 			}
 
 			//Destroy (gameObject);

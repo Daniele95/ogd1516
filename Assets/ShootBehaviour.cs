@@ -16,7 +16,7 @@ public class ShootBehaviour : NetworkBehaviour {
 
 		body.velocity = transform.forward * speed;
 
-		//Destroy (this.gameObject, 1f);
+		Destroy (this.gameObject, 5f);
 	}
 	
 	// Update is called once per frame
@@ -33,6 +33,8 @@ public class ShootBehaviour : NetworkBehaviour {
 			//gui.life -= hitPoints;
 
 			gui.TakeDamage (hitPoints);
+
+			Destroy (gameObject);
 		}else if (!col.gameObject.CompareTag ("VehicleTeam0") && !col.gameObject.CompareTag ("VehicleTeam1")) {
 			Destroy (gameObject);
 		}

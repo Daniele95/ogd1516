@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{8EAD6A30-C60E-8757-6499-FCE12F9564D2}</ProjectGuid>
+    <ProjectGuid>{059682D2-7466-551B-2546-47C2BB8FA2C6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -45,27 +45,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\ASimpleSolution\AmmoPickupBehaviour.cs" />
-     <Compile Include="Assets\ASimpleSolution\Bazooka\ShootBazooka.cs" />
-     <Compile Include="Assets\ASimpleSolution\Bomb\ShootBomb.cs" />
-     <Compile Include="Assets\ASimpleSolution\ControllerGaming.cs" />
-     <Compile Include="Assets\ASimpleSolution\ControllerNet.cs" />
-     <Compile Include="Assets\ASimpleSolution\DontGoThroughThings.cs" />
-     <Compile Include="Assets\ASimpleSolution\FollowCamera.cs" />
-     <Compile Include="Assets\ASimpleSolution\GuiVehicle.cs" />
-     <Compile Include="Assets\ASimpleSolution\HealthPickupBehaviour.cs" />
-     <Compile Include="Assets\ASimpleSolution\Laser\LaserBeam.cs" />
-     <Compile Include="Assets\ASimpleSolution\LoaderClass.cs" />
-     <Compile Include="Assets\ASimpleSolution\Mine\ShootMineBehavior.cs" />
-     <Compile Include="Assets\ASimpleSolution\Orbit.cs" />
-     <Compile Include="Assets\ASimpleSolution\ShootBehaviour.cs" />
-     <Compile Include="Assets\ASimpleSolution\Shooting.cs" />
-     <Compile Include="Assets\ASimpleSolution\SimpleController.cs" />
-     <Compile Include="Assets\ASimpleSolution\SpawnPickup.cs" />
-     <Compile Include="Assets\ASimpleSolution\SpawnPoints.cs" />
-     <Compile Include="Assets\NoWheelColliders\FPSDisplay.cs" />
-     <Compile Include="Assets\NoWheelColliders\controller.cs" />
+     <Compile Include="Assets\AmmoPickupBehaviour.cs" />
+     <Compile Include="Assets\Bazooka\ShootBazooka.cs" />
+     <Compile Include="Assets\Bomb\ShootBomb.cs" />
+     <Compile Include="Assets\ControllerGaming.cs" />
+     <Compile Include="Assets\ControllerNet.cs" />
+     <Compile Include="Assets\DontGoThroughThings.cs" />
+     <Compile Include="Assets\FPSDisplay.cs" />
+     <Compile Include="Assets\FollowCamera.cs" />
+     <Compile Include="Assets\GuiVehicle.cs" />
+     <Compile Include="Assets\HealthPickupBehaviour.cs" />
+     <Compile Include="Assets\Laser\LaserBeam.cs" />
+     <Compile Include="Assets\LoaderClass.cs" />
+     <Compile Include="Assets\Mine\ShootMineBehavior.cs" />
+     <Compile Include="Assets\NetworkManagerHUD.cs" />
+     <Compile Include="Assets\Orbit.cs" />
+     <Compile Include="Assets\ShootBehaviour.cs" />
+     <Compile Include="Assets\Shooting.cs" />
      <Compile Include="Assets\SimpleCarController.cs" />
+     <Compile Include="Assets\SimpleController.cs" />
+     <Compile Include="Assets\SpawnPickup.cs" />
+     <Compile Include="Assets\SpawnPoints.cs" />
      <Compile Include="Assets\fps.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

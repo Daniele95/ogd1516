@@ -28,14 +28,18 @@ public class ShootBazooka : NetworkBehaviour {
 		if (!isServer)
 			return;
 
+		print (col.gameObject.tag + " " + gameObject.tag);
 		if (col.gameObject.CompareTag ("VehicleTeam0") && gameObject.CompareTag("BulletTeam1") || col.gameObject.CompareTag ("VehicleTeam1") && gameObject.CompareTag("BulletTeam0")) {
 			GuiVehicle gui = col.gameObject.GetComponent<GuiVehicle> ();
 
 			gui.TakeDamage (hitPoints);
 
 			Destroy (gameObject);
-		}else if (!col.gameObject.CompareTag ("VehicleTeam0") && !col.gameObject.CompareTag ("VehicleTeam1")) {
+		}else if (!col.gameObject.CompareTag ("VehicleTeam0") && !col.gameObject.CompareTag ("VehicleTeam1")) {// && !col.gameObject.transform.parent.gameObject.CompareTag ("Vehicle")
+			// && !col.gameObject.CompareTag ("Vehicle")
 			Destroy (gameObject);
 		}
+
+		//Destroy (gameObject);
 	}
 }
