@@ -7,6 +7,23 @@ public class ShootBazooka : NetworkBehaviour {
 	public float speed = 25f;
 	public int hitPoints = 50;
 
+	public GameObject explosion;
+	public GameObject explosionHitPlayer;
+
+	[Command]
+	void CmdDoExplosion(){
+		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (shotExplosion);
+	}
+
+	[Command]
+	void CmdDoExplosionHitPlayer(){
+		GameObject shotExplosionHitPlayer = (GameObject)Instantiate (explosionHitPlayer, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (shotExplosionHitPlayer);
+	}
+
 	// Use this for initialization
 	void Start () {
 		if (!isServer)
@@ -34,9 +51,13 @@ public class ShootBazooka : NetworkBehaviour {
 
 			gui.TakeDamage (hitPoints);
 
+			CmdDoExplosionHitPlayer ();
+
 			Destroy (gameObject);
 		}else if (!col.gameObject.CompareTag ("VehicleTeam0") && !col.gameObject.CompareTag ("VehicleTeam1")) {// && !col.gameObject.transform.parent.gameObject.CompareTag ("Vehicle")
 			// && !col.gameObject.CompareTag ("Vehicle")
+			CmdDoExplosion();
+
 			Destroy (gameObject);
 		}
 

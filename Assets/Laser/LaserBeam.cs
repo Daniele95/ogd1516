@@ -18,6 +18,15 @@ public class LaserBeam : NetworkBehaviour {
 
 	//private GameObject pfx;
 
+	public GameObject explosion;
+
+	[Command]
+	void CmdDoExplosion(){
+		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (shotExplosion);
+	}
+
 	// Use this for initialization
 	void Start () {
 		//mat = GetComponent<Renderer> ();
@@ -73,6 +82,8 @@ public class LaserBeam : NetworkBehaviour {
 				//gui.life -= hitPoints;
 
 				gui.TakeDamage (hitPoints);
+
+				CmdDoExplosion ();
 
 				//print ("hiT:" + hitPoints);
 			}

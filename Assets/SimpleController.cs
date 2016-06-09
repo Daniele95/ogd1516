@@ -32,6 +32,8 @@ public class SimpleController : NetworkBehaviour
 
 	public int damageDrift = 0;
 
+	public GameObject explosionDrift;
+
 	//public float hoverUpForce = 0.1f;
 	//public float hoverDownForce = 0.1f;
 
@@ -66,6 +68,13 @@ public class SimpleController : NetworkBehaviour
 		//print (drift);
 	//}
 
+	[Command]
+	void CmdDoExplosionHitDrift(){
+		GameObject driftHitExplosion = (GameObject)Instantiate (explosionDrift, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (driftHitExplosion);
+	}
+
 	void OnCollisionEnter(Collision col){
 		//if (!isLocalPlayer)
 		//	return;
@@ -80,6 +89,8 @@ public class SimpleController : NetworkBehaviour
 					GuiVehicle gui = gameObject.GetComponent<GuiVehicle> ();
 
 					gui.TakeDamageDrift (damageDrift);
+
+					CmdDoExplosionHitDrift ();
 				}
 			}
 		}
@@ -172,10 +183,10 @@ public class SimpleController : NetworkBehaviour
 		Quaternion targetRot = Quaternion.LookRotation(myForward, myNormal);
 		transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, lerpSpeedQuaternion * Time.deltaTime);
 
-		Vector3 realGravity = -GRAVITY * myNormal * 10f;
+		Vector3 realGravity = -GRAVITY * myNormal;
 
 		if (isGrounded == 0) {
-			body.AddForce(realGravity, ForceMode.Acceleration);
+			body.AddForce(realGravity * Time.deltaTime, ForceMode.Acceleration);
 		}
 
 		if (!isLocalPlayer)

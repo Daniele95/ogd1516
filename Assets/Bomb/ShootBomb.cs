@@ -12,6 +12,32 @@ public class ShootBomb : NetworkBehaviour {
 	public int FACTOR_HIT_PLAYER = 2;
 	public float radius = 10f;
 
+
+	public GameObject explosion;
+	public GameObject explosionGround;
+	public GameObject explosionHitPlayer;
+
+	[Command]
+	void CmdDoExplosionGround (){
+		GameObject shotExplosion = (GameObject)Instantiate (explosionGround, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (shotExplosion);
+	}
+
+	[Command]
+	void CmdDoExplosion(){
+		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (shotExplosion);
+	}
+
+	[Command]
+	void CmdDoExplosionHitPlayer(){
+		GameObject shotExplosionHitPlayer = (GameObject)Instantiate (explosionHitPlayer, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (shotExplosionHitPlayer);
+	}
+
 	// Use this for initialization
 	void Start () {
 		if (!isServer)
@@ -44,6 +70,8 @@ public class ShootBomb : NetworkBehaviour {
 
 			gui.TakeDamage (hitPoints * FACTOR_HIT_PLAYER);
 
+			CmdDoExplosionHitPlayer ();
+
 			Destroy (gameObject);
 		}else if (!col.gameObject.CompareTag ("VehicleTeam0") && !col.gameObject.CompareTag ("VehicleTeam1")) {// && !col.gameObject.CompareTag ("Vehicle")
 			if (gameObject.CompareTag ("BulletTeam1")) {
@@ -54,6 +82,8 @@ public class ShootBomb : NetworkBehaviour {
 						GuiVehicle gui = playersEnemy[i].GetComponent<GuiVehicle> ();
 						if (gui != null) {
 							gui.TakeDamage (hitPoints);
+
+							CmdDoExplosion ();
 
 							//Destroy (gameObject);
 						}
@@ -70,6 +100,8 @@ public class ShootBomb : NetworkBehaviour {
 						if (gui != null) {
 							gui.TakeDamage (hitPoints);
 
+
+							CmdDoExplosion ();
 							//Destroy (gameObject);
 						}
 
@@ -77,6 +109,8 @@ public class ShootBomb : NetworkBehaviour {
 					}
 				}
 			}
+
+			CmdDoExplosionGround ();
 
 			Destroy (gameObject);
 

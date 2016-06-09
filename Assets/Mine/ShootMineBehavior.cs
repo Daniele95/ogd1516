@@ -7,6 +7,15 @@ public class ShootMineBehavior : NetworkBehaviour {
 	public int hitPoints = 50;
 	public float radius = 15f;
 
+	public GameObject explosionHitPlayer;
+
+	[Command]
+	void CmdDoExplosionHitPlayer(){
+		GameObject shotExplosionHitPlayer = (GameObject)Instantiate (explosionHitPlayer, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (shotExplosionHitPlayer);
+	}
+
 	// Use this for initialization
 	void Start () {
 		if (!isServer)
@@ -45,8 +54,10 @@ public class ShootMineBehavior : NetworkBehaviour {
 				}
 			}
 
-			if(damage)
+			if (damage) {
+				CmdDoExplosionHitPlayer ();
 				Destroy (gameObject);
+			}
 
 		}else if (gameObject.CompareTag ("BulletTeam0")) {
 			bool damage = false;
@@ -66,8 +77,10 @@ public class ShootMineBehavior : NetworkBehaviour {
 				}
 			}
 
-			if(damage)
+			if (damage) {
+				CmdDoExplosionHitPlayer ();
 				Destroy (gameObject);
+			}
 		}
 	}
 

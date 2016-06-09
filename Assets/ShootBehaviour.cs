@@ -7,6 +7,25 @@ public class ShootBehaviour : NetworkBehaviour {
 	public float speed = 50f;
 	public int hitPoints = 10;
 
+	//private Detonator detonator;
+
+	public GameObject explosion;
+	public GameObject explosionHitPlayer;
+
+	[Command]
+	void CmdDoExplosion(){
+		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (shotExplosion);
+	}
+
+	[Command]
+	void CmdDoExplosionHitPlayer(){
+		GameObject shotExplosionHitPlayer = (GameObject)Instantiate (explosionHitPlayer, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (shotExplosionHitPlayer);
+	}
+
 	// Use this for initialization
 	void Start () {
 		if (!isServer)
@@ -17,6 +36,8 @@ public class ShootBehaviour : NetworkBehaviour {
 		body.velocity = transform.forward * speed;
 
 		Destroy (this.gameObject, 5f);
+
+		//detonator = GetComponent<Detonator> ();
 	}
 	
 	// Update is called once per frame
@@ -34,8 +55,16 @@ public class ShootBehaviour : NetworkBehaviour {
 
 			gui.TakeDamage (hitPoints);
 
+			CmdDoExplosionHitPlayer ();
+
+			//detonator.Explode ();
+
 			Destroy (gameObject);
 		}else if (!col.gameObject.CompareTag ("VehicleTeam0") && !col.gameObject.CompareTag ("VehicleTeam1")) {
+			//detonator.Explode ();
+
+			CmdDoExplosion ();
+
 			Destroy (gameObject);
 		}
 	}
