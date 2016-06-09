@@ -66,14 +66,19 @@ public class Shooting : NetworkBehaviour {
 			Vector3 offset = Vector3.zero;
 
 			if (shootSecond.name.Equals ("Laser"))
-				offset = 15f * shooter.transform.forward;
+				offset = 10f * shooter.transform.forward;
 
 			GameObject shot = (GameObject)Instantiate (shootSecond, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
-			if (gameObject.CompareTag ("VehicleTeam0"))
+			if (gameObject.CompareTag ("VehicleTeam0")) {
 				shot.tag = "BulletTeam0";
-			else if (gameObject.CompareTag ("VehicleTeam1"))
+				if (shootSecond.name.Equals ("Laser"))
+					shot.layer = 8;
+			}
+			else if (gameObject.CompareTag ("VehicleTeam1")){
 				shot.tag = "BulletTeam1";
-
+				if (shootSecond.name.Equals ("Laser"))
+					shot.layer = 9;
+			}
 			if (shootSecond.gameObject.name.Equals ("Bomb")) {
 				ShootBomb bombScript = shot.GetComponent<ShootBomb> ();
 

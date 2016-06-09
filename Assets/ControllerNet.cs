@@ -43,6 +43,11 @@ public class ControllerNet : NetworkManager {
 			//player.gameObject.GetComponent<MeshRenderer> ().material.color = Color.blue;
 			player.gameObject.tag = "VehicleTeam0";
 			player.gameObject.GetComponent<LoaderClass>().tagTeam = "VehicleTeam0";
+			player.gameObject.layer = 8;
+
+			for (int i = 0; i < player.transform.childCount; i++) {
+				player.transform.GetChild (i).gameObject.layer = 8;
+			}
 			whichTagTeam = "SpawnTeam0";
 		} else {
 			player.GetComponent<SimpleController> ().team = 1;
@@ -50,6 +55,10 @@ public class ControllerNet : NetworkManager {
 			player.gameObject.tag = "VehicleTeam1";
 
 			player.gameObject.GetComponent<LoaderClass>().tagTeam = "VehicleTeam1";
+			player.gameObject.layer = 9;
+			for (int i = 0; i < player.transform.childCount; i++) {
+				player.transform.GetChild (i).gameObject.layer = 9;
+			}
 			whichTagTeam = "SpawnTeam1";
 		}
 

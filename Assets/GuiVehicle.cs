@@ -36,12 +36,14 @@ public class GuiVehicle : NetworkBehaviour {
 	{
 		life = health;
 
-		healthRect.transform.localScale = new Vector3((health / (float)maxLife), 1f, 1f);
+		if (healthRect != null) {
+			healthRect.transform.localScale = new Vector3 ((health / (float)maxLife), 1f, 1f);
 
-		if (health/(float)maxLife < 0.3f) {
-			healthRect.color = Color.red;
-		} else {
-			healthRect.color = Color.green;
+			if (health / (float)maxLife < 0.3f) {
+				healthRect.color = Color.red;
+			} else {
+				healthRect.color = Color.green;
+			}
 		}
 
 		//print (life + " " + maxLife);

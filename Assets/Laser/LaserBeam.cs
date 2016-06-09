@@ -53,6 +53,8 @@ public class LaserBeam : NetworkBehaviour {
 		if (!isServer)
 			return;
 
+		print (col.gameObject);
+
 		if (col.gameObject.CompareTag ("VehicleTeam0") && gameObject.CompareTag ("BulletTeam1") || col.gameObject.CompareTag ("VehicleTeam1") && gameObject.CompareTag ("BulletTeam0")) {
 			Physics.IgnoreCollision(col.gameObject.GetComponent<Collider>(), GetComponent<Collider>());
 

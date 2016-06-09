@@ -204,7 +204,7 @@ public class SimpleController : NetworkBehaviour
 
 						body.velocity = Vector3.zero;
 
-						print ("CAMPING");
+						//print ("CAMPING");
 					} else {
 						standardUpdate ();	
 
