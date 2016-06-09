@@ -6,10 +6,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{059682D2-7466-551B-2546-47C2BB8FA2C6}</ProjectGuid>
+    <ProjectGuid>{B8D6CECE-4126-01AB-9188-484B583E16C4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>Assets</BaseDirectory>
@@ -45,45 +45,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\AmmoPickupBehaviour.cs" />
-     <Compile Include="Assets\Bazooka\ShootBazooka.cs" />
-     <Compile Include="Assets\Bomb\ShootBomb.cs" />
-     <Compile Include="Assets\ControllerGaming.cs" />
-     <Compile Include="Assets\ControllerNet.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\Sample Supporting Emitters\DetonatorSprayHelper.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\System\Detonator.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\System\DetonatorBurstEmitter.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\System\DetonatorCloudRing.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\System\DetonatorComponent.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\System\DetonatorFireball.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\System\DetonatorForce.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\System\DetonatorGlow.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\System\DetonatorHeatwave.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\System\DetonatorLight.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\System\DetonatorShockwave.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\System\DetonatorSmoke.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\System\DetonatorSound.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\System\DetonatorSparks.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\System\DetonatorSpray.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\TestScene\DetonatorTest.cs" />
-     <Compile Include="Assets\Detonator Explosion Framework\TestScene\TouchToMouse.cs" />
-     <Compile Include="Assets\DontGoThroughThings.cs" />
-     <Compile Include="Assets\FPSDisplay.cs" />
-     <Compile Include="Assets\FollowCamera.cs" />
-     <Compile Include="Assets\GuiVehicle.cs" />
-     <Compile Include="Assets\HealthPickupBehaviour.cs" />
-     <Compile Include="Assets\Laser\LaserBeam.cs" />
-     <Compile Include="Assets\LoaderClass.cs" />
-     <Compile Include="Assets\Mine\ShootMineBehavior.cs" />
-     <Compile Include="Assets\NetworkManagerHUD.cs" />
-     <Compile Include="Assets\Orbit.cs" />
-     <Compile Include="Assets\ShootBehaviour.cs" />
-     <Compile Include="Assets\Shooting.cs" />
-     <Compile Include="Assets\SimpleCarController.cs" />
-     <Compile Include="Assets\SimpleController.cs" />
-     <Compile Include="Assets\SpawnPickup.cs" />
-     <Compile Include="Assets\SpawnPoints.cs" />
-     <Compile Include="Assets\fps.cs" />
+     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Bloom.cs" />
+     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\BloomAndFlares.cs" />
+     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\BloomOptimized.cs" />
+     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\ImageEffectBase.cs" />
+     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\ImageEffects.cs" />
+     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\PostEffectsBase.cs" />
+     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\PostEffectsHelper.cs" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\VignetteShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBloom.shader" />
@@ -103,10 +71,6 @@
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{B8D6CECE-4126-01AB-9188-484B583E16C4}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

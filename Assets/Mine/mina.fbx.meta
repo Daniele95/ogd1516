@@ -1,47 +1,15 @@
 fileFormatVersion: 2
-guid: 96fd9a6de6211b0458a1ed3bbd291b43
-timeCreated: 1465378032
+guid: e9b69f2cd580f9e41b879bfa02a7ec2e
+timeCreated: 1465498759
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: Cube.001
-    100002: //RootNode
-    100004: Plane
-    100006: Plane.001
-    100008: BODY
-    100010: CANNON
-    100012: FRONT
-    100014: BODY.001
-    400000: Cube.001
-    400002: //RootNode
-    400004: Plane
-    400006: Plane.001
-    400008: BODY
-    400010: CANNON
-    400012: FRONT
-    400014: BODY.001
-    2300000: Cube.001
-    2300002: Plane
-    2300004: Plane.001
-    2300006: BODY
-    2300008: CANNON
-    2300010: FRONT
-    2300012: BODY.001
-    3300000: Cube.001
-    3300002: Plane
-    3300004: Plane.001
-    3300006: BODY
-    3300008: CANNON
-    3300010: FRONT
-    3300012: BODY.001
-    4300000: Plane.001
-    4300002: Plane
-    4300004: Cube.001
-    4300006: CANNON
-    4300008: BODY
-    4300010: FRONT
-    4300012: BODY.001
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Sphere
   materials:
     importMaterials: 1
     materialName: 0
