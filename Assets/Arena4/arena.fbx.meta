@@ -15,6 +15,10 @@ ModelImporter:
     100014: piattaforma
     100016: platformarr1
     100018: platformarr2
+    100020: Cylinder
+    100022: piattaforma.001
+    100024: piattaforma.002
+    100026: piattaforma.003
     400000: //RootNode
     400002: arena
     400004: arr1
@@ -25,18 +29,34 @@ ModelImporter:
     400014: piattaforma
     400016: platformarr1
     400018: platformarr2
+    400020: Cylinder
+    400022: piattaforma.001
+    400024: piattaforma.002
+    400026: piattaforma.003
     2300000: arena
     2300002: corridoio
     2300004: NurbsPath
     2300006: piattaforma
+    2300008: Cylinder
+    2300010: piattaforma.001
+    2300012: piattaforma.002
+    2300014: piattaforma.003
     3300000: arena
     3300002: corridoio
     3300004: NurbsPath
     3300006: piattaforma
+    3300008: Cylinder
+    3300010: piattaforma.001
+    3300012: piattaforma.002
+    3300014: piattaforma.003
     4300000: piattaforma
     4300002: NurbsPath
     4300004: arena
     4300006: corridoio
+    4300008: Cylinder
+    4300010: piattaforma.003
+    4300012: piattaforma.002
+    4300014: piattaforma.001
   materials:
     importMaterials: 1
     materialName: 0

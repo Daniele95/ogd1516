@@ -9,19 +9,34 @@ ModelImporter:
     100002: //RootNode
     100004: Plane
     100006: Plane.002
+    100008: BODY
+    100010: CANNON
+    100012: WHEEL
     400000: Circle
     400002: //RootNode
     400004: Plane
     400006: Plane.002
+    400008: BODY
+    400010: CANNON
+    400012: WHEEL
     2300000: Circle
     2300002: Plane
     2300004: Plane.002
+    2300006: BODY
+    2300008: CANNON
+    2300010: WHEEL
     3300000: Circle
     3300002: Plane
     3300004: Plane.002
+    3300006: BODY
+    3300008: CANNON
+    3300010: WHEEL
     4300000: Plane.002
     4300002: Circle
     4300004: Plane
+    4300006: WHEEL
+    4300008: CANNON
+    4300010: BODY
   materials:
     importMaterials: 1
     materialName: 0

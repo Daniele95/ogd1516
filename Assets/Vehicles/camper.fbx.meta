@@ -11,27 +11,57 @@ ModelImporter:
     100006: Plane.002
     100008: Plane.003
     100010: Plane.005
+    100012: BASE
+    100014: boccacannone
+    100016: boccacannone_end
+    100018: BODY
+    100020: Bone
+    100022: Bone_end
+    100024: cannon
+    100026: CANNON RIG
+    100028: SIDE
     400000: //RootNode
     400002: Cylinder
     400004: Plane
     400006: Plane.002
     400008: Plane.003
     400010: Plane.005
+    400012: BASE
+    400014: boccacannone
+    400016: boccacannone_end
+    400018: BODY
+    400020: Bone
+    400022: Bone_end
+    400024: cannon
+    400026: CANNON RIG
+    400028: SIDE
     2300000: Cylinder
     2300002: Plane
     2300004: Plane.002
     2300006: Plane.003
     2300008: Plane.005
+    2300010: BASE
+    2300012: BODY
+    2300014: cannon
+    2300016: SIDE
     3300000: Cylinder
     3300002: Plane
     3300004: Plane.002
     3300006: Plane.003
     3300008: Plane.005
+    3300010: BASE
+    3300012: BODY
+    3300014: cannon
+    3300016: SIDE
     4300000: Plane.003
     4300002: Cylinder
     4300004: Plane.002
     4300006: Plane.005
     4300008: Plane
+    4300010: BASE
+    4300012: BODY
+    4300014: cannon
+    4300016: SIDE
   materials:
     importMaterials: 1
     materialName: 0
