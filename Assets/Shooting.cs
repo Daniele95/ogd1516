@@ -56,11 +56,13 @@ public class Shooting : NetworkBehaviour {
 			}
 
 			GameObject shot = (GameObject)Instantiate (shoot, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
-			if (gameObject.CompareTag ("VehicleTeam0"))
+			if (gameObject.CompareTag ("VehicleTeam0")){
 				shot.tag = "BulletTeam0";
-			else if (gameObject.CompareTag ("VehicleTeam1"))
+				shot.layer = 8;
+			}else if (gameObject.CompareTag ("VehicleTeam1")){
 				shot.tag = "BulletTeam1";
-
+				shot.layer = 9;
+			}
 			NetworkServer.Spawn(shot);
 		} else if (weapon == 1) {
 			Vector3 offset = Vector3.zero;
@@ -71,12 +73,12 @@ public class Shooting : NetworkBehaviour {
 			GameObject shot = (GameObject)Instantiate (shootSecond, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
 			if (gameObject.CompareTag ("VehicleTeam0")) {
 				shot.tag = "BulletTeam0";
-				if (shootSecond.name.Equals ("Laser"))
+				//if (shootSecond.name.Equals ("Laser"))
 					shot.layer = 8;
 			}
 			else if (gameObject.CompareTag ("VehicleTeam1")){
 				shot.tag = "BulletTeam1";
-				if (shootSecond.name.Equals ("Laser"))
+				//if (shootSecond.name.Equals ("Laser"))
 					shot.layer = 9;
 			}
 			if (shootSecond.gameObject.name.Equals ("Bomb")) {
