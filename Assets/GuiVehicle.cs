@@ -20,6 +20,9 @@ public class GuiVehicle : NetworkBehaviour {
 
 	public GameObject explosion;
 
+	public float startTimerRespawn = 5f;
+	public float timerRespawn;
+
 	[Command]
 	void CmdDoExplosionRespawn(){
 		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
@@ -63,31 +66,34 @@ public class GuiVehicle : NetworkBehaviour {
 		if (!isServer)
 			return;
 
-		life -= amount;
+		if (life > 0) {
 
-		if (life <= 0) {
-			life = maxLife;
+			life -= amount;
 
-			SimpleController scriptMovement = GetComponent<SimpleController> ();
-			scriptMovement.inTunnel = 0;
+			if (life <= 0) {
+				life = 0;
 
-			CmdDoExplosionRespawn ();
+				CmdDoExplosionRespawn ();
 
-			RpcRespawn ();
+				SimpleController scriptMovement = GetComponent<SimpleController> ();
+				scriptMovement.inTunnel = 0;
 
-			int whichTeam;
+				int whichTeam;
 
-			if (gameObject.CompareTag ("VehicleTeam0")) {
-				whichTeam = 0;
-			} else {
-				whichTeam = 1;
+				if (gameObject.CompareTag ("VehicleTeam0")) {
+					whichTeam = 0;
+				} else {
+					whichTeam = 1;
+				}
+
+				ControllerGaming controller = GameObject.Find ("ControllerGame").GetComponent<ControllerGaming> ();
+				controller.addScoreTeam (whichTeam);
+
+				RpcRespawn ();
 			}
 
-			ControllerGaming controller = GameObject.Find ("ControllerGame").GetComponent<ControllerGaming> ();
-			controller.addScoreTeam (whichTeam);
+			RpcDamage (amount);
 		}
-
-		RpcDamage(amount);
 	}
 
 	[Command]
@@ -110,6 +116,7 @@ public class GuiVehicle : NetworkBehaviour {
 
 		text = this.GetComponentInChildren<Text> ();
 		healthRect = this.GetComponentInChildren<Image> ();
+		timerRespawn = startTimerRespawn;
 	}
 
 	void OnCollisionEnter(Collision col){
@@ -161,5 +168,15 @@ public class GuiVehicle : NetworkBehaviour {
 			ControllerGame controller = GameObject.Find ("ControllerGame").GetComponent<ControllerGame> ();
 			controller.addScoreTeam (whichTeam);*/
 		//}
+
+		if (life <= 0) {
+			timerRespawn -= Time.deltaTime;
+
+			if (timerRespawn <= 0f) {
+				timerRespawn = startTimerRespawn;
+
+				life = maxLife;
+			}
+		}
 	}
 }

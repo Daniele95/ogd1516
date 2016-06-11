@@ -72,6 +72,8 @@ public class SimpleController : NetworkBehaviour
 	public float accSpeed = 0f;
 	public bool reverseTunnel = false;
 
+	private GuiVehicle gui;
+
 	[Command]
 	void CmdDoExplosionHitDrift(){
 		GameObject driftHitExplosion = (GameObject)Instantiate (explosionDrift, transform.position, transform.rotation);
@@ -90,8 +92,6 @@ public class SimpleController : NetworkBehaviour
 				if (col.gameObject.CompareTag ("VehicleTeam0") && gameObject.CompareTag ("VehicleTeam1") || col.gameObject.CompareTag ("VehicleTeam1") && gameObject.CompareTag ("VehicleTeam0")) {
 					//print("damage drifting");
 
-					GuiVehicle gui = gameObject.GetComponent<GuiVehicle> ();
-
 					gui.TakeDamageDrift (damageDrift);
 
 					CmdDoExplosionHitDrift ();
@@ -105,6 +105,8 @@ public class SimpleController : NetworkBehaviour
         body = GetComponent<Rigidbody>();
 
         myNormal = transform.up;
+
+		gui = gameObject.GetComponent<GuiVehicle> ();
 
         //frontWheel = new Vector3();
         //backWheel = new Vector3();
@@ -230,10 +232,10 @@ public class SimpleController : NetworkBehaviour
 
 		if (!isLocalPlayer)
 			return;
-		
-        GetInput();
 
-		print (currentWayPoint);
+		if (gui.life > 0) {
+			GetInput ();
+		}
 
 		if (inTunnel == 1) {
 			steerAngle = 0f;

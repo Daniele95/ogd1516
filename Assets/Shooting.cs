@@ -29,7 +29,7 @@ public class Shooting : NetworkBehaviour {
 
 	private SimpleController controller;
 
-
+	private GuiVehicle gui;
 
 	//private Rigidbody body;
 
@@ -99,6 +99,8 @@ public class Shooting : NetworkBehaviour {
 		//body = GetComponent<Rigidbody> ();
 
 		controller = GetComponent<SimpleController> ();
+
+		gui = gameObject.GetComponent<GuiVehicle> ();
 	}
 
 	void FixedUpdate(){
@@ -171,6 +173,9 @@ public class Shooting : NetworkBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (!isLocalPlayer)
+			return;
+
+		if (gui.life <= 0)
 			return;
 
 		if (Input.GetKeyDown (KeyCode.A)) {
