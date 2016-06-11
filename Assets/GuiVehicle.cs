@@ -68,6 +68,9 @@ public class GuiVehicle : NetworkBehaviour {
 		if (life <= 0) {
 			life = maxLife;
 
+			SimpleController scriptMovement = GetComponent<SimpleController> ();
+			scriptMovement.inTunnel = 0;
+
 			CmdDoExplosionRespawn ();
 
 			RpcRespawn ();
