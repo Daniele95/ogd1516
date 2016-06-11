@@ -18,6 +18,15 @@ public class GuiVehicle : NetworkBehaviour {
 	private Text text;
 	private Image healthRect;
 
+	public GameObject explosion;
+
+	[Command]
+	void CmdDoExplosionRespawn(){
+		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (shotExplosion);
+	}
+
 	[ClientRpc]
 	void RpcDamage(int amount)
 	{
@@ -58,6 +67,8 @@ public class GuiVehicle : NetworkBehaviour {
 
 		if (life <= 0) {
 			life = maxLife;
+
+			CmdDoExplosionRespawn ();
 
 			RpcRespawn ();
 
