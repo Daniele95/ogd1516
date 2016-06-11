@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class ControllerNet : NetworkManager {
 	
 
-	private bool firstTeam = true;
+	//private bool firstTeam = true;
 
 	/*public override void OnServerConnect(NetworkConnection conn){
 		
@@ -36,21 +36,20 @@ public class ControllerNet : NetworkManager {
 		//SpawnPoints scriptSpawnPoints = player.GetComponent<SpawnPoints> ();
 		string whichTagTeam = "SpawnTeam0";
 
-		if (firstTeam){
-			firstTeam = false;
+		//if (firstTeam){
+		//	firstTeam = false;
 
-			player.GetComponent<SimpleController> ().team = 0;
-			//player.gameObject.GetComponent<MeshRenderer> ().material.color = Color.blue;
+			/*player.GetComponent<SimpleController> ().team = 0;
 			player.gameObject.tag = "VehicleTeam0";
 			player.gameObject.GetComponent<LoaderClass>().tagTeam = "VehicleTeam0";
 			player.gameObject.layer = 8;
 
 			for (int i = 0; i < player.transform.childCount; i++) {
 				player.transform.GetChild (i).gameObject.layer = 8;
-			}
-			whichTagTeam = "SpawnTeam0";
-		} else {
-			player.GetComponent<SimpleController> ().team = 1;
+			}*/
+		//	whichTagTeam = "SpawnTeam0";
+		//} else {
+		/*	player.GetComponent<SimpleController> ().team = 1;
 			//player.gameObject.GetComponent<MeshRenderer> ().material.color = Color.red;
 			player.gameObject.tag = "VehicleTeam1";
 
@@ -60,7 +59,7 @@ public class ControllerNet : NetworkManager {
 				player.transform.GetChild (i).gameObject.layer = 9;
 			}
 			whichTagTeam = "SpawnTeam1";
-		}
+		}*/
 
 		GameObject[] spawns = GameObject.FindGameObjectsWithTag (whichTagTeam);
 

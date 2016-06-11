@@ -9,7 +9,7 @@ public class LoaderClass : NetworkBehaviour {
 	public GameObject bazookaShot;
 	public GameObject bombShot;
 
-	public string tagTeam = "";
+	//public string tagTeam = "";
 
 	//public GameObject drifterMesh;
 	//public GameObject camperMesh;
@@ -42,7 +42,7 @@ public class LoaderClass : NetworkBehaviour {
 		SimpleController scriptMovement = GetComponent<SimpleController> ();
 		GuiVehicle scriptGUI = GetComponent<GuiVehicle> ();
 		Shooting scriptShooting = GetComponent<Shooting> ();
-		GameObject renderer = transform.Find ("positionRenderMesh").gameObject;
+		//GameObject renderer = transform.Find ("positionRenderMesh").gameObject;
 
 
 		//MeshFilter mesh = GetComponent<MeshFilter> ();
@@ -101,12 +101,38 @@ public class LoaderClass : NetworkBehaviour {
 		}
 	}
 
+	void setTeam(int whichTeam){
+		if (whichTeam == 0) {
+			gameObject.tag = "VehicleTeam0";
+			gameObject.layer = 8;
+
+			for (int i = 0; i < transform.childCount; i++) {
+				transform.GetChild (i).gameObject.layer = 8;
+			}
+		} else if (whichTeam == 1)  {
+			gameObject.tag = "VehicleTeam1";
+			gameObject.layer = 9;
+
+			for (int i = 0; i < transform.childCount; i++) {
+				transform.GetChild (i).gameObject.layer = 9;
+			}
+		}
+	}
+
 	[Command]
 	void CmdSetClass(int typeClass)//float rx, float ry, float rz
 	{
 		vehicleTypeClass = typeClass;
 		setSkinModel(vehicleTypeClass);
 		setClass (typeClass);
+	}
+
+	[Command]
+	void CmdSetTeam(int whichTeam)//float rx, float ry, float rz
+	{
+		setTeam (whichTeam);
+		SimpleController scriptMovement = GetComponent<SimpleController> ();
+		scriptMovement.team = whichTeam;
 	}
 
 	// Use this for initialization
@@ -119,6 +145,10 @@ public class LoaderClass : NetworkBehaviour {
 			setClass (vehicleTypeClass);
 
 			CmdSetClass (vehicleTypeClass);
+
+			setTeam (netScript.team);
+
+			CmdSetTeam (netScript.team);
 		}
 	}
 

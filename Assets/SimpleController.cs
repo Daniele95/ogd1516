@@ -40,6 +40,7 @@ public class SimpleController : NetworkBehaviour
 	//public bool debug = false;
 	
     private Vector3 myForward;
+	private Quaternion targetRot;
 
 	private Shooting shooting;
 
@@ -62,11 +63,14 @@ public class SimpleController : NetworkBehaviour
 
 	private Vector3 dirDrift;
 
-	//void OnChangeDrift(bool drift){
-	//	isDriftingDamage = drift;
+	public int inTunnel = 0;
 
-		//print (drift);
-	//}
+	public GameObject wayPointList;
+	public int currentWayPoint = 0; 
+	public GameObject targetWayPoint;
+	public float speed = 4f;
+	public float accSpeed = 0f;
+	public bool reverseTunnel = false;
 
 	[Command]
 	void CmdDoExplosionHitDrift(){
@@ -144,16 +148,50 @@ public class SimpleController : NetworkBehaviour
 
 		dirDrift = myForward;
 
-		velocity = input.z * myForward * acceleration * Time.deltaTime;
+		//if (inTunnel == 0) {
+		if (accSpeed > 0f) {
+			velocity = accSpeed * 10f * myForward * Time.deltaTime;
+			body.AddForceAtPosition (velocity, body.position + transform.up * 0.5f + transform.forward * 0f, ForceMode.Impulse);
+			accSpeed = 0f;
+		} else {
+			velocity = input.z * myForward * acceleration * Time.deltaTime;
+		}
 
 		velocity = Vector3.Lerp (velocity, Vector3.zero, Time.deltaTime * FRICTION * isGrounded);
 
-		body.velocity = Vector3.Lerp(body.velocity, Vector3.zero, Time.deltaTime * FRICTION * isGrounded);
+		body.velocity = Vector3.Lerp (body.velocity, Vector3.zero, Time.deltaTime * FRICTION * isGrounded);
+		//}
 
 		body.AddForceAtPosition (velocity * isGrounded, body.position + transform.up * 0.5f + transform.forward * 0f, ForceMode.Force);
 	}
 
-    void Update()
+	void walk(){
+		// rotate towards the target
+		myForward = Vector3.RotateTowards(transform.forward, targetWayPoint.transform.position - body.position, speed*Time.deltaTime, 0.0f);
+
+		accSpeed += speed * Time.deltaTime;
+		//myForward = transform.forward;
+
+		// move towards the target
+		transform.position = Vector3.MoveTowards(body.position, targetWayPoint.transform.position,   speed*Time.deltaTime);
+
+		if(transform.position == targetWayPoint.transform.position)
+		{
+			if (reverseTunnel) {
+				currentWayPoint--;
+
+				if(currentWayPoint >= 0)
+					targetWayPoint = wayPointList.transform.GetChild(currentWayPoint).gameObject;
+			} else {
+				currentWayPoint++;
+
+				if(currentWayPoint < this.wayPointList.transform.childCount)
+					targetWayPoint = wayPointList.transform.GetChild(currentWayPoint).gameObject;
+			}
+		}
+	}
+
+	void Update()
     {
 		RaycastHit hit;
 
@@ -178,28 +216,52 @@ public class SimpleController : NetworkBehaviour
 		if(isGrounded == 0)
 			myNormal = Vector3.Lerp(myNormal, Vector3.up, lerpSpeed * 0.5f * Time.deltaTime);
 
-		myForward = Vector3.Cross(transform.right, myNormal);
+		if (inTunnel == 0) {
+			myForward = Vector3.Cross (transform.right, myNormal);
+			Vector3 realGravity = -GRAVITY * myNormal;
 
-		Quaternion targetRot = Quaternion.LookRotation(myForward, myNormal);
-		transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, lerpSpeedQuaternion * Time.deltaTime);
-
-		Vector3 realGravity = -GRAVITY * myNormal;
-
-		if (isGrounded == 0) {
-			body.AddForce(realGravity * Time.deltaTime, ForceMode.Acceleration);
+			if (isGrounded == 0) {
+				body.AddForce(realGravity * Time.deltaTime, ForceMode.Acceleration);
+			}
 		}
+
+		targetRot = Quaternion.LookRotation(myForward, myNormal);
+		transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, lerpSpeedQuaternion * Time.deltaTime);
 
 		if (!isLocalPlayer)
 			return;
 		
         GetInput();
-        
-		//accelerationSteer += input.y * Time.deltaTime*20f;
 
-		//print (accelerationSteer);
+		print (currentWayPoint);
 
-		if (specialPower == 2) {
-			//if (input.y > 0f) {// && body.velocity.magnitude > 1f
+		if (inTunnel == 1) {
+			steerAngle = 0f;
+
+			if (reverseTunnel) {
+				if (targetWayPoint == null) {
+					targetWayPoint = wayPointList.transform.GetChild (wayPointList.transform.childCount - 3).gameObject;
+					currentWayPoint = wayPointList.transform.childCount - 3;
+				}
+
+				if (currentWayPoint >= 0) {
+					walk ();
+				}else
+					inTunnel = 0;
+			} else {
+				if (targetWayPoint == null) {
+					targetWayPoint = wayPointList.transform.GetChild (2).gameObject;
+					currentWayPoint = 2;
+				}
+		
+				if (currentWayPoint < wayPointList.transform.childCount) {
+					walk ();
+				} else
+					inTunnel = 0;
+			}
+		} else {
+			if (specialPower == 2) {
+				//if (input.y > 0f) {// && body.velocity.magnitude > 1f
 				if (isGrounded == 1) {
 					if (isCamping) {
 						CmdIsDoingCamping (true);
@@ -228,30 +290,33 @@ public class SimpleController : NetworkBehaviour
 				} else {
 					standardUpdate ();
 				}
-			//}
-		}else if (specialPower == 1) {
-			if (input.y > 0f && body.velocity.magnitude > 1f) {
-				if (shooting.currentWeapon == 1)
-					CmdIsDoingDrift (true);
+				//}
+			} else if (specialPower == 1) {
+				if (input.y > 0f && body.velocity.magnitude > 1f) {
+					if (shooting.currentWeapon == 1)
+						CmdIsDoingDrift (true);
 
-				steerAngle += input.x * accelerationSteer * driftFrictionSteer * Mathf.Rad2Deg * Time.deltaTime;// *input.z
-				steerAngle -= steerAngle * STEER_FRICTION * Time.deltaTime;
+					steerAngle += input.x * accelerationSteer * driftFrictionSteer * Mathf.Rad2Deg * Time.deltaTime;// *input.z
+					steerAngle -= steerAngle * STEER_FRICTION * Time.deltaTime;
 
-				transform.Rotate (0, steerAngle * Time.deltaTime, 0);
+					transform.Rotate (0, steerAngle * Time.deltaTime, 0);
 
-				velocity = input.z * dirDrift * acceleration * Time.deltaTime;
+					velocity = input.z * dirDrift * acceleration * Time.deltaTime;
 
-				velocity = Vector3.Lerp (velocity, Vector3.zero, Time.deltaTime * driftFriction * FRICTION * isGrounded);
+					velocity = Vector3.Lerp (velocity, Vector3.zero, Time.deltaTime * driftFriction * FRICTION * isGrounded);
 
-				body.velocity = Vector3.Lerp (body.velocity, Vector3.zero, Time.deltaTime * driftFriction * FRICTION * isGrounded);
+					body.velocity = Vector3.Lerp (body.velocity, Vector3.zero, Time.deltaTime * driftFriction * FRICTION * isGrounded);
+				} else {
+					standardUpdate ();
+				}
 			} else {
 				standardUpdate ();
 			}
-		} else {
-			standardUpdate ();
 		}
 
 		body.angularVelocity = Vector3.zero;
+
+		//print(accSpeed);
 
 		//print (input.y);
         //Debug.DrawRay(body.position, -myNormal * 10f, Color.red);
@@ -281,15 +346,17 @@ public class SimpleController : NetworkBehaviour
 		if (Input.GetKey (KeyCode.DownArrow))
 			input.z -= 1.0f;
 
-		if (specialPower == 2) {
-			if (Input.GetKeyDown (KeyCode.Z))
+		if (inTunnel == 0) {
+			if (specialPower == 2) {
+				if (Input.GetKeyDown (KeyCode.Z))
 				if (isCamping)
 					isCamping = false;
 				else
 					isCamping = true;
-		} else {
-			if (Input.GetKey (KeyCode.Z))
-				input.y += 1.0f;
+			} else {
+				if (Input.GetKey (KeyCode.Z))
+					input.y += 1.0f;
+			}
 		}
 
         if (input != Vector3.zero)

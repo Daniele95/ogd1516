@@ -13,6 +13,7 @@ namespace UnityEngine.Networking
 		[SerializeField] public int offsetY;
 
 		public int classType = 0;
+		public int team = 0;
 
 		// Runtime variable
 		bool showServer = false;
@@ -75,6 +76,18 @@ namespace UnityEngine.Networking
 				if (GUI.Button(new Rect(xpos+200, ypos, 100, 20), "Camper"))
 				{
 					classType = 2;
+				}
+
+				ypos += spacing;
+
+				if (GUI.Button(new Rect(xpos, ypos, 100, 20), "Blue Team"))
+				{
+					team = 0;
+				}
+
+				if (GUI.Button(new Rect(xpos+100, ypos, 100, 20), "Red Team"))
+				{
+					team = 1;
 				}
 
 				ypos += spacing;

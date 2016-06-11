@@ -79,10 +79,10 @@
      <Compile Include="Assets\Orbit.cs" />
      <Compile Include="Assets\ShootBehaviour.cs" />
      <Compile Include="Assets\Shooting.cs" />
-     <Compile Include="Assets\SimpleCarController.cs" />
      <Compile Include="Assets\SimpleController.cs" />
      <Compile Include="Assets\SpawnPickup.cs" />
      <Compile Include="Assets\SpawnPoints.cs" />
+     <Compile Include="Assets\Tunnel.cs" />
      <Compile Include="Assets\fps.cs" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\VignetteShader.shader" />
