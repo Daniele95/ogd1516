@@ -18,23 +18,51 @@ public class LoaderClass : NetworkBehaviour {
 	[SyncVar]
 	public int vehicleTypeClass = 0;
 
+	[SyncVar]
+	public int teamPlayer = 0;
+
 	void setSkinModel(int typeClass){
 		GameObject drifterMesh = transform.Find ("drifter").gameObject;
 		GameObject minerMesh = transform.Find ("miner").gameObject;
 		GameObject camperMesh = transform.Find ("camper").gameObject;
+		Renderer material = null;
 
 		if (typeClass == 0) {//DRIFTER
 			drifterMesh.SetActive (true);
+			material = drifterMesh.transform.FindChild ("BODY").GetComponent<Renderer> ();
 			minerMesh.SetActive (false);
 			camperMesh.SetActive (false);
 		}else if(typeClass == 1){//MINER
 			minerMesh.SetActive (true);
+			material = minerMesh.transform.FindChild ("BODY").GetComponent<Renderer> ();
 			drifterMesh.SetActive (false);
 			camperMesh.SetActive (false);
 		}else if(typeClass == 2){//CAMPER
 			camperMesh.SetActive (true);
+			material = camperMesh.transform.FindChild ("BODY").GetComponent<Renderer> ();
 			drifterMesh.SetActive (false);
 			minerMesh.SetActive (false);
+		}
+
+		Material[] materials = material.materials;
+		if (teamPlayer == 0){
+			for(int i = 0; i < materials.Length; i++){
+				print (materials [i].name);
+				if(materials[i].name.Contains("METALLO")){
+					materials [i].SetColor ("_Color", new Color(82 / 255f, 174 / 255f, 255 / 255f));//0.82f, 0.92f, 0.17f
+
+					break;
+				}
+			}
+		}else if (teamPlayer == 1){
+			for(int i = 0; i < materials.Length; i++){
+				print (materials [i].name);
+				if(materials[i].name.Contains("METALLO")){
+					materials [i].SetColor ("_Color", new Color(255 / 255f, 82 / 255f, 82 / 255f));//0.82f, 0.92f, 0.17f
+
+					break;
+				}
+			}
 		}
 	}
 
@@ -130,6 +158,7 @@ public class LoaderClass : NetworkBehaviour {
 	[Command]
 	void CmdSetTeam(int whichTeam)//float rx, float ry, float rz
 	{
+		teamPlayer = whichTeam;
 		setTeam (whichTeam);
 		SimpleController scriptMovement = GetComponent<SimpleController> ();
 		scriptMovement.team = whichTeam;
@@ -146,9 +175,11 @@ public class LoaderClass : NetworkBehaviour {
 
 			CmdSetClass (vehicleTypeClass);
 
-			setTeam (netScript.team);
+			teamPlayer = netScript.team;
 
-			CmdSetTeam (netScript.team);
+			setTeam (teamPlayer);
+
+			CmdSetTeam (teamPlayer);
 		}
 	}
 
