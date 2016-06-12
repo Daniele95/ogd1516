@@ -23,6 +23,8 @@ public class GuiVehicle : NetworkBehaviour {
 	public float startTimerRespawn = 5f;
 	public float timerRespawn;
 
+	private GameObject lifeLoader;
+
 	[Command]
 	void CmdDoExplosionRespawn(){
 		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
@@ -117,6 +119,8 @@ public class GuiVehicle : NetworkBehaviour {
 		text = this.GetComponentInChildren<Text> ();
 		healthRect = this.GetComponentInChildren<Image> ();
 		timerRespawn = startTimerRespawn;
+
+		lifeLoader = GameObject.Find ("LifeLoader");
 	}
 
 	void OnCollisionEnter(Collision col){
@@ -136,7 +140,7 @@ public class GuiVehicle : NetworkBehaviour {
 		if (!isLocalPlayer)
 			return;
 
-		int w = Screen.width, h = Screen.height;
+		/*int w = Screen.width, h = Screen.height;
 
 		GUIStyle style = new GUIStyle();
 
@@ -150,7 +154,9 @@ public class GuiVehicle : NetworkBehaviour {
 		style.normal.textColor = Color.white;
 
 		string textGUI = "Life: " + life.ToString();
-		GUI.Label(rect, textGUI, style);
+		GUI.Label(rect, textGUI, style);*/
+
+		lifeLoader.GetComponent<Image> ().fillAmount = life / (float)maxLife;
 
 		text.text = "Player"; 
 	}

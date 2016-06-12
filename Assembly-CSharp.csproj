@@ -67,7 +67,6 @@
      <Compile Include="Assets\Detonator Explosion Framework\System\DetonatorSpray.cs" />
      <Compile Include="Assets\Detonator Explosion Framework\TestScene\DetonatorTest.cs" />
      <Compile Include="Assets\Detonator Explosion Framework\TestScene\TouchToMouse.cs" />
-     <Compile Include="Assets\DontGoThroughThings.cs" />
      <Compile Include="Assets\FPSDisplay.cs" />
      <Compile Include="Assets\FollowCamera.cs" />
      <Compile Include="Assets\GuiVehicle.cs" />

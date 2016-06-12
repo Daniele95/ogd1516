@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class ControllerGaming : NetworkBehaviour {
 	[SyncVar]
@@ -12,13 +13,21 @@ public class ControllerGaming : NetworkBehaviour {
 	[SyncVar]
 	public float timer = 0f;
 
+	private GameObject score;
+	private GameObject timingText;
+	private GameObject timingLoader;
+
 	// Use this for initialization
 	void Start () {
 		timer = timerArena;
+
+		score = GameObject.Find ("ScoreBottomText");
+		timingText = GameObject.Find ("TimingText");
+		timingLoader = GameObject.Find ("TimingLoader");
 	}
 
 	void OnGUI() {
-		int w = Screen.width, h = Screen.height;
+		/*int w = Screen.width, h = Screen.height;
 
 		GUIStyle style = new GUIStyle();
 
@@ -47,10 +56,35 @@ public class ControllerGaming : NetworkBehaviour {
 
 		text += " Scores: " + scoreTeam0.ToString() + " - " + scoreTeam1.ToString();
 
-		GUI.Label(rect, text, style);
+		GUI.Label(rect, text, style);*/
+
+		//if (!isLocalPlayer)
+		//	return;
+
+		score.GetComponent<Text> ().text = scoreTeam0.ToString () + " - " + scoreTeam1.ToString ();
+
+		int minutes = Mathf.FloorToInt (timer / 60F);
+		int seconds = Mathf.FloorToInt (timer - minutes * 60);
+		string niceTime = string.Format ("{0:0}:{1:00}", minutes, seconds);
+
+		timingText.GetComponent<Text>().text = niceTime.ToString ();
+
+		timingLoader.GetComponent<Image> ().fillAmount = timer / timerArena;
 	}
 
-	public void addScoreTeam(int team){
+	[ClientRpc]
+	void RpcTimingArena(float timingArena){
+		timer = timingArena;
+	}
+
+	[ClientRpc]
+	void RpcScore(int scoreTeam0Value, int scoreTeam1Value){
+		scoreTeam0 = scoreTeam0Value;
+		scoreTeam1 = scoreTeam1Value;
+	}
+
+	[Command]
+	void CmdAddScoreTeam(int team){
 		if (timer > 0f) {
 			if (team == 0) {
 				scoreTeam0++;
@@ -58,6 +92,12 @@ public class ControllerGaming : NetworkBehaviour {
 				scoreTeam1++;
 			}
 		}
+
+		RpcScore (scoreTeam0, scoreTeam1);
+	}
+
+	public void addScoreTeam(int team){
+		CmdAddScoreTeam (team);
 	}
 
 	[Command]
@@ -68,6 +108,8 @@ public class ControllerGaming : NetworkBehaviour {
 		if (timer <= 0f) {
 			timer = 0f;
 		}
+
+		RpcTimingArena (timer);
 	}
 
 	// Update is called once per frame

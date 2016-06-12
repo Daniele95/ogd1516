@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class Shooting : NetworkBehaviour {
 	//public bool Player = true;
@@ -30,6 +31,21 @@ public class Shooting : NetworkBehaviour {
 	private SimpleController controller;
 
 	private GuiVehicle gui;
+
+	private GameObject ammo;
+	private GameObject ammoAmount;
+	private GameObject ammoTotal;
+
+	private GameObject weaponImage;
+
+	public Texture shootTexture;
+	public Texture driftTexture;
+	public Texture mineTexture;
+	public Texture bombTexture;
+	public Texture bazookaTexture;
+	public Texture laserTexture;
+
+	private LoaderClass scriptClass;
 
 	//private Rigidbody body;
 
@@ -101,6 +117,14 @@ public class Shooting : NetworkBehaviour {
 		controller = GetComponent<SimpleController> ();
 
 		gui = gameObject.GetComponent<GuiVehicle> ();
+
+		ammo = GameObject.Find ("Ammo");
+		ammoAmount = GameObject.Find ("AmmoAmount");
+		ammoTotal = GameObject.Find ("AmmoTotal");
+
+		weaponImage = GameObject.Find ("WeaponImage");
+
+		scriptClass = GetComponent<LoaderClass> ();
 	}
 
 	void FixedUpdate(){
@@ -124,7 +148,38 @@ public class Shooting : NetworkBehaviour {
 		if (!isLocalPlayer)
 			return;
 
-		int w = Screen.width, h = Screen.height;
+		if (currentWeapon == 0) {
+			ammo.SetActive (true);
+
+			ammoAmount.GetComponent<Text> ().text = numBulletsFirstWeapon.ToString ();
+			ammoTotal.GetComponent<Text> ().text = maxNumBulletsFirstWeapon.ToString ();
+
+			if (scriptClass.vehicleTypeClass == 0) {
+				weaponImage.GetComponent<RawImage> ().texture = shootTexture;
+			} else if (scriptClass.vehicleTypeClass == 1) {
+				weaponImage.GetComponent<RawImage> ().texture = mineTexture;
+			} else if (scriptClass.vehicleTypeClass == 2) {
+				weaponImage.GetComponent<RawImage> ().texture = bazookaTexture;
+			}
+		} else if (currentWeapon == 1) {
+			if (scriptClass.vehicleTypeClass == 0) {
+				ammo.SetActive (false);
+			}else{
+				ammo.SetActive (true);
+				ammoAmount.GetComponent<Text> ().text = numBulletsSecondWeapon.ToString ();
+				ammoTotal.GetComponent<Text> ().text = maxNumBulletsSecondWeapon.ToString ();
+			}
+
+			if (scriptClass.vehicleTypeClass == 0) {
+				weaponImage.GetComponent<RawImage> ().texture = driftTexture;
+			} else if (scriptClass.vehicleTypeClass == 1) {
+				weaponImage.GetComponent<RawImage> ().texture = bombTexture;
+			} else if (scriptClass.vehicleTypeClass == 2) {
+				weaponImage.GetComponent<RawImage> ().texture = laserTexture;
+			}
+		}
+
+		/*int w = Screen.width, h = Screen.height;
 
 		GUIStyle style = new GUIStyle();
 
@@ -147,7 +202,7 @@ public class Shooting : NetworkBehaviour {
 
 		//text = timerShootFirstWeapon.ToString () + " " + numBulletsFirstWeapon + " " + transform.rotation;
 
-		GUI.Label(rect, text, style);
+		GUI.Label(rect, text, style);*/
 	}
 
 	void OnCollisionEnter(Collision col){
@@ -179,10 +234,12 @@ public class Shooting : NetworkBehaviour {
 			return;
 
 		if (Input.GetKeyDown (KeyCode.A)) {
-			if (currentWeapon == 0)
-				currentWeapon = 1;
-			else
-				currentWeapon = 0;
+			if (scriptClass.vehicleTypeClass != 2) {
+				if (currentWeapon == 0)
+					currentWeapon = 1;
+				else
+					currentWeapon = 0;
+			}
 		}
 		if (Input.GetKey (KeyCode.Space)) {
 			if (currentWeapon == 0) {
