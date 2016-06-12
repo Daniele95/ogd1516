@@ -120,9 +120,9 @@ public class GuiVehicle : NetworkBehaviour {
 		//whichTeam = gameObject.CompareTag ("VehicleTeam0") ? 0 : 1;
 
 		//body = GetComponent<Rigidbody> ();
-
-		text = transform.FindChild("HUD").FindChild("User").GetComponent<Text> ();
-		healthRect = this.GetComponentInChildren<Image> ();
+		Transform user = transform.FindChild("HUD").FindChild("User");
+		text = user.GetComponent<Text> ();
+		healthRect = transform.FindChild("HUD").FindChild("CanvasLife").FindChild("Life").GetComponent<Image> ();
 		timerRespawn = startTimerRespawn;
 
 		lifeLoader = GameObject.Find ("LifeLoader");
@@ -132,6 +132,10 @@ public class GuiVehicle : NetworkBehaviour {
 		camera = GameObject.Find ("MainCamera");
 
 		scriptMovement = GetComponent<SimpleController> ();
+
+		if (isLocalPlayer) {
+			user.gameObject.SetActive (false);
+		}
 	}
 
 	void OnCollisionEnter(Collision col){
