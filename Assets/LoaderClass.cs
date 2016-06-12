@@ -21,6 +21,9 @@ public class LoaderClass : NetworkBehaviour {
 	[SyncVar]
 	public int teamPlayer = 0;
 
+	[SyncVar]
+	public string userPlayer;
+
 	void setSkinModel(int typeClass){
 		GameObject drifterMesh = transform.Find ("drifter").gameObject;
 		GameObject minerMesh = transform.Find ("miner").gameObject;
@@ -173,6 +176,12 @@ public class LoaderClass : NetworkBehaviour {
 		scriptMovement.team = whichTeam;
 	}
 
+	[Command]
+	void CmdSetUser(string user)//float rx, float ry, float rz
+	{
+		userPlayer = user;
+	}
+
 	// Use this for initialization
 	void Start () {
 		if (isLocalPlayer) {
@@ -180,12 +189,15 @@ public class LoaderClass : NetworkBehaviour {
 
 			teamPlayer = netScript.team;
 			vehicleTypeClass = netScript.classType;
+			userPlayer = netScript.player;
 
 			setTeam (teamPlayer);
 			setClass (vehicleTypeClass);
 
 			CmdSetTeam (teamPlayer);
 			CmdSetClass (vehicleTypeClass);
+
+			CmdSetUser (userPlayer);
 		}
 	}
 

@@ -50,7 +50,7 @@ public class SimpleController : NetworkBehaviour
     private float carHeading;
     private float steerAngle;
 
-    private Vector3 myNormal;
+    public Vector3 myNormal;
     private Vector3 surfaceNormal;
 
 	public Rigidbody body;

@@ -14,6 +14,7 @@ namespace UnityEngine.Networking
 
 		public int classType = 0;
 		public int team = 0;
+		public string player = "Player";
 
 		// Runtime variable
 		bool showServer = false;
@@ -90,6 +91,9 @@ namespace UnityEngine.Networking
 					team = 1;
 				}
 
+				ypos += spacing;
+
+				player = GUI.TextField(new Rect(xpos, ypos, 200, 20), player);
 				ypos += spacing;
 
 				if (GUI.Button(new Rect(xpos, ypos, 200, 20), "LAN Host(H)"))

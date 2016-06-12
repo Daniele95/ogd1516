@@ -25,6 +25,12 @@ public class GuiVehicle : NetworkBehaviour {
 
 	private GameObject lifeLoader;
 
+	private LoaderClass loaderScript;
+
+	private GameObject camera;
+
+	private SimpleController scriptMovement;
+
 	[Command]
 	void CmdDoExplosionRespawn(){
 		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
@@ -77,7 +83,6 @@ public class GuiVehicle : NetworkBehaviour {
 
 				CmdDoExplosionRespawn ();
 
-				SimpleController scriptMovement = GetComponent<SimpleController> ();
 				scriptMovement.inTunnel = 0;
 
 				int whichTeam;
@@ -116,11 +121,17 @@ public class GuiVehicle : NetworkBehaviour {
 
 		//body = GetComponent<Rigidbody> ();
 
-		text = this.GetComponentInChildren<Text> ();
+		text = transform.FindChild("HUD").FindChild("User").GetComponent<Text> ();
 		healthRect = this.GetComponentInChildren<Image> ();
 		timerRespawn = startTimerRespawn;
 
 		lifeLoader = GameObject.Find ("LifeLoader");
+
+		loaderScript = GetComponent<LoaderClass> ();
+
+		camera = GameObject.Find ("MainCamera");
+
+		scriptMovement = GetComponent<SimpleController> ();
 	}
 
 	void OnCollisionEnter(Collision col){
@@ -137,8 +148,8 @@ public class GuiVehicle : NetworkBehaviour {
 
 	void OnGUI()
 	{
-		if (!isLocalPlayer)
-			return;
+		//if (!isLocalPlayer)
+	//		return;
 
 		/*int w = Screen.width, h = Screen.height;
 
@@ -158,7 +169,10 @@ public class GuiVehicle : NetworkBehaviour {
 
 		lifeLoader.GetComponent<Image> ().fillAmount = life / (float)maxLife;
 
-		text.text = "Player"; 
+		text.transform.LookAt (camera.transform, scriptMovement.myNormal);
+		//text.transform.rotation = Quaternion.Euler (0f, text.transform.rotation.eulerAngles.y, 0f);
+
+		text.text = loaderScript.userPlayer; 
 	}
 
 	// Update is called once per frame
