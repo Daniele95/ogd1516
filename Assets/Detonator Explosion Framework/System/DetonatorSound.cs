@@ -41,7 +41,7 @@ public class DetonatorSound : DetonatorComponent {
 	private int _idx;
 	override public void Explode()
 	{
-		if (detailThreshold > detail) return;
+		/*if (detailThreshold > detail) return;
 	
 		if (!_delayedExplosionStarted)
 		{
@@ -69,7 +69,7 @@ public class DetonatorSound : DetonatorComponent {
 		else
 		{
 			_delayedExplosionStarted = true;
-		}
+		}*/
 	}
 	
 	public void Reset()

@@ -8,12 +8,17 @@ public class ShootMineBehavior : NetworkBehaviour {
 	public float radius = 15f;
 
 	public GameObject explosionHitPlayer;
+	public GameObject soundExplosion;
 
 	[Command]
 	void CmdDoExplosionHitPlayer(){
 		GameObject shotExplosionHitPlayer = (GameObject)Instantiate (explosionHitPlayer, transform.position, transform.rotation);
 
 		NetworkServer.Spawn (shotExplosionHitPlayer);
+
+		GameObject shotExplosionHitPlayerSound = (GameObject)Instantiate (soundExplosion, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (shotExplosionHitPlayerSound);
 	}
 
 	// Use this for initialization

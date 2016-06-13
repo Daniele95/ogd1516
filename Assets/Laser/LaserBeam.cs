@@ -19,12 +19,20 @@ public class LaserBeam : NetworkBehaviour {
 	//private GameObject pfx;
 
 	public GameObject explosion;
+	public GameObject laserSound;
 
 	[Command]
 	void CmdDoExplosion(){
 		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
 
 		NetworkServer.Spawn (shotExplosion);
+	}
+
+	[Command]
+	void CmdDoLaser(){
+		GameObject shotLaserSound = (GameObject)Instantiate (laserSound, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (shotLaserSound);
 	}
 
 	// Use this for initialization
@@ -39,6 +47,8 @@ public class LaserBeam : NetworkBehaviour {
 		//body = GetComponent<Rigidbody> ();
 
 		//body.velocity = transform.forward * speed;
+
+		CmdDoLaser ();
 
 		Destroy (this.gameObject, 1f);
 
@@ -61,8 +71,6 @@ public class LaserBeam : NetworkBehaviour {
 	void OnCollisionEnter(Collision col){
 		if (!isServer)
 			return;
-
-		print (col.gameObject);
 
 		if (col.gameObject.CompareTag ("VehicleTeam0") && gameObject.CompareTag ("BulletTeam1") || col.gameObject.CompareTag ("VehicleTeam1") && gameObject.CompareTag ("BulletTeam0")) {
 			Physics.IgnoreCollision(col.gameObject.GetComponent<Collider>(), GetComponent<Collider>());
