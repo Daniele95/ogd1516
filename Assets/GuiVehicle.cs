@@ -132,7 +132,7 @@ public class GuiVehicle : NetworkBehaviour {
 		//body = GetComponent<Rigidbody> ();
 		Transform user = transform.FindChild("HUD").FindChild("User");
 		text = user.GetComponent<Text> ();
-		Transform lifeBar = transform.FindChild ("HUD").FindChild ("HUDLife");
+		Transform lifeBar = transform.FindChild ("HUD").FindChild("User").FindChild ("HUDLife");
 		healthRect = lifeBar.FindChild("Life").GetComponent<Image> ();
 		timerRespawn = startTimerRespawn;
 
@@ -146,7 +146,7 @@ public class GuiVehicle : NetworkBehaviour {
 
 		if (isLocalPlayer) {
 			user.gameObject.SetActive (false);
-			lifeBar.gameObject.SetActive (false);
+			//lifeBar.gameObject.SetActive (false);
 		}
 	}
 
@@ -158,7 +158,9 @@ public class GuiVehicle : NetworkBehaviour {
 			if (life > maxLife)
 				life = maxLife;
 
-			Destroy (col.gameObject);
+			//Destroy (col.gameObject);
+
+			pickup.getPickup = true;
 		}
 	}
 
@@ -187,6 +189,7 @@ public class GuiVehicle : NetworkBehaviour {
 			lifeLoader.GetComponent<Image> ().fillAmount = life / (float)maxLife;
 
 		text.transform.LookAt (camera.transform, scriptMovement.myNormal);
+		//healthRect.transform.LookAt (camera.transform, scriptMovement.myNormal);
 		//text.transform.rotation = Quaternion.Euler (0f, text.transform.rotation.eulerAngles.y, 0f);
 
 		text.text = loaderScript.userPlayer; 

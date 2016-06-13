@@ -221,7 +221,8 @@ public class Shooting : NetworkBehaviour {
 					numBulletsSecondWeapon = maxNumBulletsSecondWeapon;
 			}
 
-			Destroy (col.gameObject);
+			//Destroy (col.gameObject);
+			pickup.getPickup = true;
 		}
 	}
 
