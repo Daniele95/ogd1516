@@ -132,7 +132,8 @@ public class GuiVehicle : NetworkBehaviour {
 		//body = GetComponent<Rigidbody> ();
 		Transform user = transform.FindChild("HUD").FindChild("User");
 		text = user.GetComponent<Text> ();
-		healthRect = transform.FindChild("HUD").FindChild("CanvasLife").FindChild("Life").GetComponent<Image> ();
+		Transform lifeBar = transform.FindChild ("HUD").FindChild ("HUDLife");
+		healthRect = lifeBar.FindChild("Life").GetComponent<Image> ();
 		timerRespawn = startTimerRespawn;
 
 		lifeLoader = GameObject.Find ("LifeLoader");
