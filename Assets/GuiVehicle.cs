@@ -18,6 +18,7 @@ public class GuiVehicle : NetworkBehaviour {
 	private Text text;
 	private Image healthRect;
 
+	public GameObject explosionSound;
 	public GameObject explosion;
 
 	public float startTimerRespawn = 5f;
@@ -36,6 +37,13 @@ public class GuiVehicle : NetworkBehaviour {
 		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
 
 		NetworkServer.Spawn (shotExplosion);
+	}
+
+	[Command]
+	void CmdDoExplosionSound(){
+		GameObject shotExplosionSound = (GameObject)Instantiate (explosionSound, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (shotExplosionSound);
 	}
 
 	[ClientRpc]
@@ -80,6 +88,8 @@ public class GuiVehicle : NetworkBehaviour {
 
 			if (life <= 0) {
 				life = 0;
+
+				CmdDoExplosionSound ();
 
 				CmdDoExplosionRespawn ();
 
@@ -135,6 +145,7 @@ public class GuiVehicle : NetworkBehaviour {
 
 		if (isLocalPlayer) {
 			user.gameObject.SetActive (false);
+			lifeBar.gameObject.SetActive (false);
 		}
 	}
 
@@ -171,7 +182,8 @@ public class GuiVehicle : NetworkBehaviour {
 		string textGUI = "Life: " + life.ToString();
 		GUI.Label(rect, textGUI, style);*/
 
-		lifeLoader.GetComponent<Image> ().fillAmount = life / (float)maxLife;
+		if (isLocalPlayer)
+			lifeLoader.GetComponent<Image> ().fillAmount = life / (float)maxLife;
 
 		text.transform.LookAt (camera.transform, scriptMovement.myNormal);
 		//text.transform.rotation = Quaternion.Euler (0f, text.transform.rotation.eulerAngles.y, 0f);
