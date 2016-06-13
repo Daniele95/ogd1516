@@ -79,6 +79,7 @@
      <Compile Include="Assets\ShootBehaviour.cs" />
      <Compile Include="Assets\Shooting.cs" />
      <Compile Include="Assets\SimpleController.cs" />
+     <Compile Include="Assets\SoundBehaviour.cs" />
      <Compile Include="Assets\SpawnPickup.cs" />
      <Compile Include="Assets\SpawnPoints.cs" />
      <Compile Include="Assets\Tunnel.cs" />

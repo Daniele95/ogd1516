@@ -74,6 +74,8 @@ public class SimpleController : NetworkBehaviour
 
 	private GuiVehicle gui;
 
+	public bool isDrifting = false;
+
 	[Command]
 	void CmdDoExplosionHitDrift(){
 		GameObject driftHitExplosion = (GameObject)Instantiate (explosionDrift, transform.position, transform.rotation);
@@ -142,6 +144,8 @@ public class SimpleController : NetworkBehaviour
 	void standardUpdate(){
 		CmdIsDoingCamping (false);
 		CmdIsDoingDrift (false);
+
+		isDrifting = false;
 
 		steerAngle += input.x * accelerationSteer * Mathf.Rad2Deg * Time.deltaTime;// *input.z
 		steerAngle -= steerAngle * STEER_FRICTION * Time.deltaTime;
@@ -295,6 +299,8 @@ public class SimpleController : NetworkBehaviour
 				//}
 			} else if (specialPower == 1) {
 				if (input.y > 0f && body.velocity.magnitude > 1f) {
+					isDrifting = true;
+
 					if (shooting.currentWeapon == 1)
 						CmdIsDoingDrift (true);
 
