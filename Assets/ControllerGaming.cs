@@ -63,7 +63,7 @@ public class ControllerGaming : NetworkBehaviour {
         //if (!isLocalPlayer)
         //	return;
 
-        scoreTextTeam0.GetComponent<Text> ().text = scoreTeam0.ToString ();
+        /*scoreTextTeam0.GetComponent<Text> ().text = scoreTeam0.ToString ();
         scoreTextTeam1.GetComponent<Text>().text = scoreTeam1.ToString();
 
         int minutes = Mathf.FloorToInt (timer / 60F);
@@ -72,7 +72,7 @@ public class ControllerGaming : NetworkBehaviour {
 
 		timingText.GetComponent<Text>().text = niceTime.ToString ();
 
-		timingLoader.GetComponent<Image> ().fillAmount = timer / timerArena;
+		timingLoader.GetComponent<Image> ().fillAmount = timer / timerArena;*/
 	}
 
 	[ClientRpc]

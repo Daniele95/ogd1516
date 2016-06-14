@@ -156,7 +156,7 @@ public class SimpleController : NetworkBehaviour
 
 		//if (inTunnel == 0) {
 		if (accSpeed > 0f) {
-			velocity = accSpeed * 10f * myForward * Time.deltaTime;
+			velocity = accSpeed * 15f * myForward * Time.deltaTime;
 			body.AddForceAtPosition (velocity, body.position + transform.up * 0.5f + transform.forward * 0f, ForceMode.Impulse);
 			accSpeed = 0f;
 		} else {
