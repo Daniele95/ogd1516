@@ -26,8 +26,15 @@ public class ShootBehaviour : NetworkBehaviour {
 		NetworkServer.Spawn (shotExplosionHitPlayer);
 	}
 
-	// Use this for initialization
-	void Start () {
+    [ClientRpc]
+    void RpcAssignTagLayer(string tag, int layer)
+    {
+        gameObject.tag = tag;
+        gameObject.layer = layer;
+    }
+
+    // Use this for initialization
+    void Start () {
 		if (!isServer)
 			return;
 
@@ -35,10 +42,12 @@ public class ShootBehaviour : NetworkBehaviour {
 
 		body.velocity = transform.forward * speed;
 
-		Destroy (this.gameObject, 5f);
+        Destroy (this.gameObject, 5f);
 
-		//detonator = GetComponent<Detonator> ();
-	}
+        //detonator = GetComponent<Detonator> ();
+
+        RpcAssignTagLayer(gameObject.tag, gameObject.layer);
+    }
 	
 	// Update is called once per frame
 	void Update () {

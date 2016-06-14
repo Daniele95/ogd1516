@@ -35,8 +35,15 @@ public class LaserBeam : NetworkBehaviour {
 		NetworkServer.Spawn (shotLaserSound);
 	}
 
-	// Use this for initialization
-	void Start () {
+    [ClientRpc]
+    void RpcAssignTagLayer(string tag, int layer)
+    {
+        gameObject.tag = tag;
+        gameObject.layer = layer;
+    }
+
+    // Use this for initialization
+    void Start () {
 		//mat = GetComponent<Renderer> ();
 
 		if (!isServer)
@@ -50,7 +57,9 @@ public class LaserBeam : NetworkBehaviour {
 
 		CmdDoLaser ();
 
-		Destroy (this.gameObject, 1f);
+        RpcAssignTagLayer(gameObject.tag, gameObject.layer);
+
+        Destroy (this.gameObject, 1f);
 
 		//pfx = transform.GetChild (0);
 	}

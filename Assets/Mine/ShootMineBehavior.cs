@@ -16,22 +16,31 @@ public class ShootMineBehavior : NetworkBehaviour {
 
 		NetworkServer.Spawn (shotExplosionHitPlayer);
 
-		GameObject shotExplosionHitPlayerSound = (GameObject)Instantiate (soundExplosion, transform.position, transform.rotation);
-
-		NetworkServer.Spawn (shotExplosionHitPlayerSound);
+		//GameObject shotExplosionHitPlayerSound = (GameObject)Instantiate (soundExplosion, transform.position, transform.rotation);
+        
+		//NetworkServer.Spawn (shotExplosionHitPlayerSound);
 	}
 
-	// Use this for initialization
-	void Start () {
+    [ClientRpc]
+    void RpcAssignTagLayer(string tag, int layer)
+    {
+        gameObject.tag = tag;
+        gameObject.layer = layer;
+    }
+    
+    // Use this for initialization
+    void Start () {
 		if (!isServer)
 			return;
 
 		body = GetComponent<Rigidbody> ();
 
-		//body.velocity = transform.forward * speed;
+        RpcAssignTagLayer(gameObject.tag, gameObject.layer);
 
-		//Destroy (this.gameObject, 1f);
-	}
+        //body.velocity = transform.forward * speed;
+
+        //Destroy (this.gameObject, 1f);
+    }
 
 	// Update is called once per frame
 	void Update () {

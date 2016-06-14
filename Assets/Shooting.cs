@@ -61,26 +61,31 @@ public class Shooting : NetworkBehaviour {
 		}
 	}
 
-	[Command]
+    private GameObject shot;
+
+    [Command]
 	void CmdDoFire(int weapon)//float rx, float ry, float rz
 	{
 		if (weapon == 0) {
 			Vector3 offset = Vector3.zero;
 
 			if (shoot.gameObject.name.Equals ("Mine")) {
-				offset = shooter.forward * -5f;
-			}
+				offset = shooter.forward * -2.5f + shooter.up * -2f;
+			}else if (shoot.gameObject.name.Equals("Shoot"))
+            {
+                offset = shooter.forward * 1.5f;
+            }
 
-			GameObject shot = (GameObject)Instantiate (shoot, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
+            shot = (GameObject)Instantiate (shoot, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
 			if (gameObject.CompareTag ("VehicleTeam0")){
 				shot.tag = "BulletTeam0";
 				shot.layer = 8;
-			}else if (gameObject.CompareTag ("VehicleTeam1")){
+            }else if (gameObject.CompareTag ("VehicleTeam1")){
 				shot.tag = "BulletTeam1";
 				shot.layer = 9;
-			}
+            }
 			NetworkServer.Spawn(shot);
-		} else if (weapon == 1) {
+        } else if (weapon == 1) {
 			Vector3 offset = Vector3.zero;
 
 			if (shootSecond.name.Equals ("Laser"))

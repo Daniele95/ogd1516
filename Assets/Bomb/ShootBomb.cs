@@ -38,8 +38,15 @@ public class ShootBomb : NetworkBehaviour {
 		NetworkServer.Spawn (shotExplosionHitPlayer);
 	}
 
-	// Use this for initialization
-	void Start () {
+    [ClientRpc]
+    void RpcAssignTagLayer(string tag, int layer)
+    {
+        gameObject.tag = tag;
+        gameObject.layer = layer;
+    }
+    
+    // Use this for initialization
+    void Start () {
 		if (!isServer)
 			return;
 
@@ -53,8 +60,10 @@ public class ShootBomb : NetworkBehaviour {
 
 		body.velocity = transform.forward * speed * speedVehicle + transform.up * speed * speedVehicle / 2f;
 
-		//Destroy (this.gameObject, 1f);
-	}
+        RpcAssignTagLayer(gameObject.tag, gameObject.layer);
+        
+        //Destroy (this.gameObject, 1f);
+    }
 
 	// Update is called once per frame
 	void Update () {

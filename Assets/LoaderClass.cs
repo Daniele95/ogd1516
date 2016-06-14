@@ -126,7 +126,7 @@ public class LoaderClass : NetworkBehaviour {
 
 		if (whichTeam == 0) {
 			gameObject.tag = "VehicleTeam0";
-			gameObject.layer = 8;
+			gameObject.layer = 11;
 
 			for (int i = 0; i < transform.childCount; i++) {
 				transform.GetChild (i).gameObject.layer = 8;
@@ -135,14 +135,14 @@ public class LoaderClass : NetworkBehaviour {
 			for(int i = 0; i < materials.Length; i++){
 				//print (materials [i].name);
 				if(materials[i].name.Contains("METALLO")){
-					materials [i].SetColor ("_Color", new Color(82 / 255f, 174 / 255f, 255 / 255f));//0.82f, 0.92f, 0.17f
+					materials [i].SetColor ("_Color", new Color(167 / 255f, 25 / 255f, 123 / 255f));//0.82f, 0.92f, 0.17f
 
 					break;
 				}
 			}
 		} else if (whichTeam == 1)  {
 			gameObject.tag = "VehicleTeam1";
-			gameObject.layer = 9;
+			gameObject.layer = 12;
 
 			for (int i = 0; i < transform.childCount; i++) {
 				transform.GetChild (i).gameObject.layer = 9;
@@ -151,7 +151,7 @@ public class LoaderClass : NetworkBehaviour {
 			for(int i = 0; i < materials.Length; i++){
 				//print (materials [i].name);
 				if(materials[i].name.Contains("METALLO")){
-					materials [i].SetColor ("_Color", new Color(255 / 255f, 82 / 255f, 82 / 255f));//0.82f, 0.92f, 0.17f
+					materials [i].SetColor ("_Color", new Color(208 / 255f, 234 / 255f, 43 / 255f));//0.82f, 0.92f, 0.17f
 
 					break;
 				}
