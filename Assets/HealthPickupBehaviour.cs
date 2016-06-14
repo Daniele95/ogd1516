@@ -11,11 +11,13 @@ public class HealthPickupBehaviour : NetworkBehaviour {
 
 	public bool getPickup;
 
-	// Use this for initialization
-	void Start () {
+    public float RADIUS_PICKUP = 3f;
+
+    // Use this for initialization
+    void Start () {
 		text = this.GetComponentInChildren<Text> ();
 
-		text.text = "Health x " + healthPickup.ToString ();
+		text.text = "Health";
 	}
 
 	[Command]
@@ -29,11 +31,11 @@ public class HealthPickupBehaviour : NetworkBehaviour {
 	void Update () {
         transform.Rotate(0f, Time.deltaTime * speedRotation, 0f);
 
-		if (isServer) {
+		//if (isServer) {
 			if (getPickup) {
 				getPickup = false;
 				CmdGetPickup ();
 			}
-		}
+		//}
 	}
 }

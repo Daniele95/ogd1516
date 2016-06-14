@@ -11,11 +11,13 @@ public class AmmoPickupBehaviour : NetworkBehaviour {
 
 	public bool getPickup;
 
+    public float RADIUS_PICKUP = 3f;
+
     // Use this for initialization
     void Start () {
 		text = this.GetComponentInChildren<Text> ();
 
-		text.text = "Ammo x " + numBulletsPickup.ToString ();
+		text.text = "Ammo";
 
 		getPickup = false;
 	}
@@ -36,11 +38,11 @@ public class AmmoPickupBehaviour : NetworkBehaviour {
 	void Update () {
         transform.Rotate(0f, Time.deltaTime * speedRotation, 0f);
 
-		if (isServer) {
+		//if (isServer) {
 			if (getPickup) {
 				getPickup = false;
 				CmdGetPickup ();
 			}
-		}
+		//}
     }
 }

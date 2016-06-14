@@ -151,7 +151,7 @@ public class GuiVehicle : NetworkBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
-		if (col.gameObject.CompareTag ("HealthPickup")) {
+		/*if (col.gameObject.CompareTag ("HealthPickup")) {
             if (life < maxLife)
             {
                 HealthPickupBehaviour pickup = (HealthPickupBehaviour)col.gameObject.GetComponent<HealthPickupBehaviour>();
@@ -164,7 +164,7 @@ public class GuiVehicle : NetworkBehaviour {
 
                 pickup.getPickup = true;
             }
-		}
+		}*/
 	}
 
 	void OnGUI()
@@ -224,5 +224,28 @@ public class GuiVehicle : NetworkBehaviour {
 				life = maxLife;
 			}
 		}
-	}
+
+        if (life < maxLife)
+        {
+            GameObject[] pickups = GameObject.FindGameObjectsWithTag("HealthPickup");
+
+            for (int i = 0; i < pickups.Length; i++)
+            {
+                HealthPickupBehaviour pickup = (HealthPickupBehaviour)pickups[i].GetComponent<HealthPickupBehaviour>();
+
+                if (Vector3.Distance(pickups[i].transform.position, transform.position) <= pickup.RADIUS_PICKUP)
+                {
+                    life += pickup.healthPickup;
+
+                    if (life > maxLife)
+                        life = maxLife;
+
+                    //Destroy (col.gameObject);
+                    pickup.getPickup = true;
+
+                    break;
+                }
+            }
+        }
+    }
 }

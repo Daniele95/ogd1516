@@ -71,11 +71,8 @@ public class Shooting : NetworkBehaviour {
 
 			if (shoot.gameObject.name.Equals ("Mine")) {
 				offset = shooter.forward * -2.5f + shooter.up * -2f;
-			}else if (shoot.gameObject.name.Equals("Shoot"))
-            {
-                offset = shooter.forward * 1.5f;
-            }
-
+			}
+            
             shot = (GameObject)Instantiate (shoot, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
 			if (gameObject.CompareTag ("VehicleTeam0")){
 				shot.tag = "BulletTeam0";
@@ -211,7 +208,7 @@ public class Shooting : NetworkBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
-		if (col.gameObject.CompareTag ("AmmoPickup")) {
+		/*if (col.gameObject.CompareTag ("AmmoPickup")) {
             if (currentWeapon == 0 && numBulletsFirstWeapon < maxNumBulletsFirstWeapon || currentWeapon == 1 && numBulletsSecondWeapon < maxNumBulletsSecondWeapon)
             {
                 AmmoPickupBehaviour pickup = (AmmoPickupBehaviour)col.gameObject.GetComponent<AmmoPickupBehaviour>();
@@ -234,18 +231,52 @@ public class Shooting : NetworkBehaviour {
                 //Destroy (col.gameObject);
                 pickup.getPickup = true;
             }
-		}
+		}*/
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if (!isLocalPlayer)
-			return;
-
 		if (gui.life <= 0)
 			return;
 
-		if (Input.GetKeyDown (KeyCode.A)) {
+        if (currentWeapon == 0 && numBulletsFirstWeapon < maxNumBulletsFirstWeapon || currentWeapon == 1 && numBulletsSecondWeapon < maxNumBulletsSecondWeapon)
+        {
+            GameObject[] pickups = GameObject.FindGameObjectsWithTag("AmmoPickup");
+
+           for (int i = 0; i < pickups.Length; i++)
+            {
+                AmmoPickupBehaviour pickup = (AmmoPickupBehaviour)pickups[i].GetComponent<AmmoPickupBehaviour>();
+
+                if (Vector3.Distance(pickups[i].transform.position, transform.position) <= pickup.RADIUS_PICKUP)
+                {
+                    if (currentWeapon == 0)
+                    {
+                        numBulletsFirstWeapon += pickup.numBulletsPickup;
+
+                        if (numBulletsFirstWeapon > maxNumBulletsFirstWeapon)
+                            numBulletsFirstWeapon = maxNumBulletsFirstWeapon;
+                    }
+                    else if (currentWeapon == 1)
+                    {
+                        numBulletsSecondWeapon += pickup.numBulletsPickup;
+
+                        if (numBulletsSecondWeapon > maxNumBulletsSecondWeapon)
+                            numBulletsSecondWeapon = maxNumBulletsSecondWeapon;
+                    }
+
+                    //Destroy (col.gameObject);
+
+                    pickup.getPickup = true;
+
+                    break;
+                }
+            }
+        }
+
+        if (!isLocalPlayer)
+            return;
+
+        if (Input.GetKeyDown (KeyCode.A)) {
 			if (scriptClass.vehicleTypeClass != 2) {
 				if (currentWeapon == 0)
 					currentWeapon = 1;
@@ -253,6 +284,7 @@ public class Shooting : NetworkBehaviour {
 					currentWeapon = 0;
 			}
 		}
+  
 		if (Input.GetKey (KeyCode.Space)) {
 			if (currentWeapon == 0) {
 				if (shoot != null) {

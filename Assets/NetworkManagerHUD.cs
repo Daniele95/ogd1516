@@ -125,13 +125,13 @@ namespace UnityEngine.Networking
 			{
 				if (NetworkServer.active)
 				{
-					GUI.Label(new Rect(xpos, ypos, 300, 20), "Server: port=" + manager.networkPort);
-					ypos += spacing;
+					//GUI.Label(new Rect(xpos, ypos, 300, 20), "Server: port=" + manager.networkPort);
+					//ypos += spacing;
 				}
 				if (NetworkClient.active)
 				{
-					GUI.Label(new Rect(xpos, ypos, 300, 20), "Client: address=" + manager.networkAddress + " port=" + manager.networkPort);
-					ypos += spacing;
+					//GUI.Label(new Rect(xpos, ypos, 300, 20), "Client: address=" + manager.networkAddress + " port=" + manager.networkPort);
+					//ypos += spacing;
 				}
 			}
 
@@ -151,11 +151,11 @@ namespace UnityEngine.Networking
 
 			if (NetworkServer.active || NetworkClient.active)
 			{
-				if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Stop (X)"))
-				{
-					manager.StopHost();
-				}
-				ypos += spacing;
+				//if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Stop (X)"))
+				//{
+				//	manager.StopHost();
+				//}
+				//ypos += spacing;
 			}
 
 			if (!NetworkServer.active && !NetworkClient.active)

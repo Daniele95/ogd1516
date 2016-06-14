@@ -58,7 +58,7 @@ public class ShootBomb : NetworkBehaviour {
 		if (speedVehicle < MIN_SPEED_VEHICLE)
 			speedVehicle = MIN_SPEED_VEHICLE;
 
-		body.velocity = transform.forward * speed * speedVehicle + transform.up * speed * speedVehicle / 2f;
+		body.velocity = transform.forward * speed * speedVehicle * 2f + transform.up * speed * speedVehicle / 4f;
 
         RpcAssignTagLayer(gameObject.tag, gameObject.layer);
         
