@@ -212,22 +212,28 @@ public class Shooting : NetworkBehaviour {
 
 	void OnCollisionEnter(Collision col){
 		if (col.gameObject.CompareTag ("AmmoPickup")) {
-			AmmoPickupBehaviour pickup = (AmmoPickupBehaviour)col.gameObject.GetComponent<AmmoPickupBehaviour> ();
+            if (currentWeapon == 0 && numBulletsFirstWeapon < maxNumBulletsFirstWeapon || currentWeapon == 1 && numBulletsSecondWeapon < maxNumBulletsSecondWeapon)
+            {
+                AmmoPickupBehaviour pickup = (AmmoPickupBehaviour)col.gameObject.GetComponent<AmmoPickupBehaviour>();
 
-			if (currentWeapon == 0) {
-				numBulletsFirstWeapon += pickup.numBulletsPickup;
+                if (currentWeapon == 0)
+                {
+                    numBulletsFirstWeapon += pickup.numBulletsPickup;
 
-				if (numBulletsFirstWeapon > maxNumBulletsFirstWeapon)
-					numBulletsFirstWeapon = maxNumBulletsFirstWeapon;
-			}else if (currentWeapon == 1) {
-				numBulletsSecondWeapon += pickup.numBulletsPickup;
+                    if (numBulletsFirstWeapon > maxNumBulletsFirstWeapon)
+                        numBulletsFirstWeapon = maxNumBulletsFirstWeapon;
+                }
+                else if (currentWeapon == 1)
+                {
+                    numBulletsSecondWeapon += pickup.numBulletsPickup;
 
-				if (numBulletsSecondWeapon > maxNumBulletsSecondWeapon)
-					numBulletsSecondWeapon = maxNumBulletsSecondWeapon;
-			}
+                    if (numBulletsSecondWeapon > maxNumBulletsSecondWeapon)
+                        numBulletsSecondWeapon = maxNumBulletsSecondWeapon;
+                }
 
-			//Destroy (col.gameObject);
-			pickup.getPickup = true;
+                //Destroy (col.gameObject);
+                pickup.getPickup = true;
+            }
 		}
 	}
 

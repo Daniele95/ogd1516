@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class LoaderClass : NetworkBehaviour {
 	public GameObject mineShoot;
@@ -8,6 +9,9 @@ public class LoaderClass : NetworkBehaviour {
 	public GameObject laserShot;
 	public GameObject bazookaShot;
 	public GameObject bombShot;
+
+    //Amaranto #a7197b
+    //Lime #d0ea2b
 
 	//public string tagTeam = "";
 
@@ -24,7 +28,18 @@ public class LoaderClass : NetworkBehaviour {
 	[SyncVar]
 	public string userPlayer;
 
-	void setSkinModel(int typeClass){
+    public Texture textureTeam0;
+    public Texture textureTeam1;
+
+    public Texture textureTeam0Score;
+    public Texture textureTeam1Score;
+
+    private GameObject ammoGUI;
+    private GameObject weaponGUI;
+    private GameObject scoreGUI;
+    private GameObject scoreBottomGUI;
+
+    void setSkinModel(int typeClass){
 		GameObject drifterMesh = transform.Find ("drifter").gameObject;
 		GameObject minerMesh = transform.Find ("miner").gameObject;
 		GameObject camperMesh = transform.Find ("camper").gameObject;
@@ -198,7 +213,51 @@ public class LoaderClass : NetworkBehaviour {
 			CmdSetClass (vehicleTypeClass);
 
 			CmdSetUser (userPlayer);
-		}
+
+            ammoGUI = GameObject.Find("Ammo");
+
+            if (teamPlayer == 0)
+            {
+                ammoGUI.GetComponent<RawImage>().texture = textureTeam0;
+            }
+            else if (teamPlayer == 1)
+            {
+                ammoGUI.GetComponent<RawImage>().texture = textureTeam1;
+            }
+
+            weaponGUI = GameObject.Find("Weapon");
+
+            if (teamPlayer == 0)
+            {
+                weaponGUI.GetComponent<RawImage>().texture = textureTeam0;
+            }
+            else if (teamPlayer == 1)
+            {
+                weaponGUI.GetComponent<RawImage>().texture = textureTeam1;
+            }
+
+            scoreGUI = GameObject.Find("Score");
+
+            if (teamPlayer == 0)
+            {
+                scoreGUI.GetComponent<RawImage>().texture = textureTeam0Score;
+            }
+            else if (teamPlayer == 1)
+            {
+                scoreGUI.GetComponent<RawImage>().texture = textureTeam1Score;
+            }
+
+            scoreBottomGUI = GameObject.Find("ScoreBottom");
+
+            if (teamPlayer == 0)
+            {
+                scoreBottomGUI.GetComponent<RawImage>().texture = textureTeam0Score;
+            }
+            else if (teamPlayer == 1)
+            {
+                scoreBottomGUI.GetComponent<RawImage>().texture = textureTeam1Score;
+            }
+        }
 	}
 
 	//private bool haveToSetClass = true;

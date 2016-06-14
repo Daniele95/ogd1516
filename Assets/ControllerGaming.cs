@@ -13,21 +13,23 @@ public class ControllerGaming : NetworkBehaviour {
 	[SyncVar]
 	public float timer = 0f;
 
-	private GameObject score;
-	private GameObject timingText;
+	private GameObject scoreTextTeam0;
+    private GameObject scoreTextTeam1;
+    private GameObject timingText;
 	private GameObject timingLoader;
 
 	// Use this for initialization
 	void Start () {
 		timer = timerArena;
 
-		score = GameObject.Find ("ScoreBottomText");
-		timingText = GameObject.Find ("TimingText");
+        scoreTextTeam0 = GameObject.Find ("ScoreBottomTextTeam0");
+        scoreTextTeam1 = GameObject.Find("ScoreBottomTextTeam1");
+        timingText = GameObject.Find ("TimingText");
 		timingLoader = GameObject.Find ("TimingLoader");
 	}
 
 	void OnGUI() {
-		/*int w = Screen.width, h = Screen.height;
+        /*int w = Screen.width, h = Screen.height;
 
 		GUIStyle style = new GUIStyle();
 
@@ -58,12 +60,13 @@ public class ControllerGaming : NetworkBehaviour {
 
 		GUI.Label(rect, text, style);*/
 
-		//if (!isLocalPlayer)
-		//	return;
+        //if (!isLocalPlayer)
+        //	return;
 
-		score.GetComponent<Text> ().text = scoreTeam0.ToString () + " - " + scoreTeam1.ToString ();
+        scoreTextTeam0.GetComponent<Text> ().text = scoreTeam0.ToString ();
+        scoreTextTeam1.GetComponent<Text>().text = scoreTeam1.ToString();
 
-		int minutes = Mathf.FloorToInt (timer / 60F);
+        int minutes = Mathf.FloorToInt (timer / 60F);
 		int seconds = Mathf.FloorToInt (timer - minutes * 60);
 		string niceTime = string.Format ("{0:0}:{1:00}", minutes, seconds);
 

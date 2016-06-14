@@ -24,7 +24,7 @@ public class GuiVehicle : NetworkBehaviour {
 	public float startTimerRespawn = 5f;
 	public float timerRespawn;
 
-	private GameObject lifeLoader;
+    private GameObject lifeLoader;
 
 	private LoaderClass loaderScript;
 
@@ -32,7 +32,7 @@ public class GuiVehicle : NetworkBehaviour {
 
 	private SimpleController scriptMovement;
 
-	[Command]
+    [Command]
 	void CmdDoExplosionRespawn(){
 		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
 
@@ -144,7 +144,7 @@ public class GuiVehicle : NetworkBehaviour {
 
 		scriptMovement = GetComponent<SimpleController> ();
 
-		if (isLocalPlayer) {
+        if (isLocalPlayer) {
 			user.gameObject.SetActive (false);
 			//lifeBar.gameObject.SetActive (false);
 		}
@@ -152,15 +152,18 @@ public class GuiVehicle : NetworkBehaviour {
 
 	void OnCollisionEnter(Collision col){
 		if (col.gameObject.CompareTag ("HealthPickup")) {
-			HealthPickupBehaviour pickup = (HealthPickupBehaviour)col.gameObject.GetComponent<HealthPickupBehaviour> ();
-			life += pickup.healthPickup;
+            if (life < maxLife)
+            {
+                HealthPickupBehaviour pickup = (HealthPickupBehaviour)col.gameObject.GetComponent<HealthPickupBehaviour>();
+                life += pickup.healthPickup;
 
-			if (life > maxLife)
-				life = maxLife;
+                if (life > maxLife)
+                    life = maxLife;
 
-			//Destroy (col.gameObject);
+                //Destroy (col.gameObject);
 
-			pickup.getPickup = true;
+                pickup.getPickup = true;
+            }
 		}
 	}
 
@@ -195,7 +198,7 @@ public class GuiVehicle : NetworkBehaviour {
 		//healthRect.transform.LookAt (camera.transform, scriptMovement.myNormal);
 		//text.transform.rotation = Quaternion.Euler (0f, text.transform.rotation.eulerAngles.y, 0f);
 
-		text.text = loaderScript.userPlayer; 
+		text.text = loaderScript.userPlayer;
 	}
 
 	// Update is called once per frame
