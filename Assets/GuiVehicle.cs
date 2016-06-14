@@ -28,7 +28,7 @@ public class GuiVehicle : NetworkBehaviour {
 
 	private LoaderClass loaderScript;
 
-	private GameObject camera;
+	private GameObject cameraObject;
 
 	private SimpleController scriptMovement;
 
@@ -140,7 +140,7 @@ public class GuiVehicle : NetworkBehaviour {
 
 		loaderScript = GetComponent<LoaderClass> ();
 
-		camera = GameObject.Find ("MainCamera");
+		cameraObject = GameObject.Find ("MainCamera");
 
 		scriptMovement = GetComponent<SimpleController> ();
 
@@ -185,10 +185,13 @@ public class GuiVehicle : NetworkBehaviour {
 		string textGUI = "Life: " + life.ToString();
 		GUI.Label(rect, textGUI, style);*/
 
-		if (isLocalPlayer)
+		if (isLocalPlayer) {
 			lifeLoader.GetComponent<Image> ().fillAmount = life / (float)maxLife;
 
-		text.transform.LookAt (camera.transform, scriptMovement.myNormal);
+			lifeLoader.GetComponent<Image> ().color = Color.Lerp (Color.red, Color.green, life / (float)maxLife);
+		}
+
+		text.transform.LookAt (cameraObject.transform, scriptMovement.myNormal);
 		//healthRect.transform.LookAt (camera.transform, scriptMovement.myNormal);
 		//text.transform.rotation = Quaternion.Euler (0f, text.transform.rotation.eulerAngles.y, 0f);
 
