@@ -37,13 +37,14 @@ public class Shooting : NetworkBehaviour {
 	private GameObject ammoTotal;
 
 	private GameObject weaponImage;
+	private GameObject weaponImageBG;
 
-	public Texture shootTexture;
-	public Texture driftTexture;
-	public Texture mineTexture;
-	public Texture bombTexture;
-	public Texture bazookaTexture;
-	public Texture laserTexture;
+	public Sprite shootTexture;
+	public Sprite driftTexture;
+	public Sprite mineTexture;
+	public Sprite bombTexture;
+	public Sprite bazookaTexture;
+	public Sprite laserTexture;
 
 	private LoaderClass scriptClass;
 
@@ -54,10 +55,14 @@ public class Shooting : NetworkBehaviour {
 			numBulletsFirstWeapon -= num;
 
 			timerShootFirstWeapon = startTimerShootFirstWeapon;
+
+			needFlashWeapon = true;
 		}else if (whichWeapon == 1) {
 			numBulletsSecondWeapon -= num;
 
 			timerShootSecondWeapon = startTimerShootSecondWeapon;
+
+			needFlashWeapon = true;
 		}
 	}
 
@@ -128,22 +133,74 @@ public class Shooting : NetworkBehaviour {
 		ammoTotal = GameObject.Find ("AmmoTotal");
 
 		weaponImage = GameObject.Find ("WeaponImage");
+		weaponImageBG = GameObject.Find ("WeaponImageBG");
 
 		scriptClass = GetComponent<LoaderClass> ();
 	}
 
+	private float flashWeapon = 0;
+	private bool needFlashWeapon = false;
+
 	void FixedUpdate(){
 		if (isLocalPlayer) {
 			if (currentWeapon == 0) {
-				timerShootFirstWeapon -= Time.fixedDeltaTime;
+				timerShootFirstWeapon -= Time.deltaTime;
 
 				if (timerShootFirstWeapon < 0f)
 					timerShootFirstWeapon = 0f;
+
+				weaponImage.GetComponent<Image>().fillAmount = 1f - timerShootFirstWeapon / startTimerShootFirstWeapon;
+
+				if (Mathf.Approximately(timerShootFirstWeapon,0f)) {
+					if (needFlashWeapon) {
+						if (flashWeapon < 1f) {
+							weaponImage.GetComponent<Image> ().color = Color.Lerp (Color.white, scriptClass.teamColor, flashWeapon);
+						} else if (flashWeapon < 2f) {
+							weaponImage.GetComponent<Image> ().color = Color.Lerp (scriptClass.teamColor, Color.white, flashWeapon - 1f);
+						} else if (flashWeapon < 3f) {
+							weaponImage.GetComponent<Image> ().color = Color.Lerp (Color.white, scriptClass.teamColor, flashWeapon - 2f);
+						} else if (flashWeapon < 4f) {
+							weaponImage.GetComponent<Image> ().color = Color.Lerp (scriptClass.teamColor, Color.white, flashWeapon - 3f);
+						}
+
+						flashWeapon += Time.fixedDeltaTime * 5f;
+
+						if (flashWeapon > 4f) {
+							flashWeapon = 0f;
+
+							needFlashWeapon = false;
+						}
+					}
+				}
 			}else if (currentWeapon == 1) {
-				timerShootSecondWeapon -= Time.fixedDeltaTime;
+				timerShootSecondWeapon -= Time.deltaTime;
 
 				if (timerShootSecondWeapon < 0f)
 					timerShootSecondWeapon = 0f;
+
+				weaponImage.GetComponent<Image>().fillAmount = 1f - timerShootSecondWeapon / startTimerShootSecondWeapon;
+
+				if (Mathf.Approximately(timerShootSecondWeapon,0f)) {
+					if (needFlashWeapon) {
+						if (flashWeapon < 1f) {
+							weaponImage.GetComponent<Image> ().color = Color.Lerp (Color.white, scriptClass.teamColor, flashWeapon);
+						} else if (flashWeapon < 2f) {
+							weaponImage.GetComponent<Image> ().color = Color.Lerp (scriptClass.teamColor, Color.white, flashWeapon - 1f);
+						} else if (flashWeapon < 3f) {
+							weaponImage.GetComponent<Image> ().color = Color.Lerp (Color.white, scriptClass.teamColor, flashWeapon - 2f);
+						} else if (flashWeapon < 4f) {
+							weaponImage.GetComponent<Image> ().color = Color.Lerp (scriptClass.teamColor, Color.white, flashWeapon - 3f);
+						}
+
+						flashWeapon += Time.fixedDeltaTime * 5f;
+
+						if (flashWeapon > 4f) {
+							flashWeapon = 0f;
+
+							needFlashWeapon = false;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -160,11 +217,14 @@ public class Shooting : NetworkBehaviour {
 			ammoTotal.GetComponent<Text> ().text = maxNumBulletsFirstWeapon.ToString ();
 
 			if (scriptClass.vehicleTypeClass == 0) {
-				weaponImage.GetComponent<RawImage> ().texture = shootTexture;
+				weaponImage.GetComponent<Image> ().sprite = shootTexture;
+				weaponImageBG.GetComponent<Image> ().sprite = shootTexture;
 			} else if (scriptClass.vehicleTypeClass == 1) {
-				weaponImage.GetComponent<RawImage> ().texture = mineTexture;
+				weaponImage.GetComponent<Image> ().sprite = mineTexture;
+				weaponImageBG.GetComponent<Image> ().sprite = mineTexture;
 			} else if (scriptClass.vehicleTypeClass == 2) {
-				weaponImage.GetComponent<RawImage> ().texture = bazookaTexture;
+				weaponImage.GetComponent<Image> ().sprite = bazookaTexture;
+				weaponImageBG.GetComponent<Image> ().sprite = bazookaTexture;
 			}
 		} else if (currentWeapon == 1) {
 			if (scriptClass.vehicleTypeClass == 0) {
@@ -176,11 +236,14 @@ public class Shooting : NetworkBehaviour {
 			}
 
 			if (scriptClass.vehicleTypeClass == 0) {
-				weaponImage.GetComponent<RawImage> ().texture = driftTexture;
+				weaponImage.GetComponent<Image> ().sprite = driftTexture;
+				weaponImageBG.GetComponent<Image> ().sprite = driftTexture;
 			} else if (scriptClass.vehicleTypeClass == 1) {
-				weaponImage.GetComponent<RawImage> ().texture = bombTexture;
+				weaponImage.GetComponent<Image> ().sprite = bombTexture;
+				weaponImageBG.GetComponent<Image> ().sprite = bombTexture;
 			} else if (scriptClass.vehicleTypeClass == 2) {
-				weaponImage.GetComponent<RawImage> ().texture = laserTexture;
+				weaponImage.GetComponent<Image> ().sprite = laserTexture;
+				weaponImageBG.GetComponent<Image> ().sprite = laserTexture;
 			}
 		}
 

@@ -39,6 +39,8 @@ public class LoaderClass : NetworkBehaviour {
     private GameObject scoreGUI;
     private GameObject scoreBottomGUI;
 
+	public Color teamColor;
+
     void setSkinModel(int typeClass){
 		GameObject drifterMesh = transform.Find ("drifter").gameObject;
 		GameObject minerMesh = transform.Find ("miner").gameObject;
@@ -151,6 +153,7 @@ public class LoaderClass : NetworkBehaviour {
 				//print (materials [i].name);
 				if(materials[i].name.Contains("METALLO")){
 					materials [i].SetColor ("_Color", new Color(167 / 255f, 25 / 255f, 123 / 255f));//0.82f, 0.92f, 0.17f
+					teamColor = new Color(167 / 255f, 25 / 255f, 123 / 255f);
 
 					break;
 				}
@@ -167,6 +170,7 @@ public class LoaderClass : NetworkBehaviour {
 				//print (materials [i].name);
 				if(materials[i].name.Contains("METALLO")){
 					materials [i].SetColor ("_Color", new Color(208 / 255f, 234 / 255f, 43 / 255f));//0.82f, 0.92f, 0.17f
+					teamColor = new Color(208 / 255f, 234 / 255f, 43 / 255f);
 
 					break;
 				}
