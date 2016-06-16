@@ -64,16 +64,19 @@ public class Shooting : NetworkBehaviour {
     private GameObject shot;
 
 	[Command]
-	void CmdDoFire(int weapon)//float rx, float ry, float rz
+	void CmdDoFire(int weapon, bool stationary)//float rx, float ry, float rz
 	{
 		if (weapon == 0) {
 			Vector3 offset = Vector3.zero;
 
 			if (shoot.gameObject.name.Equals ("Mine")) {
 				offset = shooter.forward * -2.5f + shooter.up * -2f;
+			}else if (shoot.gameObject.name.Equals ("shoot")) {
+				if(!stationary)
+					offset = shooter.forward * 8.5f;
 			}
-            
-            shot = (GameObject)Instantiate (shoot, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
+
+			shot = (GameObject)Instantiate (shoot, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
 			if (gameObject.CompareTag ("VehicleTeam0")){
 				shot.tag = "BulletTeam0";
 				shot.layer = 8;
@@ -287,7 +290,7 @@ public class Shooting : NetworkBehaviour {
 					if (timerShootFirstWeapon <= 0f) {
 						if (numBulletsFirstWeapon > 0) {
 							//Quaternion rot = shooter.rotation;
-							CmdDoFire (0);//rot.eulerAngles.x, rot.eulerAngles.y, rot.eulerAngles.z
+							CmdDoFire (0, Vector3.Distance(controller.body.velocity, Vector3.zero) <= 0.1f);//rot.eulerAngles.x, rot.eulerAngles.y, rot.eulerAngles.z
 
 							dropBullets (currentWeapon, 1);
 						}
@@ -297,7 +300,7 @@ public class Shooting : NetworkBehaviour {
 				if (shootSecond != null) {
 					if (timerShootSecondWeapon <= 0f) {
 						if (numBulletsSecondWeapon > 0) {
-							CmdDoFire (1);
+							CmdDoFire (1, Vector3.Distance(controller.body.velocity, Vector3.zero) <= 0.1f);
 
 							dropBullets (currentWeapon, 1);
 						}

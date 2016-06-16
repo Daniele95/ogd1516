@@ -16,9 +16,9 @@ public class ShootBehaviour : NetworkBehaviour {
 
 	[Command]
 	void CmdDoExplosion(){
-		//GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
+		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
 
-		//NetworkServer.Spawn (shotExplosion);
+		NetworkServer.Spawn (shotExplosion);
 		NetworkServer.Destroy (gameObject);
 		//Destroy (gameObject);
 	}
@@ -59,9 +59,9 @@ public class ShootBehaviour : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(isServer)
+		/*if(isServer)
 			if (Time.time - timer > 5)
-				NetworkServer.Destroy (gameObject);
+				NetworkServer.Destroy (gameObject);*/
 	}
 
 	void OnCollisionEnter(Collision col){

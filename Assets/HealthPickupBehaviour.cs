@@ -20,11 +20,17 @@ public class HealthPickupBehaviour : NetworkBehaviour {
 		text.text = "Health";
 	}
 
-	[Command]
+	/*[Command]
 	void CmdGetPickup(){
 		NetworkServer.Destroy (gameObject);
 
 		//RpcGetPickup ();
+	}*/
+
+	void OnCollisionEnter(Collision col){
+		if (isServer) {
+			NetworkServer.Destroy (gameObject);
+		}
 	}
 
 	// Update is called once per frame
@@ -32,10 +38,10 @@ public class HealthPickupBehaviour : NetworkBehaviour {
         transform.Rotate(0f, Time.deltaTime * speedRotation, 0f);
 
 		//if (isServer) {
-			if (getPickup) {
+			/*if (getPickup) {
 				getPickup = false;
 				CmdGetPickup ();
-			}
+			}*/
 		//}
 	}
 }
