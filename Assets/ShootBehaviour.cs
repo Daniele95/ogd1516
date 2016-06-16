@@ -7,6 +7,8 @@ public class ShootBehaviour : NetworkBehaviour {
 	public float speed = 50f;
 	public int hitPoints = 10;
 
+	private float timer = 0f;
+
 	//private Detonator detonator;
 
 	public GameObject explosion;
@@ -14,9 +16,11 @@ public class ShootBehaviour : NetworkBehaviour {
 
 	[Command]
 	void CmdDoExplosion(){
-		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
+		//GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
 
-		NetworkServer.Spawn (shotExplosion);
+		//NetworkServer.Spawn (shotExplosion);
+		NetworkServer.Destroy (gameObject);
+		//Destroy (gameObject);
 	}
 
 	[Command]
@@ -24,12 +28,14 @@ public class ShootBehaviour : NetworkBehaviour {
 		GameObject shotExplosionHitPlayer = (GameObject)Instantiate (explosionHitPlayer, transform.position, transform.rotation);
 
 		NetworkServer.Spawn (shotExplosionHitPlayer);
+		NetworkServer.Destroy (gameObject);
+		//Destroy (gameObject);
 	}
 
     [ClientRpc]
     void RpcAssignTagLayer(string tag, int layer)
     {
-        gameObject.tag = tag;
+		gameObject.tag = tag;
         gameObject.layer = layer;
     }
 
@@ -38,11 +44,13 @@ public class ShootBehaviour : NetworkBehaviour {
 		if (!isServer)
 			return;
 
+		timer = Time.time;
+
 		body = GetComponent<Rigidbody> ();
 
 		body.velocity = transform.forward * speed;
 
-        Destroy (this.gameObject, 5f);
+        //Destroy (this.gameObject, 5f);
 
         //detonator = GetComponent<Detonator> ();
 
@@ -51,7 +59,9 @@ public class ShootBehaviour : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		if(isServer)
+			if (Time.time - timer > 5)
+				NetworkServer.Destroy (gameObject);
 	}
 
 	void OnCollisionEnter(Collision col){
@@ -65,16 +75,11 @@ public class ShootBehaviour : NetworkBehaviour {
 			gui.TakeDamage (hitPoints);
 
 			CmdDoExplosionHitPlayer ();
-
 			//detonator.Explode ();
-
-			Destroy (gameObject);
 		}else if (!col.gameObject.CompareTag ("VehicleTeam0") && !col.gameObject.CompareTag ("VehicleTeam1")) {
 			//detonator.Explode ();
 
 			CmdDoExplosion ();
-
-			Destroy (gameObject);
 		}
 	}
 }

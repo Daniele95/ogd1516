@@ -240,9 +240,6 @@ public class GuiVehicle : NetworkBehaviour {
                     if (life > maxLife)
                         life = maxLife;
 
-                    //Destroy (col.gameObject);
-                    pickup.getPickup = true;
-
                     break;
                 }
             }

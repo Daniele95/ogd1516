@@ -9,6 +9,7 @@ public class AmmoPickupBehaviour : NetworkBehaviour {
 	private Text text;
     private float speedRotation = 10f;
 
+	[SyncVar]
 	public bool getPickup;
 
     public float RADIUS_PICKUP = 3f;
@@ -22,12 +23,18 @@ public class AmmoPickupBehaviour : NetworkBehaviour {
 		getPickup = false;
 	}
 
-	[Command]
-	void CmdGetPickup(){
-		Destroy (gameObject);
+	void OnCollisionEnter(Collision col){
+		if (isServer) {
+			NetworkServer.Destroy (gameObject);
+		}
+	}
+
+	/*[Command]
+	public void CmdGetPickup(){
+		
 
 		//RpcGetPickup ();
-	}
+	}*/
 
 	//[ClientRpc]
 	//void RpcGetPickup(){
@@ -37,12 +44,5 @@ public class AmmoPickupBehaviour : NetworkBehaviour {
 	// Update is called once per frame
 	void Update () {
         transform.Rotate(0f, Time.deltaTime * speedRotation, 0f);
-
-		//if (isServer) {
-			if (getPickup) {
-				getPickup = false;
-				CmdGetPickup ();
-			}
-		//}
     }
 }

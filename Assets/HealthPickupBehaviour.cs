@@ -22,7 +22,7 @@ public class HealthPickupBehaviour : NetworkBehaviour {
 
 	[Command]
 	void CmdGetPickup(){
-		Destroy (gameObject);
+		NetworkServer.Destroy (gameObject);
 
 		//RpcGetPickup ();
 	}

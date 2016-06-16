@@ -63,7 +63,7 @@ public class Shooting : NetworkBehaviour {
 
     private GameObject shot;
 
-    [Command]
+	[Command]
 	void CmdDoFire(int weapon)//float rx, float ry, float rz
 	{
 		if (weapon == 0) {
@@ -263,10 +263,6 @@ public class Shooting : NetworkBehaviour {
                         if (numBulletsSecondWeapon > maxNumBulletsSecondWeapon)
                             numBulletsSecondWeapon = maxNumBulletsSecondWeapon;
                     }
-
-                    //Destroy (col.gameObject);
-
-                    pickup.getPickup = true;
 
                     break;
                 }
