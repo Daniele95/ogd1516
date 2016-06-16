@@ -199,6 +199,9 @@ public class SimpleController : NetworkBehaviour
 
 	void Update()
     {
+		if (!isLocalPlayer)
+			return;
+
 		RaycastHit hit;
 
 		ray.origin = body.position;
@@ -233,9 +236,6 @@ public class SimpleController : NetworkBehaviour
 
 		targetRot = Quaternion.LookRotation(myForward, myNormal);
 		transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, lerpSpeedQuaternion * Time.deltaTime);
-
-		if (!isLocalPlayer)
-			return;
 
 		if (gui.life > 0) {
 			GetInput ();

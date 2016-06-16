@@ -262,6 +262,8 @@ public class LoaderClass : NetworkBehaviour {
 
 	//private bool haveToSetClass = true;
 
+	private bool needSpawn = true;
+
 	// Update is called once per frame
 	void Update () {
 		/*if (haveToSetClass) {
@@ -273,5 +275,12 @@ public class LoaderClass : NetworkBehaviour {
 
 		setSkinModel(vehicleTypeClass);
 		setTeam (teamPlayer);
+
+		if (needSpawn) {
+			needSpawn = false;
+
+			SpawnPoints respawn = GetComponent<SpawnPoints> ();
+			respawn.respawn ();
+		}
 	}
 }

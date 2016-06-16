@@ -27,10 +27,10 @@ public class SpawnPoints : MonoBehaviour {
 
 		GameObject[] spawns = GameObject.FindGameObjectsWithTag (whichTagTeam);
 
-		int randomRange = Random.Range (0, spawns.Length-1);
+		int randomRange = Random.Range (0, spawns.Length);
 
 		transform.position = spawns [randomRange].transform.position;
-		transform.rotation = Quaternion.identity;
+		transform.rotation = spawns [randomRange].transform.rotation;
 		//body.angularVelocity = Vector3.zero;
 		//body.velocity = Vector3.zero;
 	}

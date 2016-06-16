@@ -34,7 +34,10 @@ public class ControllerNet : NetworkManager {
 	{
 		GameObject player = (GameObject)Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 		//SpawnPoints scriptSpawnPoints = player.GetComponent<SpawnPoints> ();
-		string whichTagTeam = "SpawnTeam0";
+		//string whichTagTeam = "SpawnTeam0";
+
+		//PlayerController[] players = conn.playerControllers.ToArray ();
+		//print (players [0].gameObject.GetComponent<LoaderClass> ().teamPlayer);
 
 		//if (firstTeam){
 		//	firstTeam = false;
@@ -61,11 +64,11 @@ public class ControllerNet : NetworkManager {
 			whichTagTeam = "SpawnTeam1";
 		}*/
 
-		GameObject[] spawns = GameObject.FindGameObjectsWithTag (whichTagTeam);
+		//GameObject[] spawns = GameObject.FindGameObjectsWithTag (whichTagTeam);
 
-		int randomRange = Random.Range (0, spawns.Length);
+		//int randomRange = Random.Range (0, spawns.Length);
 
-		player.transform.position = spawns [randomRange].transform.position;
+		//player.transform.position = spawns [randomRange].transform.position;
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
 	}
 }
