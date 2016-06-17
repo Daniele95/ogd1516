@@ -56,13 +56,13 @@ public class Shooting : NetworkBehaviour {
 
 			timerShootFirstWeapon = startTimerShootFirstWeapon;
 
-			needFlashWeapon = true;
+			needFlashFirstWeapon = true;
 		}else if (whichWeapon == 1) {
 			numBulletsSecondWeapon -= num;
 
 			timerShootSecondWeapon = startTimerShootSecondWeapon;
 
-			needFlashWeapon = true;
+            needFlashSecondWeapon = true;
 		}
 	}
 
@@ -138,70 +138,109 @@ public class Shooting : NetworkBehaviour {
 		scriptClass = GetComponent<LoaderClass> ();
 	}
 
-	private float flashWeapon = 0;
-	private bool needFlashWeapon = false;
+	private float flashFirstWeapon = 0f;
+    private float flashSecondWeapon = 0f;
+    private bool needFlashFirstWeapon = false;
+    private bool needFlashSecondWeapon = false;
 
-	void FixedUpdate(){
+    void FixedUpdate(){
 		if (isLocalPlayer) {
-			if (currentWeapon == 0) {
-				timerShootFirstWeapon -= Time.deltaTime;
+            if (currentWeapon == 0)
+            {
+                timerShootFirstWeapon -= Time.deltaTime;
 
-				if (timerShootFirstWeapon < 0f)
-					timerShootFirstWeapon = 0f;
+                if (timerShootFirstWeapon < 0f)
+                    timerShootFirstWeapon = 0f;
 
-				weaponImage.GetComponent<Image>().fillAmount = 1f - timerShootFirstWeapon / startTimerShootFirstWeapon;
+                if (scriptClass.vehicleTypeClass != 0)
+                {
+                    weaponImage.GetComponent<Image>().fillAmount = 1f - timerShootFirstWeapon / startTimerShootFirstWeapon;
 
-				if (Mathf.Approximately(timerShootFirstWeapon,0f)) {
-					if (needFlashWeapon) {
-						if (flashWeapon < 1f) {
-							weaponImage.GetComponent<Image> ().color = Color.Lerp (Color.white, scriptClass.teamColor, flashWeapon);
-						} else if (flashWeapon < 2f) {
-							weaponImage.GetComponent<Image> ().color = Color.Lerp (scriptClass.teamColor, Color.white, flashWeapon - 1f);
-						} else if (flashWeapon < 3f) {
-							weaponImage.GetComponent<Image> ().color = Color.Lerp (Color.white, scriptClass.teamColor, flashWeapon - 2f);
-						} else if (flashWeapon < 4f) {
-							weaponImage.GetComponent<Image> ().color = Color.Lerp (scriptClass.teamColor, Color.white, flashWeapon - 3f);
-						}
+                    if (Mathf.Approximately(timerShootFirstWeapon, 0f))
+                    {
+                        if (needFlashFirstWeapon)
+                        {
+                            if (flashFirstWeapon < 1f)
+                            {
+                                weaponImage.GetComponent<Image>().color = Color.Lerp(Color.white, scriptClass.teamColor, flashFirstWeapon);
+                            }
+                            else if (flashFirstWeapon < 2f)
+                            {
+                                weaponImage.GetComponent<Image>().color = Color.Lerp(scriptClass.teamColor, Color.white, flashFirstWeapon - 1f);
+                            }
+                            else if (flashFirstWeapon < 3f)
+                            {
+                                weaponImage.GetComponent<Image>().color = Color.Lerp(Color.white, scriptClass.teamColor, flashFirstWeapon - 2f);
+                            }
+                            else if (flashFirstWeapon < 4f)
+                            {
+                                weaponImage.GetComponent<Image>().color = Color.Lerp(scriptClass.teamColor, Color.white, flashFirstWeapon - 3f);
+                            }
 
-						flashWeapon += Time.fixedDeltaTime * 5f;
+                            flashFirstWeapon += Time.fixedDeltaTime * 5f;
 
-						if (flashWeapon > 4f) {
-							flashWeapon = 0f;
+                            if (flashFirstWeapon > 4f)
+                            {
+                                flashFirstWeapon = 0f;
 
-							needFlashWeapon = false;
-						}
-					}
-				}
-			}else if (currentWeapon == 1) {
-				timerShootSecondWeapon -= Time.deltaTime;
+                                needFlashFirstWeapon = false;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    weaponImage.GetComponent<Image>().fillAmount = 1f;
+                }
+            }
+            else if (currentWeapon == 1)
+            {
+                timerShootSecondWeapon -= Time.deltaTime;
 
-				if (timerShootSecondWeapon < 0f)
-					timerShootSecondWeapon = 0f;
+                if (timerShootSecondWeapon < 0f)
+                    timerShootSecondWeapon = 0f;
 
-				weaponImage.GetComponent<Image>().fillAmount = 1f - timerShootSecondWeapon / startTimerShootSecondWeapon;
+                if (scriptClass.vehicleTypeClass != 0)
+                {
+                    weaponImage.GetComponent<Image>().fillAmount = 1f - timerShootSecondWeapon / startTimerShootSecondWeapon;
 
-				if (Mathf.Approximately(timerShootSecondWeapon,0f)) {
-					if (needFlashWeapon) {
-						if (flashWeapon < 1f) {
-							weaponImage.GetComponent<Image> ().color = Color.Lerp (Color.white, scriptClass.teamColor, flashWeapon);
-						} else if (flashWeapon < 2f) {
-							weaponImage.GetComponent<Image> ().color = Color.Lerp (scriptClass.teamColor, Color.white, flashWeapon - 1f);
-						} else if (flashWeapon < 3f) {
-							weaponImage.GetComponent<Image> ().color = Color.Lerp (Color.white, scriptClass.teamColor, flashWeapon - 2f);
-						} else if (flashWeapon < 4f) {
-							weaponImage.GetComponent<Image> ().color = Color.Lerp (scriptClass.teamColor, Color.white, flashWeapon - 3f);
-						}
+                    if (Mathf.Approximately(timerShootSecondWeapon, 0f))
+                    {
+                        if (needFlashSecondWeapon)
+                        {
+                            if (flashSecondWeapon < 1f)
+                            {
+                                weaponImage.GetComponent<Image>().color = Color.Lerp(Color.white, scriptClass.teamColor, flashSecondWeapon);
+                            }
+                            else if (flashSecondWeapon < 2f)
+                            {
+                                weaponImage.GetComponent<Image>().color = Color.Lerp(scriptClass.teamColor, Color.white, flashSecondWeapon - 1f);
+                            }
+                            else if (flashSecondWeapon < 3f)
+                            {
+                                weaponImage.GetComponent<Image>().color = Color.Lerp(Color.white, scriptClass.teamColor, flashSecondWeapon - 2f);
+                            }
+                            else if (flashSecondWeapon < 4f)
+                            {
+                                weaponImage.GetComponent<Image>().color = Color.Lerp(scriptClass.teamColor, Color.white, flashSecondWeapon - 3f);
+                            }
 
-						flashWeapon += Time.fixedDeltaTime * 5f;
+                            flashSecondWeapon += Time.fixedDeltaTime * 5f;
 
-						if (flashWeapon > 4f) {
-							flashWeapon = 0f;
+                            if (flashSecondWeapon > 4f)
+                            {
+                                flashSecondWeapon = 0f;
 
-							needFlashWeapon = false;
-						}
-					}
-				}
-			}
+                                needFlashSecondWeapon = false;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    weaponImage.GetComponent<Image>().fillAmount = 1f;
+                }
+            }
 		}
 	}
 
