@@ -6,10 +6,10 @@ public class ShootBomb : NetworkBehaviour {
 	private Rigidbody body;
 	public float speed = 50f;
 	public float speedVehicle = 1f;
-	public int hitPoints = 50;
+	public int hitPoints = 40;
 	public float MAX_SPEED_VEHICLE = 20f;
 	public float MIN_SPEED_VEHICLE = 5f;
-	public int FACTOR_HIT_PLAYER = 2;
+	public float FACTOR_HIT_PLAYER = 1.2f;
 	public float radius = 10f;
 
 
@@ -77,7 +77,7 @@ public class ShootBomb : NetworkBehaviour {
 		if (col.gameObject.CompareTag ("VehicleTeam0") && gameObject.CompareTag("BulletTeam1") || col.gameObject.CompareTag ("VehicleTeam1") && gameObject.CompareTag("BulletTeam0")) {
 			GuiVehicle gui = col.gameObject.GetComponent<GuiVehicle> ();
 
-			gui.TakeDamage (hitPoints * FACTOR_HIT_PLAYER);
+			gui.TakeDamage ((int)(hitPoints * FACTOR_HIT_PLAYER));
 
 			CmdDoExplosionHitPlayer ();
 

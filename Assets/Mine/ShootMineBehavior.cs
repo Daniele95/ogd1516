@@ -4,11 +4,13 @@ using UnityEngine.Networking;
 
 public class ShootMineBehavior : NetworkBehaviour {
 	private Rigidbody body;
-	public int hitPoints = 50;
+	public int hitPoints = 40;
 	public float radius = 15f;
 
 	public GameObject explosionHitPlayer;
 	public GameObject soundExplosion;
+
+    public float timerMine = 10f;
 
 	[Command]
 	void CmdDoExplosionHitPlayer(){
@@ -37,6 +39,8 @@ public class ShootMineBehavior : NetworkBehaviour {
 
         RpcAssignTagLayer(gameObject.tag, gameObject.layer);
 
+        timerMine = 0f;
+
         //body.velocity = transform.forward * speed;
 
         //Destroy (this.gameObject, 1f);
@@ -47,55 +51,76 @@ public class ShootMineBehavior : NetworkBehaviour {
 		if (!isServer)
 			return;
 
-		body.velocity = Vector3.zero;
-		body.angularVelocity = Vector3.zero;
+        timerMine -= Time.deltaTime;
 
-		if (gameObject.CompareTag ("BulletTeam1")) {
-			bool damage = false;
+        if (timerMine <= 0f)
+        {
+            CmdDoExplosionHitPlayer();
+            Destroy(gameObject);
+        }
+        else
+        {
+            body.velocity = Vector3.zero;
+            body.angularVelocity = Vector3.zero;
 
-			GameObject[] playersEnemy = GameObject.FindGameObjectsWithTag ("VehicleTeam0");
+            if (gameObject.CompareTag("BulletTeam1"))
+            {
+                bool damage = false;
 
-			for (int i = 0; i < playersEnemy.Length; i++) {
-				if (Vector3.Distance (playersEnemy[i].transform.position, transform.position) <= radius) {
-					GuiVehicle gui = playersEnemy[i].GetComponent<GuiVehicle> ();
-					if (gui != null) {
-						gui.TakeDamage (hitPoints);
+                GameObject[] playersEnemy = GameObject.FindGameObjectsWithTag("VehicleTeam0");
 
-						damage = true;
-					}
+                for (int i = 0; i < playersEnemy.Length; i++)
+                {
+                    if (Vector3.Distance(playersEnemy[i].transform.position, transform.position) <= radius)
+                    {
+                        GuiVehicle gui = playersEnemy[i].GetComponent<GuiVehicle>();
+                        if (gui != null)
+                        {
+                            gui.TakeDamage(hitPoints);
 
-					//break;
-				}
-			}
+                            damage = true;
+                        }
 
-			if (damage) {
-				CmdDoExplosionHitPlayer ();
-				Destroy (gameObject);
-			}
+                        //break;
+                    }
+                }
 
-		}else if (gameObject.CompareTag ("BulletTeam0")) {
-			bool damage = false;
+                if (damage)
+                {
+                    CmdDoExplosionHitPlayer();
+                    Destroy(gameObject);
+                }
 
-			GameObject[] playersEnemy = GameObject.FindGameObjectsWithTag ("VehicleTeam1");
+            }
+            else if (gameObject.CompareTag("BulletTeam0"))
+            {
+                bool damage = false;
 
-			for (int i = 0; i < playersEnemy.Length; i++) {
-				if (Vector3.Distance (playersEnemy[i].transform.position, transform.position) <= radius) {
-					GuiVehicle gui = playersEnemy[i].GetComponent<GuiVehicle> ();
-					if (gui != null) {
-						gui.TakeDamage (hitPoints);
+                GameObject[] playersEnemy = GameObject.FindGameObjectsWithTag("VehicleTeam1");
 
-						damage = true;
-					}
+                for (int i = 0; i < playersEnemy.Length; i++)
+                {
+                    if (Vector3.Distance(playersEnemy[i].transform.position, transform.position) <= radius)
+                    {
+                        GuiVehicle gui = playersEnemy[i].GetComponent<GuiVehicle>();
+                        if (gui != null)
+                        {
+                            gui.TakeDamage(hitPoints);
 
-					//break;
-				}
-			}
+                            damage = true;
+                        }
 
-			if (damage) {
-				CmdDoExplosionHitPlayer ();
-				Destroy (gameObject);
-			}
-		}
+                        //break;
+                    }
+                }
+
+                if (damage)
+                {
+                    CmdDoExplosionHitPlayer();
+                    Destroy(gameObject);
+                }
+            }
+        }
 	}
 
 	/*void OnCollisionEnter(Collision col){

@@ -56,13 +56,13 @@ public class Shooting : NetworkBehaviour {
 
 			timerShootFirstWeapon = startTimerShootFirstWeapon;
 
-			needFlashFirstWeapon = 1;
+			needFlashFirstWeapon = 0;
 		}else if (whichWeapon == 1) {
 			numBulletsSecondWeapon -= num;
 
 			timerShootSecondWeapon = startTimerShootSecondWeapon;
 
-            needFlashSecondWeapon = 1;
+            needFlashSecondWeapon = 0;
 		}
 	}
 

@@ -78,8 +78,8 @@ public class LoaderClass : NetworkBehaviour {
 			scriptGUI.maxLife = 100;
 			scriptGUI.life = 100;
 
-			scriptShooting.numBulletsFirstWeapon = 160;
-			scriptShooting.maxNumBulletsFirstWeapon = 160;
+			scriptShooting.numBulletsFirstWeapon = 125;
+			scriptShooting.maxNumBulletsFirstWeapon = 125;
 			scriptShooting.startTimerShootFirstWeapon = 0.125f;
 			scriptShooting.shoot = machineGunShoot;
 
@@ -97,7 +97,7 @@ public class LoaderClass : NetworkBehaviour {
 
 			scriptShooting.numBulletsFirstWeapon = 10;
 			scriptShooting.maxNumBulletsFirstWeapon = 10;
-			scriptShooting.startTimerShootFirstWeapon = 2f;
+			scriptShooting.startTimerShootFirstWeapon = 4f;
 			scriptShooting.shoot = mineShoot;
 
 			scriptShooting.numBulletsSecondWeapon = 12;

@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 public class ShootBehaviour : NetworkBehaviour {
 	private Rigidbody body;
 	public float speed = 50f;
-	public int hitPoints = 10;
+	public int hitPoints = 12;
 
 	private float timer = 0f;
 
