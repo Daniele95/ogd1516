@@ -12,7 +12,7 @@ public class SimpleController : NetworkBehaviour
     public float acceleration = 20000f;
 	//public float MAX_SPEED = 10000f;
     public float accelerationSteer = 40f;
-	public float driftFrictionSteer = 0.5f;
+	public float driftFrictionSteer = 1f;
 	public float driftFriction = 0.05f;
 
     public float wheelBase = 0f;
