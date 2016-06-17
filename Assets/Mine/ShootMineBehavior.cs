@@ -16,9 +16,9 @@ public class ShootMineBehavior : NetworkBehaviour {
 
 		NetworkServer.Spawn (shotExplosionHitPlayer);
 
-		//GameObject shotExplosionHitPlayerSound = (GameObject)Instantiate (soundExplosion, transform.position, transform.rotation);
+		GameObject shotExplosionHitPlayerSound = (GameObject)Instantiate (soundExplosion, transform.position, transform.rotation);
         
-		//NetworkServer.Spawn (shotExplosionHitPlayerSound);
+		NetworkServer.Spawn (shotExplosionHitPlayerSound);
 	}
 
     [ClientRpc]
