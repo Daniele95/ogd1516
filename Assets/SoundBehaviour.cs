@@ -5,8 +5,9 @@ using System.Collections;
 public class SoundBehaviour : MonoBehaviour {
 	private AudioSource driftAudio;
 	private AudioSource weaponChangeAudio;
+    private AudioSource reloadAudio;
 
-	private SimpleController scriptMovement;
+    private SimpleController scriptMovement;
 	private Shooting scriptShooting;
 
 	private int oldWeapon = 0;
@@ -23,7 +24,9 @@ public class SoundBehaviour : MonoBehaviour {
 				driftAudio = audio [i];
 			if(audio [i].clip.name.Equals("Weapon_Change"))
 				weaponChangeAudio = audio [i];
-		}
+            if (audio[i].clip.name.Equals("reloaddone"))
+                reloadAudio = audio[i];
+        }
 	}
 	
 	// Update is called once per frame
@@ -38,5 +41,19 @@ public class SoundBehaviour : MonoBehaviour {
 
 			weaponChangeAudio.Play ();
 		}
-	}
+
+        if (scriptShooting.currentWeapon == 0)
+        {
+            if (scriptShooting.needFlashFirstWeapon == 1)
+            {
+                reloadAudio.Play();
+            }
+        }else if (scriptShooting.currentWeapon == 1)
+        {
+            if (scriptShooting.needFlashSecondWeapon == 1)
+            {
+                reloadAudio.Play();
+            }
+        }
+    }
 }

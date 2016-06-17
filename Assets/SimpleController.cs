@@ -76,7 +76,9 @@ public class SimpleController : NetworkBehaviour
 
 	public bool isDrifting = false;
 
-	[Command]
+    public GameObject soundCampingGameObject;
+
+    [Command]
 	void CmdDoExplosionHitDrift(){
 		GameObject driftHitExplosion = (GameObject)Instantiate (explosionDrift, transform.position, transform.rotation);
 
@@ -142,10 +144,10 @@ public class SimpleController : NetworkBehaviour
     }
 
 	void standardUpdate(){
-		CmdIsDoingCamping (false);
 		CmdIsDoingDrift (false);
+        CmdIsDoingCamping(false);
 
-		isDrifting = false;
+        isDrifting = false;
 
 		steerAngle += input.x * accelerationSteer * Mathf.Rad2Deg * Time.deltaTime;// *input.z
 		steerAngle -= steerAngle * STEER_FRICTION * Time.deltaTime;
@@ -197,7 +199,10 @@ public class SimpleController : NetworkBehaviour
 		}
 	}
 
-	void Update()
+    private bool needUpdateCamping;
+
+
+    void Update()
     {
 		if (!isLocalPlayer)
 			return;
@@ -270,7 +275,11 @@ public class SimpleController : NetworkBehaviour
 				//if (input.y > 0f) {// && body.velocity.magnitude > 1f
 				if (isGrounded == 1) {
 					if (isCamping) {
-						CmdIsDoingCamping (true);
+                        if (needUpdateCamping)
+                        {
+                            needUpdateCamping = false;
+                            CmdIsDoingCamping(true);
+                        }
 
 						shooting.currentWeapon = 1;
 
@@ -340,7 +349,14 @@ public class SimpleController : NetworkBehaviour
 	void CmdIsDoingCamping(bool camping)//float rx, float ry, float rz
 	{
 		isCamping = camping;
-	}
+
+        if (isCamping)
+        {
+            GameObject campingSound = (GameObject)Instantiate(soundCampingGameObject, transform.position, transform.rotation);
+
+            NetworkServer.Spawn(campingSound);
+        }
+    }
 
     void GetInput()
     {
@@ -356,11 +372,16 @@ public class SimpleController : NetworkBehaviour
 
 		if (inTunnel == 0) {
 			if (specialPower == 2) {
-				if (Input.GetKeyDown (KeyCode.Z))
-				if (isCamping)
-					isCamping = false;
-				else
-					isCamping = true;
+                if (Input.GetKeyDown(KeyCode.Z))
+                    if (isCamping)
+                    {
+                        isCamping = false;
+                    }
+                    else
+                    {
+                        needUpdateCamping = true;
+                        isCamping = true;
+                    }
 			} else {
 				if (Input.GetKey (KeyCode.Z))
 					input.y += 1.0f;

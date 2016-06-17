@@ -9,20 +9,29 @@ public class ShootBazooka : NetworkBehaviour {
 
 	public GameObject explosion;
 	public GameObject explosionHitPlayer;
+    public GameObject explosionSound;
 
 	[Command]
 	void CmdDoExplosion(){
 		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
 
 		NetworkServer.Spawn (shotExplosion);
-	}
+
+        GameObject shotSoundExplosion = (GameObject)Instantiate(explosionSound, transform.position, transform.rotation);
+
+        NetworkServer.Spawn(shotSoundExplosion);
+    }
 
 	[Command]
 	void CmdDoExplosionHitPlayer(){
 		GameObject shotExplosionHitPlayer = (GameObject)Instantiate (explosionHitPlayer, transform.position, transform.rotation);
 
 		NetworkServer.Spawn (shotExplosionHitPlayer);
-	}
+
+        GameObject shotSoundExplosion = (GameObject)Instantiate(explosionSound, transform.position, transform.rotation);
+
+        NetworkServer.Spawn(shotSoundExplosion);
+    }
 
     [ClientRpc]
     void RpcAssignTagLayer(string tag, int layer)

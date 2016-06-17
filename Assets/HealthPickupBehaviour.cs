@@ -13,6 +13,8 @@ public class HealthPickupBehaviour : NetworkBehaviour {
 
     public float RADIUS_PICKUP = 3f;
 
+    public GameObject soundPickup;
+
     // Use this for initialization
     void Start () {
 		text = this.GetComponentInChildren<Text> ();
@@ -20,16 +22,13 @@ public class HealthPickupBehaviour : NetworkBehaviour {
 		text.text = "Health";
 	}
 
-	/*[Command]
-	void CmdGetPickup(){
-		NetworkServer.Destroy (gameObject);
-
-		//RpcGetPickup ();
-	}*/
-
 	void OnCollisionEnter(Collision col){
 		if (isServer) {
-			NetworkServer.Destroy (gameObject);
+            GameObject healthSound = (GameObject)Instantiate(soundPickup, transform.position, transform.rotation);
+
+            NetworkServer.Spawn(soundPickup);
+
+            NetworkServer.Destroy (gameObject);
 		}
 	}
 

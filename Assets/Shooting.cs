@@ -56,13 +56,13 @@ public class Shooting : NetworkBehaviour {
 
 			timerShootFirstWeapon = startTimerShootFirstWeapon;
 
-			needFlashFirstWeapon = true;
+			needFlashFirstWeapon = 1;
 		}else if (whichWeapon == 1) {
 			numBulletsSecondWeapon -= num;
 
 			timerShootSecondWeapon = startTimerShootSecondWeapon;
 
-            needFlashSecondWeapon = true;
+            needFlashSecondWeapon = 1;
 		}
 	}
 
@@ -140,8 +140,8 @@ public class Shooting : NetworkBehaviour {
 
 	private float flashFirstWeapon = 0f;
     private float flashSecondWeapon = 0f;
-    private bool needFlashFirstWeapon = false;
-    private bool needFlashSecondWeapon = false;
+    public int needFlashFirstWeapon = 0;
+    public int needFlashSecondWeapon = 0;
 
     void FixedUpdate(){
 		if (isLocalPlayer) {
@@ -158,8 +158,11 @@ public class Shooting : NetworkBehaviour {
 
                     if (Mathf.Approximately(timerShootFirstWeapon, 0f))
                     {
-                        if (needFlashFirstWeapon)
+                        if (needFlashFirstWeapon > 0)
                         {
+                            if (needFlashFirstWeapon == 1)
+                                needFlashFirstWeapon = 2;
+
                             if (flashFirstWeapon < 1f)
                             {
                                 weaponImage.GetComponent<Image>().color = Color.Lerp(Color.white, scriptClass.teamColor, flashFirstWeapon);
@@ -183,7 +186,7 @@ public class Shooting : NetworkBehaviour {
                             {
                                 flashFirstWeapon = 0f;
 
-                                needFlashFirstWeapon = false;
+                                needFlashFirstWeapon = 0;
                             }
                         }
                     }
@@ -206,8 +209,11 @@ public class Shooting : NetworkBehaviour {
 
                     if (Mathf.Approximately(timerShootSecondWeapon, 0f))
                     {
-                        if (needFlashSecondWeapon)
+                        if (needFlashSecondWeapon > 0)
                         {
+                            if (needFlashSecondWeapon == 1)
+                                needFlashSecondWeapon = 2;
+
                             if (flashSecondWeapon < 1f)
                             {
                                 weaponImage.GetComponent<Image>().color = Color.Lerp(Color.white, scriptClass.teamColor, flashSecondWeapon);
@@ -231,7 +237,7 @@ public class Shooting : NetworkBehaviour {
                             {
                                 flashSecondWeapon = 0f;
 
-                                needFlashSecondWeapon = false;
+                                needFlashSecondWeapon = 0;
                             }
                         }
                     }

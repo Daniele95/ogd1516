@@ -12,6 +12,8 @@ public class AmmoPickupBehaviour : NetworkBehaviour {
 	[SyncVar]
 	public bool getPickup;
 
+    public GameObject soundPickup;
+
     public float RADIUS_PICKUP = 3f;
 
     // Use this for initialization
@@ -25,7 +27,11 @@ public class AmmoPickupBehaviour : NetworkBehaviour {
 
 	void OnCollisionEnter(Collision col){
 		if (isServer) {
-			NetworkServer.Destroy (gameObject);
+            GameObject healthSound = (GameObject)Instantiate(soundPickup, transform.position, transform.rotation);
+
+            NetworkServer.Spawn(soundPickup);
+
+            NetworkServer.Destroy (gameObject);
 		}
 	}
 

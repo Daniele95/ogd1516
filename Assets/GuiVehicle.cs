@@ -32,12 +32,18 @@ public class GuiVehicle : NetworkBehaviour {
 
 	private SimpleController scriptMovement;
 
+    public GameObject respawnSoundGameObject;
+
     [Command]
 	void CmdDoExplosionRespawn(){
 		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
 
 		NetworkServer.Spawn (shotExplosion);
-	}
+
+        GameObject respawnSound = (GameObject)Instantiate(respawnSoundGameObject, transform.position, transform.rotation);
+
+        NetworkServer.Spawn(respawnSound);
+    }
 
 	[Command]
 	void CmdDoExplosionSound(){
