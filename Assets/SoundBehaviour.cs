@@ -20,7 +20,7 @@ public class SoundBehaviour : MonoBehaviour {
 		AudioSource[] audio = GetComponents<AudioSource> ();
 
 		for (int i = 0; i < audio.Length; i++) {
-			if(audio [i].clip.name.Equals("Drift"))
+			if(audio [i].clip.name.Equals("drift"))
 				driftAudio = audio [i];
 			if(audio [i].clip.name.Equals("Weapon_Change"))
 				weaponChangeAudio = audio [i];
