@@ -56,13 +56,13 @@ public class Shooting : NetworkBehaviour {
 
 			timerShootFirstWeapon = startTimerShootFirstWeapon;
 
-			needFlashFirstWeapon = 0;
+			needFlashFirstWeapon = 1;
 		}else if (whichWeapon == 1) {
 			numBulletsSecondWeapon -= num;
 
 			timerShootSecondWeapon = startTimerShootSecondWeapon;
 
-            needFlashSecondWeapon = 0;
+            needFlashSecondWeapon = 1;
 		}
 	}
 
@@ -160,8 +160,8 @@ public class Shooting : NetworkBehaviour {
                     {
                         if (needFlashFirstWeapon > 0)
                         {
-                            if (needFlashFirstWeapon == 1)
-                                needFlashFirstWeapon = 2;
+                            //if (needFlashFirstWeapon == 1)
+                            //    needFlashFirstWeapon = 2;
 
                             if (flashFirstWeapon < 1f)
                             {
@@ -211,8 +211,8 @@ public class Shooting : NetworkBehaviour {
                     {
                         if (needFlashSecondWeapon > 0)
                         {
-                            if (needFlashSecondWeapon == 1)
-                                needFlashSecondWeapon = 2;
+                            //if (needFlashSecondWeapon == 1)
+                            //    needFlashSecondWeapon = 2;
 
                             if (flashSecondWeapon < 1f)
                             {

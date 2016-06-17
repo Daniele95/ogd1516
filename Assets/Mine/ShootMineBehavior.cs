@@ -12,7 +12,9 @@ public class ShootMineBehavior : NetworkBehaviour {
 
     public float timerMine = 10f;
 
-	[Command]
+    private float timerMineExplosion = 0f;
+
+    [Command]
 	void CmdDoExplosionHitPlayer(){
 		GameObject shotExplosionHitPlayer = (GameObject)Instantiate (explosionHitPlayer, transform.position, transform.rotation);
 
@@ -39,8 +41,6 @@ public class ShootMineBehavior : NetworkBehaviour {
 
         RpcAssignTagLayer(gameObject.tag, gameObject.layer);
 
-        timerMine = 0f;
-
         //body.velocity = transform.forward * speed;
 
         //Destroy (this.gameObject, 1f);
@@ -51,9 +51,9 @@ public class ShootMineBehavior : NetworkBehaviour {
 		if (!isServer)
 			return;
 
-        timerMine -= Time.deltaTime;
+        timerMineExplosion += Time.deltaTime;
 
-        if (timerMine <= 0f)
+        if (timerMineExplosion >= timerMine)
         {
             CmdDoExplosionHitPlayer();
             Destroy(gameObject);

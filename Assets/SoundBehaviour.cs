@@ -47,12 +47,14 @@ public class SoundBehaviour : MonoBehaviour {
             if (scriptShooting.needFlashFirstWeapon == 1)
             {
                 reloadAudio.Play();
+                scriptShooting.needFlashFirstWeapon = 2;
             }
         }else if (scriptShooting.currentWeapon == 1)
         {
             if (scriptShooting.needFlashSecondWeapon == 1)
             {
                 reloadAudio.Play();
+                scriptShooting.needFlashSecondWeapon = 2;
             }
         }
     }
