@@ -78,8 +78,8 @@ public class LoaderClass : NetworkBehaviour {
 			scriptGUI.maxLife = 100;
 			scriptGUI.life = 100;
 
-			scriptShooting.numBulletsFirstWeapon = 720;
-			scriptShooting.maxNumBulletsFirstWeapon = 720;
+			scriptShooting.numBulletsFirstWeapon = 160;
+			scriptShooting.maxNumBulletsFirstWeapon = 160;
 			scriptShooting.startTimerShootFirstWeapon = 0.125f;
 			scriptShooting.shoot = machineGunShoot;
 
@@ -97,12 +97,12 @@ public class LoaderClass : NetworkBehaviour {
 
 			scriptShooting.numBulletsFirstWeapon = 10;
 			scriptShooting.maxNumBulletsFirstWeapon = 10;
-			scriptShooting.startTimerShootFirstWeapon = 3.34f;
+			scriptShooting.startTimerShootFirstWeapon = 2f;
 			scriptShooting.shoot = mineShoot;
 
-			scriptShooting.numBulletsSecondWeapon = 15;
-			scriptShooting.maxNumBulletsSecondWeapon = 15;
-			scriptShooting.startTimerShootSecondWeapon = 4f;
+			scriptShooting.numBulletsSecondWeapon = 12;
+			scriptShooting.maxNumBulletsSecondWeapon = 12;
+			scriptShooting.startTimerShootSecondWeapon = 3f;
 			scriptShooting.shootSecond = bombShot;
 		}else if(typeClass == 2){//CAMPER
 			scriptMovement.acceleration = 20000f;
@@ -112,14 +112,14 @@ public class LoaderClass : NetworkBehaviour {
 			scriptGUI.maxLife = 130;
 			scriptGUI.life = 130;
 
-			scriptShooting.numBulletsFirstWeapon = 15;
-			scriptShooting.maxNumBulletsFirstWeapon = 15;
+			scriptShooting.numBulletsFirstWeapon = 8;
+			scriptShooting.maxNumBulletsFirstWeapon = 8;
 			scriptShooting.startTimerShootFirstWeapon = 4f;
 			scriptShooting.shoot = bazookaShot;
 
-			scriptShooting.numBulletsSecondWeapon = 20;
-			scriptShooting.maxNumBulletsSecondWeapon = 20;
-			scriptShooting.startTimerShootSecondWeapon = 1f;
+			scriptShooting.numBulletsSecondWeapon = 10;
+			scriptShooting.maxNumBulletsSecondWeapon = 10;
+			scriptShooting.startTimerShootSecondWeapon = 2f;
 			scriptShooting.shootSecond = laserShot;
 		}
 	}
