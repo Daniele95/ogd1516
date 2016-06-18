@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SpawnPoints : MonoBehaviour {
-	public List<GameObject> spawnpoints;
+	//public List<GameObject> spawnpoints;
 	//private Rigidbody body;
+	private SimpleController scriptMovement;
 
 	// Use this for initialization
 	void Start () {
 		//body = GetComponent<Rigidbody> ();
+		scriptMovement = GetComponent<SimpleController> ();
 	}
 	
 	// Update is called once per frame
@@ -31,6 +33,10 @@ public class SpawnPoints : MonoBehaviour {
 
 		transform.position = spawns [randomRange].transform.position;
 		transform.rotation = spawns [randomRange].transform.rotation;
+
+		scriptMovement.body.velocity = Vector3.zero;
+		scriptMovement.velocity = Vector3.zero;
+
 		//body.angularVelocity = Vector3.zero;
 		//body.velocity = Vector3.zero;
 	}

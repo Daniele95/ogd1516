@@ -44,7 +44,7 @@ public class SimpleController : NetworkBehaviour
 
 	private Shooting shooting;
 
-    private Vector3 velocity = Vector3.zero;
+    public Vector3 velocity;
     private Vector3 input;
 
     private float carHeading;
@@ -124,6 +124,8 @@ public class SimpleController : NetworkBehaviour
 			FollowCamera script = camera.GetComponent<FollowCamera> ();
 			script.target = this;
 		}
+
+		velocity = Vector3.zero;
 
 		/*if (team == 0) {
 			GetComponent<MeshRenderer> ().material.color = Color.blue;

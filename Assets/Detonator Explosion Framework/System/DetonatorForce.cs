@@ -66,7 +66,13 @@ public class DetonatorForce : DetonatorComponent
 					//align the force along the object's rotation
 					//this is wrong - need to attenuate the velocity according to distance from the explosion center			
 					//offsetting the explosion force position by the negative of the explosion's direction may help
-					hit.GetComponent<Rigidbody>().AddExplosionForce((power * size), _explosionPosition, (radius * size), (4f * MyDetonator().upwardsBias * size));
+					if (hit.CompareTag ("VehicleTeam0") || hit.CompareTag ("VehicleTeam1")) {
+						if (hit.GetComponent<GuiVehicle> ().life > 0) {
+							hit.GetComponent<Rigidbody> ().AddExplosionForce ((power * size), _explosionPosition, (radius * size), (4f * MyDetonator ().upwardsBias * size));
+						}
+					} else {
+						hit.GetComponent<Rigidbody> ().AddExplosionForce ((power * size), _explosionPosition, (radius * size), (4f * MyDetonator ().upwardsBias * size));
+					}
 					
 					//fixed 6/15/2013 - didn't work before, was sending message to this script instead :)
 					hit.gameObject.SendMessage("OnDetonatorForceHit", null, SendMessageOptions.DontRequireReceiver);
