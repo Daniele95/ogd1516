@@ -78,6 +78,8 @@ public class SimpleController : NetworkBehaviour
 
     public GameObject soundCampingGameObject;
 
+	private bool canPlay;
+
     [Command]
 	void CmdDoExplosionHitDrift(){
 		GameObject driftHitExplosion = (GameObject)Instantiate (explosionDrift, transform.position, transform.rotation);
@@ -106,6 +108,8 @@ public class SimpleController : NetworkBehaviour
 
     void Start()
     {
+		canPlay = false;
+
         body = GetComponent<Rigidbody>();
 
         myNormal = transform.up;
@@ -139,13 +143,7 @@ public class SimpleController : NetworkBehaviour
     //private float cost = 0f;
    // private bool needHover = true;
 
-   	void FixedUpdate()
-    {
-		if (!isLocalPlayer)
-			return;
-    }
-
-	void standardUpdate(){
+   	void standardUpdate(){
 		CmdIsDoingDrift (false);
         CmdIsDoingCamping(false);
 
@@ -207,6 +205,11 @@ public class SimpleController : NetworkBehaviour
     void Update()
     {
 		if (!isLocalPlayer)
+			return;
+
+		canPlay = GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay () && GameObject.Find ("ControllerGame").GetComponent<ControllerGaming>().timer > 0f;
+
+		if (!canPlay)
 			return;
 
 		RaycastHit hit;

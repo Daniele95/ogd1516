@@ -48,6 +48,8 @@ public class Shooting : NetworkBehaviour {
 
 	private LoaderClass scriptClass;
 
+	private bool canPlay;
+
 	//private Rigidbody body;
 
 	void dropBullets(int whichWeapon, int num){
@@ -136,6 +138,8 @@ public class Shooting : NetworkBehaviour {
 		weaponImageBG = GameObject.Find ("WeaponImageBG");
 
 		scriptClass = GetComponent<LoaderClass> ();
+
+		canPlay = false;
 	}
 
 	private float flashFirstWeapon = 0f;
@@ -348,6 +352,11 @@ public class Shooting : NetworkBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (gui.life <= 0)
+			return;
+
+		canPlay = GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay () && GameObject.Find ("ControllerGame").GetComponent<ControllerGaming>().timer > 0f;
+
+		if (!canPlay)
 			return;
 
         if (currentWeapon == 0 && numBulletsFirstWeapon < maxNumBulletsFirstWeapon || currentWeapon == 1 && numBulletsSecondWeapon < maxNumBulletsSecondWeapon)

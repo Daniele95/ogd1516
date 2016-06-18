@@ -73,6 +73,7 @@
      <Compile Include="Assets\HealthPickupBehaviour.cs" />
      <Compile Include="Assets\Laser\LaserBeam.cs" />
      <Compile Include="Assets\LoaderClass.cs" />
+     <Compile Include="Assets\Lobby.cs" />
      <Compile Include="Assets\Mine\ShootMineBehavior.cs" />
      <Compile Include="Assets\NetworkManagerHUD.cs" />
      <Compile Include="Assets\Orbit.cs" />
