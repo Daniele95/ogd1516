@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 /**
-* REMEMBER TO LOAD JOYPAD BUTTONS
+* REMEMBER TO LOAD JOYPAD BUTTONS AFTER
 **/
 
 public class BtnManager : MonoBehaviour {
@@ -33,7 +33,7 @@ public class BtnManager : MonoBehaviour {
             else
                 setButtonInteractible(buttons[i], false);
 
-            if (buttons[i].name.Contains("Btn2"))
+            if (buttons[i].name.Contains("Btn2") || buttons[i].name.Contains("Btn3"))
                 buttons[i].gameObject.SetActive(false);
 
             if (buttons[i].name.Contains(firstButton))
@@ -56,6 +56,23 @@ public class BtnManager : MonoBehaviour {
                 if (buttons[i].name.Equals("Btn2_PrivateGame"))
                     buttons[i].Select();
             }
+            else if (buttons[i].name.Contains("Btn3"))
+                buttons[i].gameObject.SetActive(false);
+            else
+                setButtonInteractible(buttons[i], false);
+        }
+    }
+
+    public void OpenPrivateGameMenu()
+    {
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (buttons[i].name.Contains("Btn3"))
+            {
+                buttons[i].gameObject.SetActive(true);
+                if (buttons[i].name.Equals("Btn3_Host"))
+                    buttons[i].Select();
+            }
             else
                 setButtonInteractible(buttons[i], false);
         }
@@ -65,7 +82,7 @@ public class BtnManager : MonoBehaviour {
     {
         for (int i = 0; i < buttons.Length; i++)
         {
-            if (buttons[i].name.Contains("Btn2"))
+            if (buttons[i].name.Contains("Btn2") || buttons[i].name.Contains("Btn3"))
                 buttons[i].gameObject.SetActive(false);
             else
             {
@@ -77,6 +94,12 @@ public class BtnManager : MonoBehaviour {
                 }
             }
         }
+    }
+
+    private void closeEverything()
+    {
+        for (int i = 0; i < buttons.Length; i++)
+            buttons[i].gameObject.SetActive(false);
     }
 
     private void setButtonInteractible(Button button, bool interactible)
