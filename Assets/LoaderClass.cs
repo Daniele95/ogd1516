@@ -152,8 +152,8 @@ public class LoaderClass : NetworkBehaviour {
 			for(int i = 0; i < materials.Length; i++){
 				//print (materials [i].name);
 				if(materials[i].name.Contains("METALLO")){
-					materials [i].SetColor ("_Color", new Color(167 / 255f, 25 / 255f, 123 / 255f));//0.82f, 0.92f, 0.17f
 					teamColor = new Color(167 / 255f, 25 / 255f, 123 / 255f);
+					materials [i].SetColor ("_Color", teamColor);//0.82f, 0.92f, 0.17f
 
 					break;
 				}
@@ -169,8 +169,8 @@ public class LoaderClass : NetworkBehaviour {
 			for(int i = 0; i < materials.Length; i++){
 				//print (materials [i].name);
 				if(materials[i].name.Contains("METALLO")){
-					materials [i].SetColor ("_Color", new Color(208 / 255f, 234 / 255f, 43 / 255f));//0.82f, 0.92f, 0.17f
 					teamColor = new Color(208 / 255f, 234 / 255f, 43 / 255f);
+					materials [i].SetColor ("_Color", teamColor);//0.82f, 0.92f, 0.17f
 
 					break;
 				}

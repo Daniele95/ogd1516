@@ -190,7 +190,7 @@ public class Shooting : NetworkBehaviour {
                             {
                                 flashFirstWeapon = 0f;
 
-                                needFlashFirstWeapon = 0;
+                                needFlashFirstWeapon = 3;
                             }
                         }
                     }
@@ -241,7 +241,7 @@ public class Shooting : NetworkBehaviour {
                             {
                                 flashSecondWeapon = 0f;
 
-                                needFlashSecondWeapon = 0;
+                                needFlashSecondWeapon = 3;
                             }
                         }
                     }
@@ -284,10 +284,11 @@ public class Shooting : NetworkBehaviour {
 				ammoTotal.GetComponent<Text> ().text = maxNumBulletsSecondWeapon.ToString ();
 			}
 
-			if (scriptClass.vehicleTypeClass == 0) {
-				weaponImage.GetComponent<Image> ().sprite = driftTexture;
-				weaponImageBG.GetComponent<Image> ().sprite = driftTexture;
-			} else if (scriptClass.vehicleTypeClass == 1) {
+			//if (scriptClass.vehicleTypeClass == 0) {
+			//	weaponImage.GetComponent<Image> ().sprite = driftTexture;
+			//	weaponImageBG.GetComponent<Image> ().sprite = driftTexture;
+			//} else
+			if (scriptClass.vehicleTypeClass == 1) {
 				weaponImage.GetComponent<Image> ().sprite = bombTexture;
 				weaponImageBG.GetComponent<Image> ().sprite = bombTexture;
 			} else if (scriptClass.vehicleTypeClass == 2) {
@@ -393,11 +394,21 @@ public class Shooting : NetworkBehaviour {
             return;
 
         if (Input.GetKeyDown (KeyCode.A)) {
-			if (scriptClass.vehicleTypeClass != 2) {
-				if (currentWeapon == 0)
+			if (scriptClass.vehicleTypeClass != 0) {
+				if (currentWeapon == 0) {
 					currentWeapon = 1;
-				else
+
+					if (scriptClass.vehicleTypeClass == 2) {
+						controller.isCamping = true;
+						controller.needUpdateCamping = true;
+					}
+				} else {
 					currentWeapon = 0;
+
+					if (scriptClass.vehicleTypeClass == 2) {
+						controller.isCamping = false;
+					}
+				}
 			}
 		}
   

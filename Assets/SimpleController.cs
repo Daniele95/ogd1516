@@ -199,7 +199,8 @@ public class SimpleController : NetworkBehaviour
 		}
 	}
 
-    private bool needUpdateCamping;
+	[HideInInspector]
+    public bool needUpdateCamping;
 
 
     void Update()
@@ -286,7 +287,7 @@ public class SimpleController : NetworkBehaviour
                             CmdIsDoingCamping(true);
                         }
 
-						shooting.currentWeapon = 1;
+						//shooting.currentWeapon = 1;
 
 						steerAngle += input.x * accelerationSteer * driftFrictionSteer * Mathf.Rad2Deg * Time.deltaTime;// *input.z
 						steerAngle -= steerAngle * STEER_FRICTION * Time.deltaTime;
@@ -315,8 +316,8 @@ public class SimpleController : NetworkBehaviour
 				if (input.y > 0f && body.velocity.magnitude > 1f) {
 					isDrifting = true;
 
-					if (shooting.currentWeapon == 1)
-						CmdIsDoingDrift (true);
+					//if (shooting.currentWeapon == 1)
+					CmdIsDoingDrift (true);
 
 					steerAngle += input.x * accelerationSteer * driftFrictionSteer * Mathf.Rad2Deg * Time.deltaTime;// *input.z
 					steerAngle -= steerAngle * STEER_FRICTION * Time.deltaTime;
@@ -376,21 +377,13 @@ public class SimpleController : NetworkBehaviour
 			input.z -= 1.0f;
 
 		if (inTunnel == 0) {
-			if (specialPower == 2) {
-                if (Input.GetKeyDown(KeyCode.Z))
-                    if (isCamping)
-                    {
-                        isCamping = false;
-                    }
-                    else
-                    {
-                        needUpdateCamping = true;
-                        isCamping = true;
-                    }
-			} else {
+			//if (specialPower == 2) {
+            //    if (Input.GetKeyDown(KeyCode.Z))
+                    
+			//} else {
 				if (Input.GetKey (KeyCode.Z))
 					input.y += 1.0f;
-			}
+			//}
 		}
 
         if (input != Vector3.zero)

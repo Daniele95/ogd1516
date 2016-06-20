@@ -8,7 +8,8 @@ public class GuiVehicle : NetworkBehaviour {
 	[SyncVar(hook = "OnChangeHealth")]
 	public int life = 100;
 
-	public int maxLife = 100;
+	[SyncVar]
+	public int maxLife = 130;
 
 	//public float timerRespawnHit = 1f;
 
@@ -71,7 +72,7 @@ public class GuiVehicle : NetworkBehaviour {
 		life = health;
 
 		if (healthRect != null) {
-			healthRect.transform.localScale = new Vector3 ((health / (float)maxLife), 1f, 1f);
+			healthRect.transform.localScale = new Vector3 ((life / (float)maxLife), 1f, 1f);
 
 			if (health / (float)maxLife < 0.3f) {
 				healthRect.color = Color.red;
@@ -205,6 +206,7 @@ public class GuiVehicle : NetworkBehaviour {
 		//text.transform.rotation = Quaternion.Euler (0f, text.transform.rotation.eulerAngles.y, 0f);
 
 		text.text = loaderScript.userPlayer;
+		text.color = loaderScript.teamColor;
 	}
 
 	// Update is called once per frame

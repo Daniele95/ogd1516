@@ -17,11 +17,17 @@ public class ShootBomb : NetworkBehaviour {
 	public GameObject explosionGround;
 	public GameObject explosionHitPlayer;
 
+	public GameObject soundExplosion;
+
 	[Command]
 	void CmdDoExplosionGround (){
 		GameObject shotExplosion = (GameObject)Instantiate (explosionGround, transform.position, transform.rotation);
 
 		NetworkServer.Spawn (shotExplosion);
+
+		GameObject shotExplosionHitPlayerSound = (GameObject)Instantiate (soundExplosion, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (shotExplosionHitPlayerSound);
 	}
 
 	[Command]
@@ -36,6 +42,10 @@ public class ShootBomb : NetworkBehaviour {
 		GameObject shotExplosionHitPlayer = (GameObject)Instantiate (explosionHitPlayer, transform.position, transform.rotation);
 
 		NetworkServer.Spawn (shotExplosionHitPlayer);
+
+		GameObject shotExplosionHitPlayerSound = (GameObject)Instantiate (soundExplosion, transform.position, transform.rotation);
+
+		NetworkServer.Spawn (shotExplosionHitPlayerSound);
 	}
 
     [ClientRpc]
