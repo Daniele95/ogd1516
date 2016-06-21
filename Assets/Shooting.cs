@@ -68,11 +68,11 @@ public class Shooting : NetworkBehaviour {
 		}
 	}
 
-    private GameObject shot;
-
-	[Command]
+    [Command]
 	void CmdDoFire(int weapon, bool stationary)//float rx, float ry, float rz
 	{
+		GameObject shot;
+
 		if (weapon == 0) {
 			Vector3 offset = Vector3.zero;
 
@@ -83,22 +83,46 @@ public class Shooting : NetworkBehaviour {
 					offset = shooter.forward * 8.5f;
 			}
 
-			shot = (GameObject)Instantiate (shoot, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
-			if (gameObject.CompareTag ("VehicleTeam0")){
-				shot.tag = "BulletTeam0";
-				shot.layer = 8;
-            }else if (gameObject.CompareTag ("VehicleTeam1")){
-				shot.tag = "BulletTeam1";
-				shot.layer = 9;
-            }
-			NetworkServer.Spawn(shot);
+			if (scriptClass.vehicleTypeClass == 0) {
+				offset += -shooter.right * 2f;
+				shot = (GameObject)Instantiate (shoot, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
+				if (gameObject.CompareTag ("VehicleTeam0")){
+					shot.tag = "BulletTeam0";
+					shot.layer = 8;
+				}else if (gameObject.CompareTag ("VehicleTeam1")){
+					shot.tag = "BulletTeam1";
+					shot.layer = 9;
+				}
+				NetworkServer.Spawn(shot);
+
+				offset += shooter.right * 4f;
+				shot = (GameObject)Instantiate (shoot, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
+				if (gameObject.CompareTag ("VehicleTeam0")){
+					shot.tag = "BulletTeam0";
+					shot.layer = 8;
+				}else if (gameObject.CompareTag ("VehicleTeam1")){
+					shot.tag = "BulletTeam1";
+					shot.layer = 9;
+				}
+				NetworkServer.Spawn(shot);
+			} else {
+				shot = (GameObject)Instantiate (shoot, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
+				if (gameObject.CompareTag ("VehicleTeam0")){
+					shot.tag = "BulletTeam0";
+					shot.layer = 8;
+				}else if (gameObject.CompareTag ("VehicleTeam1")){
+					shot.tag = "BulletTeam1";
+					shot.layer = 9;
+				}
+				NetworkServer.Spawn(shot);
+			}
         } else if (weapon == 1) {
 			Vector3 offset = Vector3.zero;
 
 			if (shootSecond.name.Equals ("Laser"))
 				offset = 10f * shooter.transform.forward;
 
-			GameObject shot = (GameObject)Instantiate (shootSecond, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
+			shot = (GameObject)Instantiate (shootSecond, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
 			if (gameObject.CompareTag ("VehicleTeam0")) {
 				shot.tag = "BulletTeam0";
 				//if (shootSecond.name.Equals ("Laser"))
