@@ -25,6 +25,8 @@ public class BtnManager : MonoBehaviour {
         interactibleButtonsNames.Add("Btn_NewGame");
         interactibleButtonsNames.Add("Btn_Exit");
         interactibleButtonsNames.Add("Btn2_PrivateGame");
+        interactibleButtonsNames.Add("Btn3_Host");
+        interactibleButtonsNames.Add("Btn3_Join");
         buttons = canvas.GetComponentsInChildren<Button>(true);
         for(int i = 0; i < buttons.Length; i++)
         {
@@ -77,6 +79,18 @@ public class BtnManager : MonoBehaviour {
                 setButtonInteractible(buttons[i], false);
         }
     }
+  
+    /*public void TextFieldFocus()
+    {
+        for(int i = 0; i < buttons.Length; i++)
+        {
+            if(buttons[i].name.Equals("Btn3_Join"))
+            {
+                buttons[i].GetComponentInChildren<InputField>().Select();
+                buttons[i].GetComponentInChildren<InputField>().ActivateInputField();
+            }
+        }
+    }*/
 
     public void CloseNewGameMenu()
     {
@@ -96,7 +110,25 @@ public class BtnManager : MonoBehaviour {
         }
     }
 
-    private void closeEverything()
+    public void ClosePrivateGameMenu()
+    {
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (buttons[i].name.Contains("Btn3"))
+                buttons[i].gameObject.SetActive(false);
+            else
+                if (interactibleButtonsNames.Contains(buttons[i].name) && buttons[i].name.Contains("Btn2"))
+                {
+                    setButtonInteractible(buttons[i], true);
+                    if (buttons[i].name.Contains("Private"))
+                        buttons[i].Select();
+                }
+            else
+                setButtonInteractible(buttons[i], false);
+        }
+    }
+
+    public void CloseEverything()
     {
         for (int i = 0; i < buttons.Length; i++)
             buttons[i].gameObject.SetActive(false);
