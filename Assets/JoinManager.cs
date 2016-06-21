@@ -4,11 +4,13 @@ using UnityEngine.UI;
 using System.Text.RegularExpressions;
 
 public class JoinManager : MonoBehaviour {
+    public Canvas btnCanvas;
 
     private GameObject canvas;
     private InputField inputField;
     private Text lbl;
-    string input;
+    private BtnManager btnManager;
+    private string input;
 
 	// Use this for initialization
 	void Start () {
@@ -17,18 +19,40 @@ public class JoinManager : MonoBehaviour {
         lbl = canvas.GetComponentInChildren<Text>();
         lbl.gameObject.SetActive(false);
         inputField.gameObject.SetActive(false);
+        btnManager = btnCanvas.GetComponent<BtnManager>();
 	}
 	
 	public void WakeUp()
     {
         inputField.gameObject.SetActive(true);
-        lbl.gameObject.SetActive(false);
+        lbl.gameObject.SetActive(true);
         inputField.Select();
         inputField.ActivateInputField();
+    }
+
+    public void GoToSleep()
+    {
+        inputField.gameObject.SetActive(false);
+        lbl.gameObject.SetActive(false);
+    }
+
+    public void Send()
+    {
+        inputField.gameObject.SetActive(false);
+        lbl.gameObject.SetActive(false);
     }
 
     void Update()
     {
         inputField.text = Regex.Replace(inputField.text, @"[^0-9 .]", "");
+       if(Input.GetButtonDown("XboxA") && inputField.isActiveAndEnabled && inputField.isFocused)
+       {
+           Send();
+       }
+       if(Input.GetButtonDown("XboxB") && inputField.isActiveAndEnabled && inputField.isFocused)
+       {
+           btnManager.ReturnToPrivateGameMenu();
+           GoToSleep();
+        }
     }
 }

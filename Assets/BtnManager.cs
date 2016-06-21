@@ -42,11 +42,17 @@ public class BtnManager : MonoBehaviour {
                 buttons[i].Select();
         }
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    internal void ReturnToPrivateGameMenu()
+    {
+        for(int i = 0; i<buttons.Length; i++)
+        {
+            buttons[i].gameObject.SetActive(true);
+            setButtonInteractible(buttons[i], buttons[i].name.Contains("Btn3") && interactibleButtonsNames.Contains(buttons[i].name));
+            if (buttons[i].name.Equals("Btn3_Host"))
+                buttons[i].Select();
+        }
+    }
 
     public void OpenNewGameMenu()
     {
