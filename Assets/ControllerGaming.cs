@@ -117,9 +117,14 @@ public class ControllerGaming : NetworkBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (timer <= 0f) {
+			GameObject.Find ("WinTeam").GetComponent<Text> ().text = (scoreTeam0 > scoreTeam1 ? "Green Team" : "Violet Team") +" wins!";
+		}
+
 		if (!isServer)
 			return;
 
-		CmdUpdateArena ();
+		if(GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay ())
+			CmdUpdateArena ();
 	}
 }

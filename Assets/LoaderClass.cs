@@ -152,8 +152,8 @@ public class LoaderClass : NetworkBehaviour {
 			for(int i = 0; i < materials.Length; i++){
 				//print (materials [i].name);
 				if(materials[i].name.Contains("METALLO")){
-					materials [i].SetColor ("_Color", new Color(167 / 255f, 25 / 255f, 123 / 255f));//0.82f, 0.92f, 0.17f
 					teamColor = new Color(167 / 255f, 25 / 255f, 123 / 255f);
+					materials [i].SetColor ("_Color", teamColor);//0.82f, 0.92f, 0.17f
 
 					break;
 				}
@@ -169,8 +169,8 @@ public class LoaderClass : NetworkBehaviour {
 			for(int i = 0; i < materials.Length; i++){
 				//print (materials [i].name);
 				if(materials[i].name.Contains("METALLO")){
-					materials [i].SetColor ("_Color", new Color(208 / 255f, 234 / 255f, 43 / 255f));//0.82f, 0.92f, 0.17f
 					teamColor = new Color(208 / 255f, 234 / 255f, 43 / 255f);
+					materials [i].SetColor ("_Color", teamColor);//0.82f, 0.92f, 0.17f
 
 					break;
 				}
@@ -204,9 +204,14 @@ public class LoaderClass : NetworkBehaviour {
 	// Use this for initialization
 	void Start () {
 		if (isLocalPlayer) {
-			NetworkManagerHUD netScript = GameObject.Find ("ControllerNet").gameObject.GetComponent<NetworkManagerHUD> ();
+			GameObject net = GameObject.Find ("ControllerNet");
+			NetworkManagerHUD netScript = net.GetComponent<NetworkManagerHUD> ();
+			ControllerNet controllerNetScript = net.GetComponent<ControllerNet> ();
 
-			teamPlayer = netScript.team;
+			if (!controllerNetScript.matchmaking) {
+				teamPlayer = netScript.team;
+			}
+
 			vehicleTypeClass = netScript.classType;
 			userPlayer = netScript.player;
 

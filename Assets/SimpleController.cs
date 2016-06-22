@@ -44,7 +44,7 @@ public class SimpleController : NetworkBehaviour
 
 	private Shooting shooting;
 
-    private Vector3 velocity = Vector3.zero;
+    public Vector3 velocity;
     private Vector3 input;
 
     private float carHeading;
@@ -78,6 +78,8 @@ public class SimpleController : NetworkBehaviour
 
     public GameObject soundCampingGameObject;
 
+	private bool canPlay;
+
     [Command]
 	void CmdDoExplosionHitDrift(){
 		GameObject driftHitExplosion = (GameObject)Instantiate (explosionDrift, transform.position, transform.rotation);
@@ -106,6 +108,8 @@ public class SimpleController : NetworkBehaviour
 
     void Start()
     {
+		canPlay = false;
+
         body = GetComponent<Rigidbody>();
 
         myNormal = transform.up;
@@ -125,6 +129,8 @@ public class SimpleController : NetworkBehaviour
 			script.target = this;
 		}
 
+		velocity = Vector3.zero;
+
 		/*if (team == 0) {
 			GetComponent<MeshRenderer> ().material.color = Color.blue;
 			gameObject.tag = "VehicleTeam0";
@@ -137,13 +143,7 @@ public class SimpleController : NetworkBehaviour
     //private float cost = 0f;
    // private bool needHover = true;
 
-   	void FixedUpdate()
-    {
-		if (!isLocalPlayer)
-			return;
-    }
-
-	void standardUpdate(){
+   	void standardUpdate(){
 		CmdIsDoingDrift (false);
         CmdIsDoingCamping(false);
 
@@ -199,13 +199,23 @@ public class SimpleController : NetworkBehaviour
 		}
 	}
 
-    private bool needUpdateCamping;
+	[HideInInspector]
+    public bool needUpdateCamping;
 
 
     void Update()
     {
 		if (!isLocalPlayer)
 			return;
+
+		canPlay = GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay () && GameObject.Find ("ControllerGame").GetComponent<ControllerGaming>().timer > 0f;
+
+		if (!canPlay) {
+			body.velocity = Vector3.zero;
+			velocity = Vector3.zero;
+
+			return;
+		}
 
 		RaycastHit hit;
 
@@ -244,6 +254,9 @@ public class SimpleController : NetworkBehaviour
 
 		if (gui.life > 0) {
 			GetInput ();
+		}else {
+			body.velocity = Vector3.zero;
+			velocity = Vector3.zero;
 		}
 
 		if (inTunnel == 1) {
@@ -281,7 +294,7 @@ public class SimpleController : NetworkBehaviour
                             CmdIsDoingCamping(true);
                         }
 
-						shooting.currentWeapon = 1;
+						//shooting.currentWeapon = 1;
 
 						steerAngle += input.x * accelerationSteer * driftFrictionSteer * Mathf.Rad2Deg * Time.deltaTime;// *input.z
 						steerAngle -= steerAngle * STEER_FRICTION * Time.deltaTime;
@@ -310,8 +323,8 @@ public class SimpleController : NetworkBehaviour
 				if (input.y > 0f && body.velocity.magnitude > 1f) {
 					isDrifting = true;
 
-					if (shooting.currentWeapon == 1)
-						CmdIsDoingDrift (true);
+					//if (shooting.currentWeapon == 1)
+					CmdIsDoingDrift (true);
 
 					steerAngle += input.x * accelerationSteer * driftFrictionSteer * Mathf.Rad2Deg * Time.deltaTime;// *input.z
 					steerAngle -= steerAngle * STEER_FRICTION * Time.deltaTime;
@@ -371,21 +384,13 @@ public class SimpleController : NetworkBehaviour
 			input.z -= 1.0f;
 
 		if (inTunnel == 0) {
-			if (specialPower == 2) {
-                if (Input.GetKeyDown(KeyCode.Z))
-                    if (isCamping)
-                    {
-                        isCamping = false;
-                    }
-                    else
-                    {
-                        needUpdateCamping = true;
-                        isCamping = true;
-                    }
-			} else {
+			//if (specialPower == 2) {
+            //    if (Input.GetKeyDown(KeyCode.Z))
+                    
+			//} else {
 				if (Input.GetKey (KeyCode.Z))
 					input.y += 1.0f;
-			}
+			//}
 		}
 
         if (input != Vector3.zero)

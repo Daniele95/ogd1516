@@ -4,7 +4,9 @@ using UnityEngine.Networking;
 using System.Collections.Generic;
 
 public class ControllerNet : NetworkManager {
-	
+	public int maxPlayers = 2;
+
+	public bool matchmaking = true;
 
 	//private bool firstTeam = true;
 
@@ -30,8 +32,13 @@ public class ControllerNet : NetworkManager {
 		print ("ON SERVER CONNNECT: " + loaderScript.typeClass);
 	}*/
 
+	private Lobby lobby;
+
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
 	{
+		//if (GameObject.Find("Lobby").GetComponent<Lobby>().activePlayers == maxPlayers)
+		//	return;
+
 		GameObject player = (GameObject)Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 		//SpawnPoints scriptSpawnPoints = player.GetComponent<SpawnPoints> ();
 		//string whichTagTeam = "SpawnTeam0";
@@ -70,5 +77,15 @@ public class ControllerNet : NetworkManager {
 
 		//player.transform.position = spawns [randomRange].transform.position;
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+
+		lobby = GameObject.Find ("Lobby").GetComponent<Lobby> ();
+
+		lobby.activePlayers++;
+
+		lobby.matchmaker (player);
 	}
+
+	public bool canPlay(){
+		return GameObject.Find ("Lobby").GetComponent<Lobby> ().activePlayers == maxPlayers;
+	}	
 }

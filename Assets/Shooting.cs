@@ -48,6 +48,8 @@ public class Shooting : NetworkBehaviour {
 
 	private LoaderClass scriptClass;
 
+	private bool canPlay;
+
 	//private Rigidbody body;
 
 	void dropBullets(int whichWeapon, int num){
@@ -66,11 +68,11 @@ public class Shooting : NetworkBehaviour {
 		}
 	}
 
-    private GameObject shot;
-
-	[Command]
+    [Command]
 	void CmdDoFire(int weapon, bool stationary)//float rx, float ry, float rz
 	{
+		GameObject shot;
+
 		if (weapon == 0) {
 			Vector3 offset = Vector3.zero;
 
@@ -81,22 +83,46 @@ public class Shooting : NetworkBehaviour {
 					offset = shooter.forward * 8.5f;
 			}
 
-			shot = (GameObject)Instantiate (shoot, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
-			if (gameObject.CompareTag ("VehicleTeam0")){
-				shot.tag = "BulletTeam0";
-				shot.layer = 8;
-            }else if (gameObject.CompareTag ("VehicleTeam1")){
-				shot.tag = "BulletTeam1";
-				shot.layer = 9;
-            }
-			NetworkServer.Spawn(shot);
+			if (scriptClass.vehicleTypeClass == 0) {
+				offset += -shooter.right * 2f;
+				shot = (GameObject)Instantiate (shoot, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
+				if (gameObject.CompareTag ("VehicleTeam0")){
+					shot.tag = "BulletTeam0";
+					shot.layer = 8;
+				}else if (gameObject.CompareTag ("VehicleTeam1")){
+					shot.tag = "BulletTeam1";
+					shot.layer = 9;
+				}
+				NetworkServer.Spawn(shot);
+
+				offset += shooter.right * 4f;
+				shot = (GameObject)Instantiate (shoot, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
+				if (gameObject.CompareTag ("VehicleTeam0")){
+					shot.tag = "BulletTeam0";
+					shot.layer = 8;
+				}else if (gameObject.CompareTag ("VehicleTeam1")){
+					shot.tag = "BulletTeam1";
+					shot.layer = 9;
+				}
+				NetworkServer.Spawn(shot);
+			} else {
+				shot = (GameObject)Instantiate (shoot, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
+				if (gameObject.CompareTag ("VehicleTeam0")){
+					shot.tag = "BulletTeam0";
+					shot.layer = 8;
+				}else if (gameObject.CompareTag ("VehicleTeam1")){
+					shot.tag = "BulletTeam1";
+					shot.layer = 9;
+				}
+				NetworkServer.Spawn(shot);
+			}
         } else if (weapon == 1) {
 			Vector3 offset = Vector3.zero;
 
 			if (shootSecond.name.Equals ("Laser"))
 				offset = 10f * shooter.transform.forward;
 
-			GameObject shot = (GameObject)Instantiate (shootSecond, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
+			shot = (GameObject)Instantiate (shootSecond, shooter.position + offset, shooter.rotation);//Quaternion.Euler(rx, ry, rz)
 			if (gameObject.CompareTag ("VehicleTeam0")) {
 				shot.tag = "BulletTeam0";
 				//if (shootSecond.name.Equals ("Laser"))
@@ -136,6 +162,8 @@ public class Shooting : NetworkBehaviour {
 		weaponImageBG = GameObject.Find ("WeaponImageBG");
 
 		scriptClass = GetComponent<LoaderClass> ();
+
+		canPlay = false;
 	}
 
 	private float flashFirstWeapon = 0f;
@@ -186,7 +214,7 @@ public class Shooting : NetworkBehaviour {
                             {
                                 flashFirstWeapon = 0f;
 
-                                needFlashFirstWeapon = 0;
+                                needFlashFirstWeapon = 3;
                             }
                         }
                     }
@@ -237,7 +265,7 @@ public class Shooting : NetworkBehaviour {
                             {
                                 flashSecondWeapon = 0f;
 
-                                needFlashSecondWeapon = 0;
+                                needFlashSecondWeapon = 3;
                             }
                         }
                     }
@@ -280,10 +308,11 @@ public class Shooting : NetworkBehaviour {
 				ammoTotal.GetComponent<Text> ().text = maxNumBulletsSecondWeapon.ToString ();
 			}
 
-			if (scriptClass.vehicleTypeClass == 0) {
-				weaponImage.GetComponent<Image> ().sprite = driftTexture;
-				weaponImageBG.GetComponent<Image> ().sprite = driftTexture;
-			} else if (scriptClass.vehicleTypeClass == 1) {
+			//if (scriptClass.vehicleTypeClass == 0) {
+			//	weaponImage.GetComponent<Image> ().sprite = driftTexture;
+			//	weaponImageBG.GetComponent<Image> ().sprite = driftTexture;
+			//} else
+			if (scriptClass.vehicleTypeClass == 1) {
 				weaponImage.GetComponent<Image> ().sprite = bombTexture;
 				weaponImageBG.GetComponent<Image> ().sprite = bombTexture;
 			} else if (scriptClass.vehicleTypeClass == 2) {
@@ -350,6 +379,11 @@ public class Shooting : NetworkBehaviour {
 		if (gui.life <= 0)
 			return;
 
+		canPlay = GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay () && GameObject.Find ("ControllerGame").GetComponent<ControllerGaming>().timer > 0f;
+
+		if (!canPlay)
+			return;
+
         if (currentWeapon == 0 && numBulletsFirstWeapon < maxNumBulletsFirstWeapon || currentWeapon == 1 && numBulletsSecondWeapon < maxNumBulletsSecondWeapon)
         {
             GameObject[] pickups = GameObject.FindGameObjectsWithTag("AmmoPickup");
@@ -384,11 +418,21 @@ public class Shooting : NetworkBehaviour {
             return;
 
         if (Input.GetKeyDown (KeyCode.A)) {
-			if (scriptClass.vehicleTypeClass != 2) {
-				if (currentWeapon == 0)
+			if (scriptClass.vehicleTypeClass != 0) {
+				if (currentWeapon == 0) {
 					currentWeapon = 1;
-				else
+
+					if (scriptClass.vehicleTypeClass == 2) {
+						controller.isCamping = true;
+						controller.needUpdateCamping = true;
+					}
+				} else {
 					currentWeapon = 0;
+
+					if (scriptClass.vehicleTypeClass == 2) {
+						controller.isCamping = false;
+					}
+				}
 			}
 		}
   
