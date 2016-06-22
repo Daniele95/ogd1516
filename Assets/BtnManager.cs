@@ -96,8 +96,6 @@ public class BtnManager : MonoBehaviour {
 
     public void OpenClassSelection()
     {
-        print(classMeshManager + " " + classUIManager);
-
         classMeshManager.gameObject.SetActive(true);
         classUIManager.gameObject.SetActive(true);
 

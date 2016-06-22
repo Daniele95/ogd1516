@@ -63,13 +63,13 @@ public class ClassMenuManager : MonoBehaviour {
         classNames[5] = "Chainer";
         classNames[6] = "Defender";
 
-        descriptions[0] = "Short description of the Drifter class";
-        descriptions[1] = "Short description of the Miner class";
-        descriptions[2] = "Short description of the Camper class";
-        descriptions[3] = "Short description of the Medical class";
-        descriptions[4] = "Short description of the Rammer class";
-        descriptions[5] = "Short description of the Chainer class";
-        descriptions[6] = "Short description of the Defender class";
+        descriptions[0] = "Hit the enemies drifting, with the machine gun or sideblades if the enemy comes up beside.";
+        descriptions[1] = "Hide mines everywhere to trap the opponent or throw the bombs with a catapult.";
+        descriptions[2] = "Low but strong, knock down the enemy with a bazooka or a laser cannon, choosing the camping modality.";
+        descriptions[3] = "Cure your mates or poison your opponents, following and supporting the team.";
+        descriptions[4] = "Fast and strong, you could break down the enemy only colliding, or burn through a flame thrower.";
+        descriptions[5] = "Enchain the enemy to attack him directly with the needles on your car body.";
+        descriptions[6] = "Protect you and your mate with the shield, throwing bombs around the arena.";
 
         ShowConfiguration(currentConfiguration);
     }
