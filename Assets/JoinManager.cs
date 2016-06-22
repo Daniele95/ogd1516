@@ -42,12 +42,13 @@ public class JoinManager : MonoBehaviour {
 
     public void Send()
     {
+        classMenuManager.GetComponent<ClassMenuManager>().host = false;
+        classMenuManager.GetComponent<ClassMenuManager>().ipAddress = inputField.text;
+
         GoToSleep();
 
         classMenuManager.gameObject.SetActive(true);
         classMenuUIManager.gameObject.SetActive(true);
-
-        classMenuManager.GetComponent<ClassMenuManager>().host = false;
     }
 
     void Update()

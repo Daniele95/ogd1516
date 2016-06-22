@@ -5,10 +5,10 @@ namespace UnityEngine.Networking
 	[AddComponentMenu("Network/NetworkManagerHUD")]
 	[RequireComponent(typeof(NetworkManager))]
 	[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-	public class NetworkManagerHUD : MonoBehaviour
+	public class CustomNetworkManagerHUD : MonoBehaviour
 	{
 		public NetworkManager manager;
-		[SerializeField] public bool showGUI = true;
+		[SerializeField] public bool showGUI = false;
 		[SerializeField] public int offsetX;
 		[SerializeField] public int offsetY;
 
@@ -22,6 +22,8 @@ namespace UnityEngine.Networking
 		void Awake()
 		{
 			manager = GetComponent<NetworkManager>();
+            //this avoid the destruction of network manager
+            DontDestroyOnLoad(transform.gameObject); 
 		}
 
 		void Update()
@@ -157,7 +159,6 @@ namespace UnityEngine.Networking
 				//}
 				//ypos += spacing;
 			}
-
 			if (!NetworkServer.active && !NetworkClient.active)
 			{
 				ypos += 10;
@@ -248,6 +249,22 @@ namespace UnityEngine.Networking
 				}
 			}
 		}
-	}
+
+        public void startClient(string ipAddress)
+        {
+            manager.networkAddress = ipAddress;
+            manager.StartClient();
+        }
+
+        public void startHost()
+        {
+            manager.StartHost();
+        }
+
+        public void setClass(int classType)
+        {
+            this.classType = classType;
+        }
+    }
 };
 #endif //ENABLE_UNET

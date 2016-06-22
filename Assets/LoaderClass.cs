@@ -205,7 +205,7 @@ public class LoaderClass : NetworkBehaviour {
 	void Start () {
 		if (isLocalPlayer) {
 			GameObject net = GameObject.Find ("ControllerNet");
-			NetworkManagerHUD netScript = net.GetComponent<NetworkManagerHUD> ();
+			CustomNetworkManagerHUD netScript = net.GetComponent<CustomNetworkManagerHUD> ();
 			ControllerNet controllerNetScript = net.GetComponent<ControllerNet> ();
 
 			if (!controllerNetScript.matchmaking) {

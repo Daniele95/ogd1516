@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ClassMenuManager : MonoBehaviour {
 
@@ -22,6 +23,8 @@ public class ClassMenuManager : MonoBehaviour {
     public Text classText;
     public Text shortDescription;
     public Text LblSpecialAbility;
+
+    public string ipAddress;
 
     public Sprite shotSprite;
     public Sprite mineSprite;
@@ -111,7 +114,18 @@ public class ClassMenuManager : MonoBehaviour {
                 GameObject.Find("Cnvs_join").GetComponent<JoinManager>().WakeUp();
         }
         if (Input.GetButtonDown("XboxA"))
-            print("Let's play");
+            if(host && currentConfiguration < 3)
+            {
+                GameObject.Find("ControllerNet").GetComponent<UnityEngine.Networking.CustomNetworkManagerHUD>().setClass(currentConfiguration);
+                GameObject.Find("ControllerNet").GetComponent<UnityEngine.Networking.CustomNetworkManagerHUD>().startHost();
+                SceneManager.LoadScene("demo", LoadSceneMode.Single);
+            }
+            else if(!host && currentConfiguration < 3)
+            {
+                GameObject.Find("ControllerNet").GetComponent<UnityEngine.Networking.CustomNetworkManagerHUD>().setClass(currentConfiguration);
+                GameObject.Find("ControllerNet").GetComponent<UnityEngine.Networking.CustomNetworkManagerHUD>().startClient(ipAddress);
+                SceneManager.LoadScene("demo", LoadSceneMode.Single);
+            }
 
     }
 
