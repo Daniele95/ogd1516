@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 
 public class JoinManager : MonoBehaviour {
     public Canvas btnCanvas;
+    public Canvas classMenuManager;
+    public Canvas classMenuUIManager;
 
     private GameObject canvas;
     private InputField inputField;
@@ -28,6 +30,8 @@ public class JoinManager : MonoBehaviour {
         lbl.gameObject.SetActive(true);
         inputField.Select();
         inputField.ActivateInputField();
+        classMenuManager.gameObject.SetActive(false);
+        classMenuUIManager.gameObject.SetActive(false);
     }
 
     public void GoToSleep()
@@ -38,8 +42,12 @@ public class JoinManager : MonoBehaviour {
 
     public void Send()
     {
-        inputField.gameObject.SetActive(false);
-        lbl.gameObject.SetActive(false);
+        GoToSleep();
+
+        classMenuManager.gameObject.SetActive(true);
+        classMenuUIManager.gameObject.SetActive(true);
+
+        classMenuManager.GetComponent<ClassMenuManager>().host = false;
     }
 
     void Update()

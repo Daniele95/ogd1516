@@ -10,6 +10,9 @@ using System.Collections.Generic;
 
 public class BtnManager : MonoBehaviour {
 
+    public Canvas classMeshManager;
+    public Canvas classUIManager;
+
     private GameObject canvas;
     private Button[] buttons;
     private string firstButton = "Btn_NewGame";
@@ -19,6 +22,9 @@ public class BtnManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        classMeshManager.gameObject.SetActive(false);
+        classUIManager.gameObject.SetActive(false);
+
         canvas = this.gameObject;
         activeColor = new Color(1f, 1f, 1f, 1f);
         inactiveColor = new Color(148 / 255f, 148 / 255f, 148 / 255f, 1f);
@@ -45,6 +51,8 @@ public class BtnManager : MonoBehaviour {
 
     internal void ReturnToPrivateGameMenu()
     {
+        classUIManager.gameObject.SetActive(false);
+        classMeshManager.gameObject.SetActive(false);
         for(int i = 0; i<buttons.Length; i++)
         {
             buttons[i].gameObject.SetActive(true);
@@ -85,19 +93,19 @@ public class BtnManager : MonoBehaviour {
                 setButtonInteractible(buttons[i], false);
         }
     }
-  
-    /*public void TextFieldFocus()
-    {
-        for(int i = 0; i < buttons.Length; i++)
-        {
-            if(buttons[i].name.Equals("Btn3_Join"))
-            {
-                buttons[i].GetComponentInChildren<InputField>().Select();
-                buttons[i].GetComponentInChildren<InputField>().ActivateInputField();
-            }
-        }
-    }*/
 
+    public void OpenClassSelection()
+    {
+        print(classMeshManager + " " + classUIManager);
+
+        classMeshManager.gameObject.SetActive(true);
+        classUIManager.gameObject.SetActive(true);
+
+        classMeshManager.GetComponent<ClassMenuManager>().host = true;
+
+        CloseEverything();
+    }
+  
     public void CloseNewGameMenu()
     {
         for (int i = 0; i < buttons.Length; i++)

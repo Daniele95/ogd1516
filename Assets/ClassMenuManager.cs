@@ -9,16 +9,36 @@ public class ClassMenuManager : MonoBehaviour {
     public GameObject camperMesh;
     public Image arrowRight;
     public Image arrowLeft;
+    public Sprite arrowLeft_glow;
+    public Sprite arrowRight_glow;
     public Image health;
     public Image speed;
-    public Image hex_firstWeapon;       //hexes contains the logos and ammo information
-    public Image hex_secondWeapon;
-    public Image hex_specialAbility;
+    public RawImage hex_firstWeapon;       //hexes contains the logos and ammo information
+    public RawImage hex_secondWeapon;
+    public RawImage hex_specialAbility;
     public Text healthText;
     public Text speedText;
     public Text classText;
     public Text shortDescription;
     public Text LblSpecialAbility;
+
+    public Sprite shotSprite;
+    public Sprite mineSprite;
+    public Sprite laserSprite;
+    public Sprite driftSprite;
+    public Sprite bombSprite;
+    public Sprite bazookaSprite;
+    public Sprite chainSprite;
+    public Sprite shieldSprite;
+    public Sprite needlesSprite;
+    public Sprite rotatingBladesSprite;
+    public Sprite poisonSprite;
+    public Sprite flameThrowerSprite;
+    public Sprite cureSprite;
+    public Sprite driftingSprite;
+    public Sprite camperSprite;
+
+    public bool host;
 
     private GameObject canvas;
     private GameObject activeMesh;
@@ -34,7 +54,6 @@ public class ClassMenuManager : MonoBehaviour {
         canvas = gameObject;
         axisInUse = false;
         currentConfiguration = 0;
-        ShowConfiguration(currentConfiguration);
 
         classNames[0] = "Drifter";
         classNames[1] = "Miner";
@@ -51,6 +70,8 @@ public class ClassMenuManager : MonoBehaviour {
         descriptions[4] = "Short description of the Rammer class";
         descriptions[5] = "Short description of the Chainer class";
         descriptions[6] = "Short description of the Defender class";
+
+        ShowConfiguration(currentConfiguration);
     }
 
     void FixedUpdate()
@@ -79,36 +100,51 @@ public class ClassMenuManager : MonoBehaviour {
         }
         else
             axisInUse = false;
+
+        if (Input.GetButtonDown("XboxB"))
+        {
+            if(host)
+                GameObject.Find("Cnvs_btns").GetComponent<BtnManager>().ReturnToPrivateGameMenu();
+            else
+                GameObject.Find("Cnvs_join").GetComponent<JoinManager>().WakeUp();
+        }
+        if (Input.GetButtonDown("XboxA"))
+            print("Let's play");
+
     }
 
     private void nextConfiguration()
     {
-        ShowConfiguration((++currentConfiguration) % NUMBER_OF_CONFIGURATIONS);
+        currentConfiguration = (++currentConfiguration) % NUMBER_OF_CONFIGURATIONS;
+        ShowConfiguration(currentConfiguration);
     }
 
     private void previousConfiguration()
     {
-        ShowConfiguration((--currentConfiguration) % NUMBER_OF_CONFIGURATIONS);
+        currentConfiguration--;
+        if (currentConfiguration < 0)
+            currentConfiguration = NUMBER_OF_CONFIGURATIONS-1;
+        ShowConfiguration(currentConfiguration);
     }
 
     private void ShowConfiguration(int configuration)
     {
-        if (configuration > (NUMBER_OF_CONFIGURATIONS - 1) || configuration < 0)
-            configuration = 0;
-
         switch(configuration)
         {
             case 0:         //Drifter
                 activateDrifter();
-                //changeweaponlogo
+                hex_firstWeapon.GetComponentInChildren<Image>().sprite = shotSprite;
+                hex_secondWeapon.GetComponentInChildren<Image>().sprite = driftSprite;
+                hex_specialAbility.GetComponentInChildren<Image>().sprite = driftingSprite;
                 hex_firstWeapon.GetComponentInChildren<Text>().text = "125";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "-";
                 hex_specialAbility.gameObject.SetActive(true);
                 LblSpecialAbility.gameObject.SetActive(true);
-                //specialabilitylogo
                 break;
             case 1:         //Miner
                 activateMiner();
+                hex_firstWeapon.GetComponentInChildren<Image>().sprite = mineSprite;
+                hex_secondWeapon.GetComponentInChildren<Image>().sprite = bombSprite;
                 hex_firstWeapon.GetComponentInChildren<Text>().text = "10";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "12";
                 hex_specialAbility.gameObject.SetActive(false);
@@ -116,6 +152,9 @@ public class ClassMenuManager : MonoBehaviour {
                 break;
             case 2:         //Camper
                 activateCamper();
+                hex_firstWeapon.GetComponentInChildren<Image>().sprite = bazookaSprite;
+                hex_secondWeapon.GetComponentInChildren<Image>().sprite = laserSprite;
+                hex_specialAbility.GetComponentInChildren<Image>().sprite = camperSprite;
                 hex_firstWeapon.GetComponentInChildren<Text>().text = "8";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "10";
                 hex_specialAbility.gameObject.SetActive(true);
@@ -123,6 +162,9 @@ public class ClassMenuManager : MonoBehaviour {
                 break;
             case 3:         //Medical
                 activateFake();
+                hex_firstWeapon.GetComponentInChildren<Image>().sprite = cureSprite;
+                hex_secondWeapon.GetComponentInChildren<Image>().sprite = poisonSprite;
+                hex_specialAbility.GetComponentInChildren<Image>().sprite = cureSprite;
                 hex_firstWeapon.GetComponentInChildren<Text>().text = "90";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "10";
                 hex_specialAbility.gameObject.SetActive(true);
@@ -130,6 +172,8 @@ public class ClassMenuManager : MonoBehaviour {
                 break;
             case 4:         //Rammer
                 activateFake();
+                hex_firstWeapon.GetComponentInChildren<Image>().sprite = rotatingBladesSprite;
+                hex_secondWeapon.GetComponentInChildren<Image>().sprite = flameThrowerSprite;
                 hex_firstWeapon.GetComponentInChildren<Text>().text = "-";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "90";
                 hex_specialAbility.gameObject.SetActive(false);
@@ -137,6 +181,8 @@ public class ClassMenuManager : MonoBehaviour {
                 break;
             case 5:         //Chainer
                 activateFake();
+                hex_firstWeapon.GetComponentInChildren<Image>().sprite = chainSprite;
+                hex_secondWeapon.GetComponentInChildren<Image>().sprite = needlesSprite;
                 hex_firstWeapon.GetComponentInChildren<Text>().text = "-";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "-";
                 hex_specialAbility.gameObject.SetActive(false);
@@ -144,6 +190,8 @@ public class ClassMenuManager : MonoBehaviour {
                 break;
             case 6:         //Defender
                 activateFake();
+                hex_firstWeapon.GetComponentInChildren<Image>().sprite = shieldSprite;
+                hex_secondWeapon.GetComponentInChildren<Image>().sprite = bombSprite;
                 hex_firstWeapon.GetComponentInChildren<Text>().text = "-";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "12";
                 hex_specialAbility.gameObject.SetActive(false);

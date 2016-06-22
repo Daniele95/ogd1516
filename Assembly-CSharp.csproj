@@ -38,16 +38,18 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>C:/Users/stefa/Editor/Data/Managed/UnityEngine.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>C:/Users/stefa/Editor/Data/Managed/UnityEditor.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\AmmoPickupBehaviour.cs" />
      <Compile Include="Assets\Bazooka\ShootBazooka.cs" />
      <Compile Include="Assets\Bomb\ShootBomb.cs" />
+     <Compile Include="Assets\BtnManager.cs" />
+     <Compile Include="Assets\ClassMenuManager.cs" />
      <Compile Include="Assets\ControllerGaming.cs" />
      <Compile Include="Assets\ControllerNet.cs" />
      <Compile Include="Assets\Detonator Explosion Framework\Sample Supporting Emitters\DetonatorSprayHelper.cs" />
@@ -71,6 +73,8 @@
      <Compile Include="Assets\FollowCamera.cs" />
      <Compile Include="Assets\GuiVehicle.cs" />
      <Compile Include="Assets\HealthPickupBehaviour.cs" />
+     <Compile Include="Assets\InputFieldBehaviour.cs" />
+     <Compile Include="Assets\JoinManager.cs" />
      <Compile Include="Assets\Laser\LaserBeam.cs" />
      <Compile Include="Assets\LoaderClass.cs" />
      <Compile Include="Assets\Mine\ShootMineBehavior.cs" />
@@ -99,10 +103,10 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
  <Reference Include="UnityEngine.UI">
- <HintPath>C:/Users/stefa/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
- <HintPath>C:/Users/stefa/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
