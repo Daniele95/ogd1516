@@ -210,8 +210,12 @@ public class SimpleController : NetworkBehaviour
 
 		canPlay = GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay () && GameObject.Find ("ControllerGame").GetComponent<ControllerGaming>().timer > 0f;
 
-		if (!canPlay)
+		if (!canPlay) {
+			body.velocity = Vector3.zero;
+			velocity = Vector3.zero;
+
 			return;
+		}
 
 		RaycastHit hit;
 

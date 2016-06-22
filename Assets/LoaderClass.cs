@@ -211,7 +211,7 @@ public class LoaderClass : NetworkBehaviour {
 			if (!controllerNetScript.matchmaking) {
 				teamPlayer = netScript.team;
 			}
-			print (teamPlayer);
+
 			vehicleTypeClass = netScript.classType;
 			userPlayer = netScript.player;
 

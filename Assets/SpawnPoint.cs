@@ -20,6 +20,7 @@ public class SpawnPoint : MonoBehaviour {
 			GameObject[] team0 = GameObject.FindGameObjectsWithTag ("VehicleTeam0");
 
 			for (int i = 0; i < team0.Length && empty; i++) {
+				//print (Vector3.Distance (team0 [i].transform.position, transform.position));
 				if (Vector3.Distance (team0 [i].transform.position, transform.position) < 1f && team0 [i].GetComponent<GuiVehicle> ().life == 0)
 					empty = false;
 			}
@@ -27,12 +28,11 @@ public class SpawnPoint : MonoBehaviour {
 			GameObject[] team1 = GameObject.FindGameObjectsWithTag ("VehicleTeam1");
 
 			for (int i = 0; i < team1.Length && empty; i++) {
+				//print (Vector3.Distance (team1 [i].transform.position, transform.position));
 				if (Vector3.Distance (team1 [i].transform.position, transform.position) < 1f && team1 [i].GetComponent<GuiVehicle> ().life == 0)
 					empty = false;
 			}
 		}
-
-		print (empty);
 
 		return empty;
 	}

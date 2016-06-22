@@ -151,34 +151,38 @@ public class GuiVehicle : NetworkBehaviour {
 		timerRespawn = startTimerRespawn;
 
         loaderScript = GetComponent<LoaderClass> ();
-        Miner.SetActive(false);
-        Drifter.SetActive(false);
-        Camper.SetActive(false);
 
-        if (loaderScript.vehicleTypeClass==1){                    //if it's a miner
-            Miner.SetActive(true);
-            lifeLoader = GameObject.Find ("LifeLoader");     //takes the object LifeLoader
-            
-        }
-        else if (loaderScript.vehicleTypeClass==0)                //if it's a drifter
-        {
-            Drifter.SetActive(true);
-            lifeLoader = GameObject.Find("LifeLoader31");    //takes the object LifeLoader31
-            
-        }
-        else if (loaderScript.vehicleTypeClass==2)                //if it's a camper
-        {
-            Camper.SetActive(true);
-            lifeLoader = GameObject.Find("LifeLoader17");    //takes the object LifeLoader17
-            
-        }
-        //lifeLoader.SetActive(true);
         cameraObject = GameObject.Find ("MainCamera");
 
 		scriptMovement = GetComponent<SimpleController> ();
 
-        if (isLocalPlayer) {
+		if (isLocalPlayer) {
 			user.gameObject.SetActive (false);
+
+			if (loaderScript.vehicleTypeClass==1){                    //if it's a miner
+				Miner.SetActive(true);
+				Drifter.SetActive(false);
+				Camper.SetActive(false);
+				lifeLoader = GameObject.Find ("LifeLoader");     //takes the object LifeLoader
+
+			}
+			else if (loaderScript.vehicleTypeClass==0)                //if it's a drifter
+			{
+				Drifter.SetActive(true);
+				Miner.SetActive(false);
+				Camper.SetActive(false);
+				lifeLoader = GameObject.Find("LifeLoader31");    //takes the object LifeLoader31
+
+			}
+			else if (loaderScript.vehicleTypeClass==2)                //if it's a camper
+			{
+				Camper.SetActive(true);
+				Drifter.SetActive(false);
+				Miner.SetActive(false);
+				lifeLoader = GameObject.Find("LifeLoader17");    //takes the object LifeLoader17
+
+			}
+
 			//lifeBar.gameObject.SetActive (false);
 		}
 	}

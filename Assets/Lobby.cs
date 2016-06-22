@@ -13,7 +13,7 @@ public class Lobby : NetworkBehaviour {
 		if (!isServer)
 			return;
 
-		int maxPlayers = GetComponent<ControllerNet> ().maxPlayers;
+		int maxPlayers = GameObject.Find("ControllerNet").GetComponent<ControllerNet> ().maxPlayers;
 
 		if (numBlueTeamPlayers == 2) {
 			player.GetComponent<LoaderClass> ().teamPlayer = 1;
