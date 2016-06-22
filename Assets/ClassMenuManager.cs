@@ -7,6 +7,7 @@ public class ClassMenuManager : MonoBehaviour {
     public GameObject drifterMesh;
     public GameObject minerMesh;
     public GameObject camperMesh;
+    public GameObject fakeMesh;
     public Image arrowRight;
     public Image arrowLeft;
     public Sprite arrowLeft_glow;
@@ -208,7 +209,7 @@ public class ClassMenuManager : MonoBehaviour {
         drifterMesh.SetActive(true);
         minerMesh.SetActive(false);
         camperMesh.SetActive(false);
-        //fakeMesh.SetActive(false);
+        fakeMesh.SetActive(false);
 
         activeMesh = drifterMesh;
     }
@@ -218,7 +219,7 @@ public class ClassMenuManager : MonoBehaviour {
         drifterMesh.SetActive(false);
         minerMesh.SetActive(true);
         camperMesh.SetActive(false);
-        //fakeMesh.SetActive(false);
+        fakeMesh.SetActive(false);
 
         activeMesh = minerMesh;
     }
@@ -228,7 +229,7 @@ public class ClassMenuManager : MonoBehaviour {
         drifterMesh.SetActive(false);
         minerMesh.SetActive(false);
         camperMesh.SetActive(true);
-        //fakeMesh.SetActive(false);
+        fakeMesh.SetActive(false);
 
         activeMesh = camperMesh;
     }
@@ -238,7 +239,8 @@ public class ClassMenuManager : MonoBehaviour {
         drifterMesh.SetActive(false);
         minerMesh.SetActive(false);
         camperMesh.SetActive(false);
+        fakeMesh.SetActive(true);
 
-        //fakeMesh.SetActive(true);
+        activeMesh = fakeMesh;
     }
 }
