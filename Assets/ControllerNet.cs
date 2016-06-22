@@ -6,6 +6,8 @@ using System.Collections.Generic;
 public class ControllerNet : NetworkManager {
 	public int maxPlayers = 2;
 
+	public bool matchmaking = true;
+
 	//private bool firstTeam = true;
 
 	/*public override void OnServerConnect(NetworkConnection conn){
@@ -29,6 +31,8 @@ public class ControllerNet : NetworkManager {
 
 		print ("ON SERVER CONNNECT: " + loaderScript.typeClass);
 	}*/
+
+	private Lobby lobby;
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
 	{
@@ -74,10 +78,14 @@ public class ControllerNet : NetworkManager {
 		//player.transform.position = spawns [randomRange].transform.position;
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
 
-		GameObject.Find("Lobby").GetComponent<Lobby>().activePlayers++;
+		lobby = GameObject.Find ("Lobby").GetComponent<Lobby> ();
+
+		lobby.activePlayers++;
+
+		lobby.matchmaker (player);
 	}
 
 	public bool canPlay(){
-		return GameObject.Find("Lobby").GetComponent<Lobby>().activePlayers == maxPlayers;
+		return GameObject.Find ("Lobby").GetComponent<Lobby> ().activePlayers == maxPlayers;
 	}	
 }

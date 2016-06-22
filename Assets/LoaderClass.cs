@@ -204,9 +204,14 @@ public class LoaderClass : NetworkBehaviour {
 	// Use this for initialization
 	void Start () {
 		if (isLocalPlayer) {
-			NetworkManagerHUD netScript = GameObject.Find ("ControllerNet").gameObject.GetComponent<NetworkManagerHUD> ();
+			GameObject net = GameObject.Find ("ControllerNet");
+			NetworkManagerHUD netScript = net.GetComponent<NetworkManagerHUD> ();
+			ControllerNet controllerNetScript = net.GetComponent<ControllerNet> ();
 
-			teamPlayer = netScript.team;
+			if (!controllerNetScript.matchmaking) {
+				teamPlayer = netScript.team;
+			}
+			print (teamPlayer);
 			vehicleTypeClass = netScript.classType;
 			userPlayer = netScript.player;
 

@@ -20,16 +20,27 @@ public class SpawnPoints : MonoBehaviour {
 
 	public void respawn(){
 		string whichTagTeam;
+		int tagTeam = -1;
 
 		if (gameObject.CompareTag("VehicleTeam0")){
 			whichTagTeam = "SpawnTeam0";
+			tagTeam = 0;
 		} else {
 			whichTagTeam = "SpawnTeam1";
+			tagTeam = 1;
 		}
 
 		GameObject[] spawns = GameObject.FindGameObjectsWithTag (whichTagTeam);
 
-		int randomRange = Random.Range (0, spawns.Length);
+		bool canSpawn = false;
+		int randomRange = -1;
+
+		while (!canSpawn) {
+			randomRange = Random.Range (0, spawns.Length);
+
+			if (spawns [randomRange].GetComponent<SpawnPoint> ().isEmpty (tagTeam))
+				canSpawn = true;
+		}
 
 		transform.position = spawns [randomRange].transform.position;
 		transform.rotation = spawns [randomRange].transform.rotation;

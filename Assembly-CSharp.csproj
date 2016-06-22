@@ -83,6 +83,7 @@
      <Compile Include="Assets\SimpleController.cs" />
      <Compile Include="Assets\SoundBehaviour.cs" />
      <Compile Include="Assets\SpawnPickup.cs" />
+     <Compile Include="Assets\SpawnPoint.cs" />
      <Compile Include="Assets\SpawnPoints.cs" />
      <Compile Include="Assets\Tunnel.cs" />
      <Compile Include="Assets\fps.cs" />

@@ -250,6 +250,9 @@ public class SimpleController : NetworkBehaviour
 
 		if (gui.life > 0) {
 			GetInput ();
+		}else {
+			body.velocity = Vector3.zero;
+			velocity = Vector3.zero;
 		}
 
 		if (inTunnel == 1) {
