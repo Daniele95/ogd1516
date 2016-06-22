@@ -155,4 +155,10 @@ public class BtnManager : MonoBehaviour {
         else
             text.color = inactiveColor;
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+        print("Quit");
+    }
 }

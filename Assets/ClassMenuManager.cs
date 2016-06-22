@@ -37,6 +37,7 @@ public class ClassMenuManager : MonoBehaviour {
     public Sprite cureSprite;
     public Sprite driftingSprite;
     public Sprite camperSprite;
+    public Sprite medicalSprite;
 
     public bool host;
 
@@ -136,7 +137,7 @@ public class ClassMenuManager : MonoBehaviour {
                 hex_firstWeapon.GetComponentInChildren<Image>().sprite = shotSprite;
                 hex_secondWeapon.GetComponentInChildren<Image>().sprite = driftSprite;
                 hex_specialAbility.GetComponentInChildren<Image>().sprite = driftingSprite;
-                hex_firstWeapon.GetComponentInChildren<Text>().text = "125";
+                hex_firstWeapon.GetComponentInChildren<Text>().text = "130";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "-";
                 hex_specialAbility.gameObject.SetActive(true);
                 LblSpecialAbility.gameObject.SetActive(true);
@@ -164,7 +165,7 @@ public class ClassMenuManager : MonoBehaviour {
                 activateFake();
                 hex_firstWeapon.GetComponentInChildren<Image>().sprite = cureSprite;
                 hex_secondWeapon.GetComponentInChildren<Image>().sprite = poisonSprite;
-                hex_specialAbility.GetComponentInChildren<Image>().sprite = cureSprite;
+                hex_specialAbility.GetComponentInChildren<Image>().sprite = medicalSprite;
                 hex_firstWeapon.GetComponentInChildren<Text>().text = "90";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "10";
                 hex_specialAbility.gameObject.SetActive(true);
