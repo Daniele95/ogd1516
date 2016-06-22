@@ -10,13 +10,16 @@ public class GuiVehicle : NetworkBehaviour {
 
 	[SyncVar]
 	public int maxLife = 130;
+    public GameObject Drifter;
+    public GameObject Camper;
+    public GameObject Miner;
 
-	//public float timerRespawnHit = 1f;
+    //public float timerRespawnHit = 1f;
 
-	//private int whichTeam = -1;
-	//private Rigidbody body;
+    //private int whichTeam = -1;
+    //private Rigidbody body;
 
-	private Text text;
+    private Text text;
 	private Image healthRect;
 
 	public GameObject explosionSound;
@@ -34,6 +37,7 @@ public class GuiVehicle : NetworkBehaviour {
 	private SimpleController scriptMovement;
 
     public GameObject respawnSoundGameObject;
+
 
     [Command]
 	void CmdDoExplosionRespawn(){
@@ -111,9 +115,9 @@ public class GuiVehicle : NetworkBehaviour {
 				}
 
 				ControllerGaming controller = GameObject.Find ("ControllerGame").GetComponent<ControllerGaming> ();
-				controller.addScoreTeam (whichTeam);
+				controller.addScoreTeam (whichTeam);   //add score if the player is dead 
 
-				RpcRespawn ();
+				RpcRespawn ();    //do the respawn
 			}
 
 			RpcDamage (amount);
@@ -134,20 +138,42 @@ public class GuiVehicle : NetworkBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//whichTeam = gameObject.CompareTag ("VehicleTeam0") ? 0 : 1;
+        Drifter = GameObject.Find("Life31");
+        Camper = GameObject.Find("Life17");
+        Miner = GameObject.Find("Life");
+        //whichTeam = gameObject.CompareTag ("VehicleTeam0") ? 0 : 1;
 
-		//body = GetComponent<Rigidbody> ();
-		Transform user = transform.FindChild("HUD").FindChild("User");
+        //body = GetComponent<Rigidbody> ();
+        Transform user = transform.FindChild("HUD").FindChild("User");
 		text = user.GetComponent<Text> ();
 		Transform lifeBar = transform.FindChild ("HUD").FindChild("User").FindChild ("HUDLife");
 		healthRect = lifeBar.FindChild("Life").GetComponent<Image> ();
 		timerRespawn = startTimerRespawn;
 
-		lifeLoader = GameObject.Find ("LifeLoader");
+        loaderScript = GetComponent<LoaderClass> ();
+        Miner.SetActive(false);
+        Drifter.SetActive(false);
+        Camper.SetActive(false);
 
-		loaderScript = GetComponent<LoaderClass> ();
-
-		cameraObject = GameObject.Find ("MainCamera");
+        if (loaderScript.vehicleTypeClass==1){                    //if it's a miner
+            Miner.SetActive(true);
+            lifeLoader = GameObject.Find ("LifeLoader");     //takes the object LifeLoader
+            
+        }
+        else if (loaderScript.vehicleTypeClass==0)                //if it's a drifter
+        {
+            Drifter.SetActive(true);
+            lifeLoader = GameObject.Find("LifeLoader31");    //takes the object LifeLoader31
+            
+        }
+        else if (loaderScript.vehicleTypeClass==2)                //if it's a camper
+        {
+            Camper.SetActive(true);
+            lifeLoader = GameObject.Find("LifeLoader17");    //takes the object LifeLoader17
+            
+        }
+        //lifeLoader.SetActive(true);
+        cameraObject = GameObject.Find ("MainCamera");
 
 		scriptMovement = GetComponent<SimpleController> ();
 
@@ -195,8 +221,8 @@ public class GuiVehicle : NetworkBehaviour {
 		string textGUI = "Life: " + life.ToString();
 		GUI.Label(rect, textGUI, style);*/
 
-		if (isLocalPlayer) {
-			lifeLoader.GetComponent<Image> ().fillAmount = life / (float)maxLife;
+		if (isLocalPlayer) {      
+			lifeLoader.GetComponent<Image> ().fillAmount = life / (float)maxLife;      //fills current life of the player
 
 			lifeLoader.GetComponent<Image> ().color = Color.Lerp (Color.red, Color.green, life / (float)maxLife);
 		}
