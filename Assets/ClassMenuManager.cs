@@ -24,7 +24,7 @@ public class ClassMenuManager : MonoBehaviour {
     public Text shortDescription;
     public Text LblSpecialAbility;
 
-    public string ipAddress;
+    public string ipAddress = "127.0.0.1";
 
     public Sprite shotSprite;
     public Sprite mineSprite;
@@ -116,15 +116,16 @@ public class ClassMenuManager : MonoBehaviour {
         if (Input.GetButtonDown("XboxA"))
             if(host && currentConfiguration < 3)
             {
-                GameObject.Find("ControllerNet").GetComponent<UnityEngine.Networking.CustomNetworkManagerHUD>().setClass(currentConfiguration);
-                GameObject.Find("ControllerNet").GetComponent<UnityEngine.Networking.CustomNetworkManagerHUD>().startHost();
-                SceneManager.LoadScene("demo", LoadSceneMode.Single);
+				GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().classType = currentConfiguration;
+				GameObject.Find ("NetVehicleContainer").GetComponent<NetVehicleContainer> ().host = true;
+				SceneManager.LoadScene("demo");
             }
             else if(!host && currentConfiguration < 3)
             {
-                GameObject.Find("ControllerNet").GetComponent<UnityEngine.Networking.CustomNetworkManagerHUD>().setClass(currentConfiguration);
-                GameObject.Find("ControllerNet").GetComponent<UnityEngine.Networking.CustomNetworkManagerHUD>().startClient(ipAddress);
-                SceneManager.LoadScene("demo", LoadSceneMode.Single);
+				GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().classType = currentConfiguration;
+				GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().ipAddress = ipAddress;
+				GameObject.Find ("NetVehicleContainer").GetComponent<NetVehicleContainer> ().host = false;
+			 	SceneManager.LoadScene("demo");
             }
 
     }

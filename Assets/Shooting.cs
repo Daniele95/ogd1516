@@ -154,16 +154,17 @@ public class Shooting : NetworkBehaviour {
 
 		gui = gameObject.GetComponent<GuiVehicle> ();
 
+		scriptClass = GetComponent<LoaderClass> ();
+
+		canPlay = false;
+
 		ammo = GameObject.Find ("Ammo");
+
 		ammoAmount = GameObject.Find ("AmmoAmount");
 		ammoTotal = GameObject.Find ("AmmoTotal");
 
 		weaponImage = GameObject.Find ("WeaponImage");
 		weaponImageBG = GameObject.Find ("WeaponImageBG");
-
-		scriptClass = GetComponent<LoaderClass> ();
-
-		canPlay = false;
 	}
 
 	private float flashFirstWeapon = 0f;
@@ -278,48 +279,50 @@ public class Shooting : NetworkBehaviour {
 		}
 	}
 
+	//private bool setGUI = true;
+
 	void OnGUI()
 	{
 		if (!isLocalPlayer)
 			return;
 
 		if (currentWeapon == 0) {
-			ammo.SetActive (true);
-
-			ammoAmount.GetComponent<Text> ().text = numBulletsFirstWeapon.ToString ();
-			ammoTotal.GetComponent<Text> ().text = maxNumBulletsFirstWeapon.ToString ();
-
-			if (scriptClass.vehicleTypeClass == 0) {
-				weaponImage.GetComponent<Image> ().sprite = shootTexture;
-				weaponImageBG.GetComponent<Image> ().sprite = shootTexture;
-			} else if (scriptClass.vehicleTypeClass == 1) {
-				weaponImage.GetComponent<Image> ().sprite = mineTexture;
-				weaponImageBG.GetComponent<Image> ().sprite = mineTexture;
-			} else if (scriptClass.vehicleTypeClass == 2) {
-				weaponImage.GetComponent<Image> ().sprite = bazookaTexture;
-				weaponImageBG.GetComponent<Image> ().sprite = bazookaTexture;
-			}
-		} else if (currentWeapon == 1) {
-			if (scriptClass.vehicleTypeClass == 0) {
-				ammo.SetActive (false);
-			}else{
 				ammo.SetActive (true);
-				ammoAmount.GetComponent<Text> ().text = numBulletsSecondWeapon.ToString ();
-				ammoTotal.GetComponent<Text> ().text = maxNumBulletsSecondWeapon.ToString ();
-			}
 
-			//if (scriptClass.vehicleTypeClass == 0) {
-			//	weaponImage.GetComponent<Image> ().sprite = driftTexture;
-			//	weaponImageBG.GetComponent<Image> ().sprite = driftTexture;
-			//} else
-			if (scriptClass.vehicleTypeClass == 1) {
-				weaponImage.GetComponent<Image> ().sprite = bombTexture;
-				weaponImageBG.GetComponent<Image> ().sprite = bombTexture;
-			} else if (scriptClass.vehicleTypeClass == 2) {
-				weaponImage.GetComponent<Image> ().sprite = laserTexture;
-				weaponImageBG.GetComponent<Image> ().sprite = laserTexture;
+				ammoAmount.GetComponent<Text> ().text = numBulletsFirstWeapon.ToString ();
+				ammoTotal.GetComponent<Text> ().text = maxNumBulletsFirstWeapon.ToString ();
+
+				if (scriptClass.vehicleTypeClass == 0) {
+					weaponImage.GetComponent<Image> ().sprite = shootTexture;
+					weaponImageBG.GetComponent<Image> ().sprite = shootTexture;
+				} else if (scriptClass.vehicleTypeClass == 1) {
+					weaponImage.GetComponent<Image> ().sprite = mineTexture;
+					weaponImageBG.GetComponent<Image> ().sprite = mineTexture;
+				} else if (scriptClass.vehicleTypeClass == 2) {
+					weaponImage.GetComponent<Image> ().sprite = bazookaTexture;
+					weaponImageBG.GetComponent<Image> ().sprite = bazookaTexture;
+				}
+			} else if (currentWeapon == 1) {
+				if (scriptClass.vehicleTypeClass == 0) {
+					ammo.SetActive (false);
+				} else {
+					ammo.SetActive (true);
+					ammoAmount.GetComponent<Text> ().text = numBulletsSecondWeapon.ToString ();
+					ammoTotal.GetComponent<Text> ().text = maxNumBulletsSecondWeapon.ToString ();
+				}
+
+				//if (scriptClass.vehicleTypeClass == 0) {
+				//	weaponImage.GetComponent<Image> ().sprite = driftTexture;
+				//	weaponImageBG.GetComponent<Image> ().sprite = driftTexture;
+				//} else
+				if (scriptClass.vehicleTypeClass == 1) {
+					weaponImage.GetComponent<Image> ().sprite = bombTexture;
+					weaponImageBG.GetComponent<Image> ().sprite = bombTexture;
+				} else if (scriptClass.vehicleTypeClass == 2) {
+					weaponImage.GetComponent<Image> ().sprite = laserTexture;
+					weaponImageBG.GetComponent<Image> ().sprite = laserTexture;
+				}
 			}
-		}
 
 		/*int w = Screen.width, h = Screen.height;
 
@@ -379,82 +382,78 @@ public class Shooting : NetworkBehaviour {
 		if (gui.life <= 0)
 			return;
 
-		canPlay = GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay () && GameObject.Find ("ControllerGame").GetComponent<ControllerGaming>().timer > 0f;
+		if (GameObject.Find ("ControllerGame") != null) {
+			canPlay = GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay () && GameObject.Find ("ControllerGame").GetComponent<ControllerGaming> ().timer > 0f;
 
-		if (!canPlay)
-			return;
+			if (!canPlay)
+				return;
 
-        if (currentWeapon == 0 && numBulletsFirstWeapon < maxNumBulletsFirstWeapon || currentWeapon == 1 && numBulletsSecondWeapon < maxNumBulletsSecondWeapon)
-        {
-            GameObject[] pickups = GameObject.FindGameObjectsWithTag("AmmoPickup");
+			if (currentWeapon == 0 && numBulletsFirstWeapon < maxNumBulletsFirstWeapon || currentWeapon == 1 && numBulletsSecondWeapon < maxNumBulletsSecondWeapon) {
+				GameObject[] pickups = GameObject.FindGameObjectsWithTag ("AmmoPickup");
 
-           for (int i = 0; i < pickups.Length; i++)
-            {
-                AmmoPickupBehaviour pickup = (AmmoPickupBehaviour)pickups[i].GetComponent<AmmoPickupBehaviour>();
+				for (int i = 0; i < pickups.Length; i++) {
+					AmmoPickupBehaviour pickup = (AmmoPickupBehaviour)pickups [i].GetComponent<AmmoPickupBehaviour> ();
 
-                if (Vector3.Distance(pickups[i].transform.position, transform.position) <= pickup.RADIUS_PICKUP)
-                {
-                    if (currentWeapon == 0)
-                    {
-                        numBulletsFirstWeapon += pickup.numBulletsPickup;
+					if (Vector3.Distance (pickups [i].transform.position, transform.position) <= pickup.RADIUS_PICKUP) {
+						if (currentWeapon == 0) {
+							numBulletsFirstWeapon += pickup.numBulletsPickup;
 
-                        if (numBulletsFirstWeapon > maxNumBulletsFirstWeapon)
-                            numBulletsFirstWeapon = maxNumBulletsFirstWeapon;
-                    }
-                    else if (currentWeapon == 1)
-                    {
-                        numBulletsSecondWeapon += pickup.numBulletsPickup;
+							if (numBulletsFirstWeapon > maxNumBulletsFirstWeapon)
+								numBulletsFirstWeapon = maxNumBulletsFirstWeapon;
+						} else if (currentWeapon == 1) {
+							numBulletsSecondWeapon += pickup.numBulletsPickup;
 
-                        if (numBulletsSecondWeapon > maxNumBulletsSecondWeapon)
-                            numBulletsSecondWeapon = maxNumBulletsSecondWeapon;
-                    }
+							if (numBulletsSecondWeapon > maxNumBulletsSecondWeapon)
+								numBulletsSecondWeapon = maxNumBulletsSecondWeapon;
+						}
 
-                    break;
-                }
-            }
-        }
-
-        if (!isLocalPlayer)
-            return;
-
-        if (Input.GetKeyDown (KeyCode.A)) {
-			if (scriptClass.vehicleTypeClass != 0) {
-				if (currentWeapon == 0) {
-					currentWeapon = 1;
-
-					if (scriptClass.vehicleTypeClass == 2) {
-						controller.isCamping = true;
-						controller.needUpdateCamping = true;
-					}
-				} else {
-					currentWeapon = 0;
-
-					if (scriptClass.vehicleTypeClass == 2) {
-						controller.isCamping = false;
+						break;
 					}
 				}
 			}
-		}
-  
-		if (Input.GetKey (KeyCode.Space)) {
-			if (currentWeapon == 0) {
-				if (shoot != null) {
-					if (timerShootFirstWeapon <= 0f) {
-						if (numBulletsFirstWeapon > 0) {
-							//Quaternion rot = shooter.rotation;
-							CmdDoFire (0, Vector3.Distance(controller.body.velocity, Vector3.zero) <= 0.1f);//rot.eulerAngles.x, rot.eulerAngles.y, rot.eulerAngles.z
 
-							dropBullets (currentWeapon, 1);
+			if (!isLocalPlayer)
+				return;
+
+			if (Input.GetKeyDown (KeyCode.A)) {
+				if (scriptClass.vehicleTypeClass != 0) {
+					if (currentWeapon == 0) {
+						currentWeapon = 1;
+
+						if (scriptClass.vehicleTypeClass == 2) {
+							controller.isCamping = true;
+							controller.needUpdateCamping = true;
+						}
+					} else {
+						currentWeapon = 0;
+
+						if (scriptClass.vehicleTypeClass == 2) {
+							controller.isCamping = false;
 						}
 					}
 				}
-			}else if (currentWeapon == 1) {
-				if (shootSecond != null) {
-					if (timerShootSecondWeapon <= 0f) {
-						if (numBulletsSecondWeapon > 0) {
-							CmdDoFire (1, Vector3.Distance(controller.body.velocity, Vector3.zero) <= 0.1f);
+			}
+  
+			if (Input.GetKey (KeyCode.Space)) {
+				if (currentWeapon == 0) {
+					if (shoot != null) {
+						if (timerShootFirstWeapon <= 0f) {
+							if (numBulletsFirstWeapon > 0) {
+								//Quaternion rot = shooter.rotation;
+								CmdDoFire (0, Vector3.Distance (controller.body.velocity, Vector3.zero) <= 0.1f);//rot.eulerAngles.x, rot.eulerAngles.y, rot.eulerAngles.z
 
-							dropBullets (currentWeapon, 1);
+								dropBullets (currentWeapon, 1);
+							}
+						}
+					}
+				} else if (currentWeapon == 1) {
+					if (shootSecond != null) {
+						if (timerShootSecondWeapon <= 0f) {
+							if (numBulletsSecondWeapon > 0) {
+								CmdDoFire (1, Vector3.Distance (controller.body.velocity, Vector3.zero) <= 0.1f);
+
+								dropBullets (currentWeapon, 1);
+							}
 						}
 					}
 				}

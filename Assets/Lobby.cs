@@ -9,18 +9,24 @@ public class Lobby : NetworkBehaviour {
 	private int numBlueTeamPlayers = 0;
 	private int numRedTeamPlayers = 0;
 
+	void Awake()
+	{
+		//this avoid the destruction of network manager
+		//DontDestroyOnLoad(transform.gameObject); 
+	}
+
 	public void matchmaker(GameObject player){
 		if (!isServer)
 			return;
 
 		int maxPlayers = GameObject.Find("ControllerNet").GetComponent<ControllerNet> ().maxPlayers;
 
-		if (numBlueTeamPlayers == 2) {
-			player.GetComponent<LoaderClass> ().teamPlayer = 1;
+		if (numBlueTeamPlayers == maxPlayers / 2) {
+			//player.GetComponent<LoaderClass> ().setTeamMatchMaking (1);
 
 			numRedTeamPlayers++;
-		} else if (numRedTeamPlayers == 2) {
-			player.GetComponent<LoaderClass> ().teamPlayer = 0;
+		} else if (numRedTeamPlayers == maxPlayers / 2) {
+			//player.GetComponent<LoaderClass> ().setTeamMatchMaking (0);
 
 			numBlueTeamPlayers++;
 		} else {
@@ -28,20 +34,24 @@ public class Lobby : NetworkBehaviour {
 
 			float random = Random.Range(0,2);
 
+			print (random);
+
 			if (random == 0) {
-				if (numBlueTeamPlayers < 2) {
-					player.GetComponent<LoaderClass> ().teamPlayer = 0;
+				if (numBlueTeamPlayers < maxPlayers / 2) {
+					//player.GetComponent<LoaderClass> ().setTeamMatchMaking (0);
 
 					numBlueTeamPlayers++;
 				}
 			} else if (random == 1) {
-				if (numRedTeamPlayers < 2) {
-					player.GetComponent<LoaderClass> ().teamPlayer = 1;
+				if (numRedTeamPlayers < maxPlayers / 2) {
+					//player.GetComponent<LoaderClass> ().setTeamMatchMaking (1);
 
 					numRedTeamPlayers++;
 				}
 			}
 		}
+
+		print ("B:" + numBlueTeamPlayers + " R:" + numRedTeamPlayers);
 	}
 
 	// Use this for initialization

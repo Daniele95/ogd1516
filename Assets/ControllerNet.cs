@@ -36,8 +36,8 @@ public class ControllerNet : NetworkManager {
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
 	{
-		//if (GameObject.Find("Lobby").GetComponent<Lobby>().activePlayers == maxPlayers)
-		//	return;
+		if (GameObject.Find("Lobby").GetComponent<Lobby>().activePlayers == maxPlayers)
+			return;
 
 		GameObject player = (GameObject)Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 		//SpawnPoints scriptSpawnPoints = player.GetComponent<SpawnPoints> ();

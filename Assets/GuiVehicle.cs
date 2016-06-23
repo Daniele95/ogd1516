@@ -138,9 +138,7 @@ public class GuiVehicle : NetworkBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Drifter = GameObject.Find("Life31");
-        Camper = GameObject.Find("Life17");
-        Miner = GameObject.Find("Life");
+		
         //whichTeam = gameObject.CompareTag ("VehicleTeam0") ? 0 : 1;
 
         //body = GetComponent<Rigidbody> ();
@@ -152,38 +150,44 @@ public class GuiVehicle : NetworkBehaviour {
 
         loaderScript = GetComponent<LoaderClass> ();
 
-        cameraObject = GameObject.Find ("MainCamera");
-
 		scriptMovement = GetComponent<SimpleController> ();
+
+		cameraObject = GameObject.Find ("MainCamera");
+
+		print ("ff"+text + " " + scriptMovement + " " + cameraObject);
 
 		if (isLocalPlayer) {
 			user.gameObject.SetActive (false);
-
-			if (loaderScript.vehicleTypeClass==1){                    //if it's a miner
-				Miner.SetActive(true);
-				Drifter.SetActive(false);
-				Camper.SetActive(false);
-				lifeLoader = GameObject.Find ("LifeLoader");     //takes the object LifeLoader
-
-			}
-			else if (loaderScript.vehicleTypeClass==0)                //if it's a drifter
-			{
-				Drifter.SetActive(true);
-				Miner.SetActive(false);
-				Camper.SetActive(false);
-				lifeLoader = GameObject.Find("LifeLoader31");    //takes the object LifeLoader31
-
-			}
-			else if (loaderScript.vehicleTypeClass==2)                //if it's a camper
-			{
-				Camper.SetActive(true);
-				Drifter.SetActive(false);
-				Miner.SetActive(false);
-				lifeLoader = GameObject.Find("LifeLoader17");    //takes the object LifeLoader17
-
-			}
-
 			//lifeBar.gameObject.SetActive (false);
+		
+			//if (setLifeBar) {
+			Drifter = GameObject.Find ("Life31");
+			Camper = GameObject.Find ("Life17");
+			Miner = GameObject.Find ("Life");
+			
+
+			if (loaderScript.vehicleTypeClass == 1) {                    //if it's a miner
+					Miner.SetActive (true);
+					Drifter.SetActive (false);
+					Camper.SetActive (false);
+					lifeLoader = GameObject.Find ("LifeLoader");     //takes the object LifeLoader
+
+				} else if (loaderScript.vehicleTypeClass == 0) {                //if it's a drifter
+					Drifter.SetActive (true);
+					Miner.SetActive (false);
+					Camper.SetActive (false);
+					lifeLoader = GameObject.Find ("LifeLoader31");    //takes the object LifeLoader31
+
+				} else if (loaderScript.vehicleTypeClass == 2) {                //if it's a camper
+					Camper.SetActive (true);
+					Drifter.SetActive (false);
+					Miner.SetActive (false);
+					lifeLoader = GameObject.Find ("LifeLoader17");    //takes the object LifeLoader17
+
+				}
+
+				//setLifeBar = false;
+			//}
 		}
 	}
 
@@ -225,12 +229,15 @@ public class GuiVehicle : NetworkBehaviour {
 		string textGUI = "Life: " + life.ToString();
 		GUI.Label(rect, textGUI, style);*/
 
-		if (isLocalPlayer) {      
-			lifeLoader.GetComponent<Image> ().fillAmount = life / (float)maxLife;      //fills current life of the player
+		if (isLocalPlayer) { 
+			if (lifeLoader != null) {
+				lifeLoader.GetComponent<Image> ().fillAmount = life / (float)maxLife;      //fills current life of the player
 
-			lifeLoader.GetComponent<Image> ().color = Color.Lerp (Color.red, Color.green, life / (float)maxLife);
+				lifeLoader.GetComponent<Image> ().color = Color.Lerp (Color.red, Color.green, life / (float)maxLife);
+			}
 		}
 
+		print (text + " " + cameraObject);
 		text.transform.LookAt (cameraObject.transform, scriptMovement.myNormal);
 		//healthRect.transform.LookAt (camera.transform, scriptMovement.myNormal);
 		//text.transform.rotation = Quaternion.Euler (0f, text.transform.rotation.eulerAngles.y, 0f);
@@ -238,6 +245,8 @@ public class GuiVehicle : NetworkBehaviour {
 		text.text = loaderScript.userPlayer;
 		text.color = loaderScript.teamColor;
 	}
+
+	//private bool setLifeBar = true;
 
 	// Update is called once per frame
 	void Update () {
@@ -252,6 +261,8 @@ public class GuiVehicle : NetworkBehaviour {
 			ControllerGame controller = GameObject.Find ("ControllerGame").GetComponent<ControllerGame> ();
 			controller.addScoreTeam (whichTeam);*/
 		//}
+
+
 
 		if (life <= 0) {
 			timerRespawn -= Time.deltaTime;

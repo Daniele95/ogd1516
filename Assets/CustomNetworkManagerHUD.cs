@@ -15,6 +15,8 @@ namespace UnityEngine.Networking
 		public int classType = 0;
 		public int team = 0;
 		public string player = "Player";
+		public string ipAddress = "127.0.0.1";
+		public bool host = true;
 
 		// Runtime variable
 		bool showServer = false;
@@ -23,7 +25,27 @@ namespace UnityEngine.Networking
 		{
 			manager = GetComponent<NetworkManager>();
             //this avoid the destruction of network manager
-            DontDestroyOnLoad(transform.gameObject); 
+           // DontDestroyOnLoad(transform.gameObject); 
+
+			GameObject net = GameObject.Find ("NetVehicleContainer");
+
+			if(net != null){
+				host = net.GetComponent<NetVehicleContainer> ().host;
+				classType = net.GetComponent<NetVehicleContainer> ().classType;
+				team = net.GetComponent<NetVehicleContainer> ().team;
+				player = net.GetComponent<NetVehicleContainer> ().player;
+				ipAddress = net.GetComponent<NetVehicleContainer> ().ipAddress;
+			}
+
+
+		}
+
+		void Start(){
+			if (host) {
+				startHost ();
+			} else {
+				startClient (ipAddress);
+			}
 		}
 
 		void Update()
@@ -258,7 +280,10 @@ namespace UnityEngine.Networking
 
         public void startHost()
         {
-            manager.StartHost();
+			if (!NetworkClient.active && !NetworkServer.active && manager.matchMaker == null)
+			{
+				manager.StartHost();
+			}
         }
 
         public void setClass(int classType)

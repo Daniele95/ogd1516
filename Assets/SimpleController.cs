@@ -123,12 +123,6 @@ public class SimpleController : NetworkBehaviour
 
 		shooting = GetComponent<Shooting> ();
 
-		if (isLocalPlayer) {
-			GameObject camera = GameObject.Find ("MainCamera");
-			FollowCamera script = camera.GetComponent<FollowCamera> ();
-			script.target = this;
-		}
-
 		velocity = Vector3.zero;
 
 		/*if (team == 0) {
@@ -202,11 +196,23 @@ public class SimpleController : NetworkBehaviour
 	[HideInInspector]
     public bool needUpdateCamping;
 
+	private bool setCamera = true;
 
     void Update()
     {
 		if (!isLocalPlayer)
 			return;
+
+		if (setCamera) {
+			GameObject camera = GameObject.Find ("MainCamera");
+
+			if (camera != null) {
+				FollowCamera script = camera.GetComponent<FollowCamera> ();
+				script.target = this;
+
+				setCamera = false;
+			}
+		}
 
 		canPlay = GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay () && GameObject.Find ("ControllerGame").GetComponent<ControllerGaming>().timer > 0f;
 

@@ -52,6 +52,7 @@
      <Compile Include="Assets\ClassMenuManager.cs" />
      <Compile Include="Assets\ControllerGaming.cs" />
      <Compile Include="Assets\ControllerNet.cs" />
+     <Compile Include="Assets\CustomNetworkManagerHUD.cs" />
      <Compile Include="Assets\Detonator Explosion Framework\Sample Supporting Emitters\DetonatorSprayHelper.cs" />
      <Compile Include="Assets\Detonator Explosion Framework\System\Detonator.cs" />
      <Compile Include="Assets\Detonator Explosion Framework\System\DetonatorBurstEmitter.cs" />
@@ -79,7 +80,7 @@
      <Compile Include="Assets\LoaderClass.cs" />
      <Compile Include="Assets\Lobby.cs" />
      <Compile Include="Assets\Mine\ShootMineBehavior.cs" />
-     <Compile Include="Assets\NetworkManagerHUD.cs" />
+     <Compile Include="Assets\NetVehicleContainer.cs" />
      <Compile Include="Assets\Orbit.cs" />
      <Compile Include="Assets\Shoot\ShootBehaviour.cs" />
      <Compile Include="Assets\Shoot\SoundShoot.cs" />

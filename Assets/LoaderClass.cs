@@ -201,72 +201,69 @@ public class LoaderClass : NetworkBehaviour {
 		userPlayer = user;
 	}
 
+	//private bool setObjectsFind = true;
+
 	// Use this for initialization
 	void Start () {
 		if (isLocalPlayer) {
+			//if (setObjectsFind) {
 			GameObject net = GameObject.Find ("ControllerNet");
-			CustomNetworkManagerHUD netScript = net.GetComponent<CustomNetworkManagerHUD> ();
-			ControllerNet controllerNetScript = net.GetComponent<ControllerNet> ();
 
-			if (!controllerNetScript.matchmaking) {
-				teamPlayer = netScript.team;
+			if (net != null) {
+				CustomNetworkManagerHUD netScript = net.GetComponent<CustomNetworkManagerHUD> ();
+				ControllerNet controllerNetScript = net.GetComponent<ControllerNet> ();
+
+				if (!controllerNetScript.matchmaking) {
+					teamPlayer = netScript.team;
+				}
+
+				vehicleTypeClass = netScript.classType;
+				userPlayer = netScript.player;
+
+				setTeam (teamPlayer);
+				setClass (vehicleTypeClass);
+
+				CmdSetTeam (teamPlayer);
+				CmdSetClass (vehicleTypeClass);
+
+				CmdSetUser (userPlayer);
+
+				ammoGUI = GameObject.Find ("Ammo");
+
+				if (teamPlayer == 0) {
+					ammoGUI.GetComponent<RawImage> ().texture = textureTeam0;
+				} else if (teamPlayer == 1) {
+					ammoGUI.GetComponent<RawImage> ().texture = textureTeam1;
+				}
+
+				weaponGUI = GameObject.Find ("Weapon");
+
+				if (teamPlayer == 0) {
+					weaponGUI.GetComponent<RawImage> ().texture = textureTeam0;
+				} else if (teamPlayer == 1) {
+					weaponGUI.GetComponent<RawImage> ().texture = textureTeam1;
+				}
+
+				scoreGUI = GameObject.Find ("Score");
+
+				if (teamPlayer == 0) {
+					scoreGUI.GetComponent<RawImage> ().texture = textureTeam0Score;
+				} else if (teamPlayer == 1) {
+					scoreGUI.GetComponent<RawImage> ().texture = textureTeam1Score;
+				}
+
+				scoreBottomGUI = GameObject.Find ("ScoreBottom");
+
+				if (teamPlayer == 0) {
+					scoreBottomGUI.GetComponent<RawImage> ().texture = textureTeam0Score;
+				} else if (teamPlayer == 1) {
+					scoreBottomGUI.GetComponent<RawImage> ().texture = textureTeam1Score;
+				}
+
+				//setObjectsFind = false;
 			}
-
-			vehicleTypeClass = netScript.classType;
-			userPlayer = netScript.player;
-
-			setTeam (teamPlayer);
-			setClass (vehicleTypeClass);
-
-			CmdSetTeam (teamPlayer);
-			CmdSetClass (vehicleTypeClass);
-
-			CmdSetUser (userPlayer);
-
-            ammoGUI = GameObject.Find("Ammo");
-
-            if (teamPlayer == 0)
-            {
-                ammoGUI.GetComponent<RawImage>().texture = textureTeam0;
-            }
-            else if (teamPlayer == 1)
-            {
-                ammoGUI.GetComponent<RawImage>().texture = textureTeam1;
-            }
-
-            weaponGUI = GameObject.Find("Weapon");
-
-            if (teamPlayer == 0)
-            {
-                weaponGUI.GetComponent<RawImage>().texture = textureTeam0;
-            }
-            else if (teamPlayer == 1)
-            {
-                weaponGUI.GetComponent<RawImage>().texture = textureTeam1;
-            }
-
-            scoreGUI = GameObject.Find("Score");
-
-            if (teamPlayer == 0)
-            {
-                scoreGUI.GetComponent<RawImage>().texture = textureTeam0Score;
-            }
-            else if (teamPlayer == 1)
-            {
-                scoreGUI.GetComponent<RawImage>().texture = textureTeam1Score;
-            }
-
-            scoreBottomGUI = GameObject.Find("ScoreBottom");
-
-            if (teamPlayer == 0)
-            {
-                scoreBottomGUI.GetComponent<RawImage>().texture = textureTeam0Score;
-            }
-            else if (teamPlayer == 1)
-            {
-                scoreBottomGUI.GetComponent<RawImage>().texture = textureTeam1Score;
-            }
-        }
+			//}
+		}
 	}
 
 	//private bool haveToSetClass = true;
@@ -281,6 +278,7 @@ public class LoaderClass : NetworkBehaviour {
 
 			haveToSetClass = false;
 		}*/
+
 
 		setSkinModel(vehicleTypeClass);
 		setTeam (teamPlayer);
