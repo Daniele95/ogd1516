@@ -43,7 +43,11 @@ public class JoinManager : MonoBehaviour {
     public void Send()
     {
         classMenuManager.GetComponent<ClassMenuManager>().host = false;
-        classMenuManager.GetComponent<ClassMenuManager>().ipAddress = inputField.text;
+
+        if (inputField.text.Equals(""))
+            classMenuManager.GetComponent<ClassMenuManager>().ipAddress = "127.0.0.1";
+        else
+            classMenuManager.GetComponent<ClassMenuManager>().ipAddress = inputField.text;
 
         GoToSleep();
 

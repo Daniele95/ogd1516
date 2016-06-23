@@ -26,22 +26,21 @@ namespace UnityEngine.Networking
 			manager = GetComponent<NetworkManager>();
             //this avoid the destruction of network manager
            // DontDestroyOnLoad(transform.gameObject); 
-
-			GameObject net = GameObject.Find ("NetVehicleContainer");
-
-			if(net != null){
-				host = net.GetComponent<NetVehicleContainer> ().host;
-				classType = net.GetComponent<NetVehicleContainer> ().classType;
-				team = net.GetComponent<NetVehicleContainer> ().team;
-				player = net.GetComponent<NetVehicleContainer> ().player;
-				ipAddress = net.GetComponent<NetVehicleContainer> ().ipAddress;
-			}
-
-
 		}
 
 		void Start(){
-			if (host) {
+            GameObject net = GameObject.Find("NetVehicleContainer");
+
+            if (net != null)
+            {
+                host = net.GetComponent<NetVehicleContainer>().host;
+                classType = net.GetComponent<NetVehicleContainer>().classType;
+                team = net.GetComponent<NetVehicleContainer>().team;
+                player = net.GetComponent<NetVehicleContainer>().player;
+                ipAddress = net.GetComponent<NetVehicleContainer>().ipAddress;
+            }
+
+            if (host) {
 				startHost ();
 			} else {
 				startClient (ipAddress);
