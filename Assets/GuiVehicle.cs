@@ -154,8 +154,6 @@ public class GuiVehicle : NetworkBehaviour {
 
 		cameraObject = GameObject.Find ("MainCamera");
 
-		print ("ff"+text + " " + scriptMovement + " " + cameraObject);
-
 		if (isLocalPlayer) {
 			user.gameObject.SetActive (false);
 			//lifeBar.gameObject.SetActive (false);
@@ -237,7 +235,6 @@ public class GuiVehicle : NetworkBehaviour {
 			}
 		}
 
-		print (text + " " + cameraObject);
 		text.transform.LookAt (cameraObject.transform, scriptMovement.myNormal);
 		//healthRect.transform.LookAt (camera.transform, scriptMovement.myNormal);
 		//text.transform.rotation = Quaternion.Euler (0f, text.transform.rotation.eulerAngles.y, 0f);

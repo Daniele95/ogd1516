@@ -201,21 +201,42 @@ public class LoaderClass : NetworkBehaviour {
 		userPlayer = user;
 	}
 
+	[ClientRpc]
+	void RpcMatchMaking(int team){
+		if (isLocalPlayer) {
+			teamPlayer = team;
+			print ("RPCLOCAL" + teamPlayer);
+
+		}
+	}
+
 	//private bool setObjectsFind = true;
 
 	// Use this for initialization
 	void Start () {
+		GameObject net = GameObject.Find ("ControllerNet");
+		CustomNetworkManagerHUD netScript = net.GetComponent<CustomNetworkManagerHUD> ();
+		ControllerNet controllerNetScript = net.GetComponent<ControllerNet> ();
+
+		if (controllerNetScript.matchmaking) {
+			if (isServer) {
+				teamPlayer = GameObject.Find ("Lobby").GetComponent<Lobby> ().matchmaker ();
+				//CmdSetTeam (teamPlayer);
+				RpcMatchMaking(teamPlayer);
+				print ("TEAMPLAYER:" + teamPlayer);
+			}
+		}
+
 		if (isLocalPlayer) {
 			//if (setObjectsFind) {
-			GameObject net = GameObject.Find ("ControllerNet");
-
 			if (net != null) {
-				CustomNetworkManagerHUD netScript = net.GetComponent<CustomNetworkManagerHUD> ();
-				ControllerNet controllerNetScript = net.GetComponent<ControllerNet> ();
-
 				if (!controllerNetScript.matchmaking) {
 					teamPlayer = netScript.team;
+				} else {
+					
 				}
+
+				print ("TEAM:" + teamPlayer);
 
 				vehicleTypeClass = netScript.classType;
 				userPlayer = netScript.player;
