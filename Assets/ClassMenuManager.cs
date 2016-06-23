@@ -51,7 +51,7 @@ public class ClassMenuManager : MonoBehaviour {
     private string[] classNames = new string[7];
     private bool axisInUse;
     private int currentConfiguration;
-    private const float AXIS_THRESHOLD = 0.3f;
+    private const float AXIS_THRESHOLD = 0.8f;
     private const int NUMBER_OF_CONFIGURATIONS = 7; 
 
     // Use this for initialization
@@ -86,7 +86,8 @@ public class ClassMenuManager : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetAxisRaw("Horizontal") != 0)
+        print(Mathf.Abs(Input.GetAxisRaw("Horizontal")));
+        if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > AXIS_THRESHOLD)
         {
             if (!axisInUse)
             {
