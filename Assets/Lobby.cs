@@ -6,8 +6,13 @@ public class Lobby : NetworkBehaviour {
 	[SyncVar]
 	public int activePlayers = 0;
 
-	private int numBlueTeamPlayers = 0;
-	private int numRedTeamPlayers = 0;
+	[SyncVar]
+	public int numBlueTeamPlayers = 0;
+
+	[SyncVar]
+	public int numRedTeamPlayers = 0;
+
+
 
 	void Awake()
 	{
@@ -15,20 +20,33 @@ public class Lobby : NetworkBehaviour {
 		//DontDestroyOnLoad(transform.gameObject); 
 	}
 
-	public void matchmaker(GameObject player){
+	[Command]
+	void CmdSetTeam(int team)//float rx, float ry, float rz
+	{
+		if (team == 0)
+			numBlueTeamPlayers++;
+		if (team == 1)
+			numRedTeamPlayers++;
+	}
+
+	public int matchmaker(){
 		if (!isServer)
-			return;
+			return -1;
+
+		print ("MATCHMAKER");
+
+		int team = -1;
 
 		int maxPlayers = GameObject.Find("ControllerNet").GetComponent<ControllerNet> ().maxPlayers;
 
 		if (numBlueTeamPlayers == maxPlayers / 2) {
-			//player.GetComponent<LoaderClass> ().setTeamMatchMaking (1);
+			team = 1;
 
-			numRedTeamPlayers++;
+			CmdSetTeam (1);
 		} else if (numRedTeamPlayers == maxPlayers / 2) {
-			//player.GetComponent<LoaderClass> ().setTeamMatchMaking (0);
+			team = 0;
 
-			numBlueTeamPlayers++;
+			CmdSetTeam (0);
 		} else {
 			Random.seed = (int)System.DateTime.Now.Ticks;
 
@@ -38,20 +56,22 @@ public class Lobby : NetworkBehaviour {
 
 			if (random == 0) {
 				if (numBlueTeamPlayers < maxPlayers / 2) {
-					//player.GetComponent<LoaderClass> ().setTeamMatchMaking (0);
+					team = 0;
 
-					numBlueTeamPlayers++;
+					CmdSetTeam (0);
 				}
 			} else if (random == 1) {
 				if (numRedTeamPlayers < maxPlayers / 2) {
-					//player.GetComponent<LoaderClass> ().setTeamMatchMaking (1);
+					team = 1;
 
-					numRedTeamPlayers++;
+					CmdSetTeam (1);
 				}
 			}
 		}
 
 		print ("B:" + numBlueTeamPlayers + " R:" + numRedTeamPlayers);
+
+		return team;
 	}
 
 	// Use this for initialization

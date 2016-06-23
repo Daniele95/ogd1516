@@ -81,8 +81,6 @@ public class ControllerNet : NetworkManager {
 		lobby = GameObject.Find ("Lobby").GetComponent<Lobby> ();
 
 		lobby.activePlayers++;
-
-		lobby.matchmaker (player);
 	}
 
 	public bool canPlay(){
