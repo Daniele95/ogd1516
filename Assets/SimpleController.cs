@@ -380,7 +380,11 @@ public class SimpleController : NetworkBehaviour
     void GetInput()
     {
         input = Vector3.zero;
-		if (Input.GetKey (KeyCode.RightArrow))
+
+        input.x = Input.GetAxis("Horizontal");
+        input.z = Input.GetAxis("Vertical");
+
+        if (Input.GetKey (KeyCode.RightArrow))
 			input.x += 1.0f;
 		if (Input.GetKey (KeyCode.LeftArrow))
 			input.x -= 1.0f;
@@ -389,12 +393,12 @@ public class SimpleController : NetworkBehaviour
 		if (Input.GetKey (KeyCode.DownArrow))
 			input.z -= 1.0f;
 
-		if (inTunnel == 0) {
-			//if (specialPower == 2) {
+        if (inTunnel == 0) {
+            //if (specialPower == 2) {
             //    if (Input.GetKeyDown(KeyCode.Z))
-                    
-			//} else {
-				if (Input.GetKey (KeyCode.Z))
+
+            //} else {
+            if (Input.GetKey(KeyCode.Z) || Input.GetButton("XboxB"))
 					input.y += 1.0f;
 			//}
 		}

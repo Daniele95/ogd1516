@@ -86,17 +86,16 @@ public class ClassMenuManager : MonoBehaviour {
 
     void Update()
     {
-        print(Mathf.Abs(Input.GetAxisRaw("Horizontal")));
-        if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > AXIS_THRESHOLD)
+        if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > AXIS_THRESHOLD || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             if (!axisInUse)
             {
-                if (Input.GetAxisRaw("Horizontal") < -AXIS_THRESHOLD)
+                if (Input.GetAxisRaw("Horizontal") < -AXIS_THRESHOLD || Input.GetKeyDown(KeyCode.LeftArrow))
                 {
                     previousConfiguration();
                     //TODO: make leftArrow blink
                 }
-                else if (Input.GetAxisRaw("Horizontal") > AXIS_THRESHOLD)
+                else if (Input.GetAxisRaw("Horizontal") > AXIS_THRESHOLD || Input.GetKeyDown(KeyCode.RightArrow))
                 {
                     nextConfiguration();
                     //TODO: make rightArrow blink

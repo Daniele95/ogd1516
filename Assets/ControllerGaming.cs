@@ -118,7 +118,15 @@ public class ControllerGaming : NetworkBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (timer <= 0f) {
-			GameObject.Find ("WinTeam").GetComponent<Text> ().text = (scoreTeam0 > scoreTeam1 ? "Green Team" : "Violet Team") +" wins!";
+            string res = "";
+            if (scoreTeam0 > scoreTeam1)
+                res = "Green Team  wins!";
+            else if (scoreTeam1 > scoreTeam0)
+                res = "Violet Team wins!";
+            else
+                res = "Draw";
+
+            GameObject.Find("WinTeam").GetComponent<Text>().text = res;
 		}
 
 		if (!isServer)

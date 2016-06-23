@@ -415,7 +415,7 @@ public class Shooting : NetworkBehaviour {
 			if (!isLocalPlayer)
 				return;
 
-			if (Input.GetKeyDown (KeyCode.A)) {
+			if (Input.GetKeyDown (KeyCode.A) || Input.GetButtonDown("XboxY")) {
 				if (scriptClass.vehicleTypeClass != 0) {
 					if (currentWeapon == 0) {
 						currentWeapon = 1;
@@ -434,7 +434,7 @@ public class Shooting : NetworkBehaviour {
 				}
 			}
   
-			if (Input.GetKey (KeyCode.Space)) {
+			if (Input.GetKey (KeyCode.Space) || Input.GetButton("XboxRB")) {
 				if (currentWeapon == 0) {
 					if (shoot != null) {
 						if (timerShootFirstWeapon <= 0f) {
