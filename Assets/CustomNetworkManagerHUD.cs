@@ -1,4 +1,5 @@
 #if ENABLE_UNET
+using UnityEngine.UI;
 
 namespace UnityEngine.Networking
 {
@@ -12,6 +13,7 @@ namespace UnityEngine.Networking
 		[SerializeField] public int offsetX;
 		[SerializeField] public int offsetY;
 
+		public GameObject lobby;
 		public int classType = 0;
 		public int team = 0;
 		public string player = "Player";
@@ -78,6 +80,30 @@ namespace UnityEngine.Networking
 
 		void OnGUI()
 		{
+			int numPlayers = lobby.GetComponent<Lobby> ().activePlayers;
+			int maxPlayers = GetComponent<ControllerNet> ().maxPlayers;
+			GameObject waitingPlayers = GameObject.Find ("WaitingPlayers");
+
+			//Client ready but not the scene
+			if (numPlayers < maxPlayers) {
+				if (NetworkClient.active && !ClientScene.ready || NetworkServer.active) {
+					string strNumPlayers = "";
+
+					if(numPlayers > 0)
+						strNumPlayers = "Currently " + numPlayers + " of " + maxPlayers;
+
+					waitingPlayers.GetComponent<Text> ().text = "Waiting for other players\n" + strNumPlayers;
+				}
+			} else {
+				if(waitingPlayers != null)
+					GameObject.Find ("BGWaitingPlayers").SetActive (false);
+			}
+
+			if (!NetworkClient.active && !host) {
+				startClient (ipAddress);
+				print ("START CLIENT");
+			}
+
 			if (!showGUI)
 				return;
 
