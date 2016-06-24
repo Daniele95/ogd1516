@@ -60,12 +60,14 @@ public class JoinManager : MonoBehaviour {
         inputField.text = Regex.Replace(inputField.text, @"[^0-9 .]", "");
        if(Input.GetButtonDown("XboxA") && inputField.isActiveAndEnabled && inputField.isFocused)
        {
-           Send();
+            GameObject.Find("Cnvs_main").GetComponent<AudioSource>().Play();
+            Send();
        }
        if(Input.GetButtonDown("XboxB") && inputField.isActiveAndEnabled && inputField.isFocused)
        {
-           btnManager.ReturnToPrivateGameMenu();
-           GoToSleep();
+            GameObject.Find("Cnvs_main").GetComponent<AudioSource>().Play();
+            btnManager.ReturnToPrivateGameMenu();
+            GoToSleep();
         }
     }
 }
