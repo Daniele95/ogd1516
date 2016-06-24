@@ -13,8 +13,6 @@ public class ClassMenuManager : MonoBehaviour {
     public Image arrowLeft;
     public Sprite arrowLeft_glow;
     public Sprite arrowRight_glow;
-    public Image health;
-    public Image speed;
     public RawImage hex_firstWeapon;       //hexes contains the logos and ammo information
     public RawImage hex_secondWeapon;
     public RawImage hex_specialAbility;
@@ -42,6 +40,15 @@ public class ClassMenuManager : MonoBehaviour {
     public Sprite driftingSprite;
     public Sprite camperSprite;
     public Sprite medicalSprite;
+
+    public Image healthContainer;
+    public Image speedContainer;
+    public Sprite health;
+    public Sprite speed;
+    public Sprite healthLow;
+    public Sprite healthHigh;
+    public Sprite speedLow;
+    public Sprite speedHigh;
 
     public bool host;
 
