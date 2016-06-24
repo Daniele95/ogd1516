@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class ClassMenuManager : MonoBehaviour {
 
@@ -43,8 +44,8 @@ public class ClassMenuManager : MonoBehaviour {
 
     public Image healthContainer;
     public Image speedContainer;
-    public Sprite health;
-    public Sprite speed;
+    public Sprite healthAverage;
+    public Sprite speedAverage;
     public Sprite healthLow;
     public Sprite healthHigh;
     public Sprite speedLow;
@@ -58,6 +59,18 @@ public class ClassMenuManager : MonoBehaviour {
     private string[] classNames = new string[7];
     private bool axisInUse;
     private int currentConfiguration;
+
+    private Vector2 AVERAGE_PARAMETER_SIZE = new Vector2(277f, 69f);
+    private Vector2 HIGH_PARAMETER_SIZE = new Vector2(369f, 69f);
+    private Vector2 LOW_PARAMETER_SIZE = new Vector2(199f, 69f);
+
+    private Vector3 AVERAGE_HEALTH_POSITION = new Vector3(151f,22.7f,0f);
+    private Vector3 LOW_HEALTH_POSITION = new Vector3(112f, 22.7f,0f);
+    private Vector3 HIGH_HEALTH_POSITION = new Vector3(194f,22.7f,0f);
+    private Vector3 AVERAGE_SPEED_POSITION = new Vector3(151,-10.4f,0f);
+    private Vector3 LOW_SPEED_POSITION = new Vector3(112f,-10.4f,0f);
+    private Vector3 HIGH_SPEED_POSITION = new Vector3(193f,-10.4f,0f);
+
     private const float AXIS_THRESHOLD = 0.8f;
     private const int NUMBER_OF_CONFIGURATIONS = 7; 
 
@@ -108,6 +121,7 @@ public class ClassMenuManager : MonoBehaviour {
                     //TODO: make rightArrow blink
                 }
                 axisInUse = true;
+                GameObject.Find("Cnvs_main").GetComponent<AudioSource>().Play();
             }
         }
         else
@@ -119,22 +133,26 @@ public class ClassMenuManager : MonoBehaviour {
                 GameObject.Find("Cnvs_btns").GetComponent<BtnManager>().ReturnToPrivateGameMenu();
             else
                 GameObject.Find("Cnvs_join").GetComponent<JoinManager>().WakeUp();
+            GameObject.Find("Cnvs_main").GetComponent<AudioSource>().Play();
         }
         if (Input.GetButtonDown("XboxA"))
-            if(host && currentConfiguration < 3)
+        {
+            if (host && currentConfiguration < 3)
             {
-				GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().classType = currentConfiguration;
-				GameObject.Find ("NetVehicleContainer").GetComponent<NetVehicleContainer> ().host = true;
-				SceneManager.LoadScene("demo");
-            }
-            else if(!host && currentConfiguration < 3)
-            {
-				GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().classType = currentConfiguration;
-				GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().ipAddress = ipAddress;
-				GameObject.Find ("NetVehicleContainer").GetComponent<NetVehicleContainer> ().host = false;
-			 	SceneManager.LoadScene("demo");
-            }
+                GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().classType = currentConfiguration;
+                GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().host = true;
+                SceneManager.LoadScene("demo");
 
+            }
+            else if (!host && currentConfiguration < 3)
+            {
+                GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().classType = currentConfiguration;
+                GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().ipAddress = ipAddress;
+                GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().host = false;
+                SceneManager.LoadScene("demo");
+            }
+            GameObject.Find("Cnvs_main").GetComponent<AudioSource>().Play();
+        }
     }
 
     private void nextConfiguration()
@@ -160,6 +178,7 @@ public class ClassMenuManager : MonoBehaviour {
                 hex_firstWeapon.GetComponentInChildren<Image>().sprite = shotSprite;
                 hex_secondWeapon.GetComponentInChildren<Image>().sprite = driftSprite;
                 hex_specialAbility.GetComponentInChildren<Image>().sprite = driftingSprite;
+                setParametersBars("average","high");
                 hex_firstWeapon.GetComponentInChildren<Text>().text = "130";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "-";
                 hex_specialAbility.gameObject.SetActive(true);
@@ -169,6 +188,7 @@ public class ClassMenuManager : MonoBehaviour {
                 activateMiner();
                 hex_firstWeapon.GetComponentInChildren<Image>().sprite = mineSprite;
                 hex_secondWeapon.GetComponentInChildren<Image>().sprite = bombSprite;
+                setParametersBars("low", "average");
                 hex_firstWeapon.GetComponentInChildren<Text>().text = "10";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "12";
                 hex_specialAbility.gameObject.SetActive(false);
@@ -179,6 +199,7 @@ public class ClassMenuManager : MonoBehaviour {
                 hex_firstWeapon.GetComponentInChildren<Image>().sprite = bazookaSprite;
                 hex_secondWeapon.GetComponentInChildren<Image>().sprite = laserSprite;
                 hex_specialAbility.GetComponentInChildren<Image>().sprite = camperSprite;
+                setParametersBars("high", "low");
                 hex_firstWeapon.GetComponentInChildren<Text>().text = "8";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "10";
                 hex_specialAbility.gameObject.SetActive(true);
@@ -189,6 +210,7 @@ public class ClassMenuManager : MonoBehaviour {
                 hex_firstWeapon.GetComponentInChildren<Image>().sprite = cureSprite;
                 hex_secondWeapon.GetComponentInChildren<Image>().sprite = poisonSprite;
                 hex_specialAbility.GetComponentInChildren<Image>().sprite = medicalSprite;
+                setParametersBars("high", "high");
                 hex_firstWeapon.GetComponentInChildren<Text>().text = "90";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "10";
                 hex_specialAbility.gameObject.SetActive(true);
@@ -198,6 +220,7 @@ public class ClassMenuManager : MonoBehaviour {
                 activateFake();
                 hex_firstWeapon.GetComponentInChildren<Image>().sprite = rotatingBladesSprite;
                 hex_secondWeapon.GetComponentInChildren<Image>().sprite = flameThrowerSprite;
+                setParametersBars("average", "low");
                 hex_firstWeapon.GetComponentInChildren<Text>().text = "-";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "90";
                 hex_specialAbility.gameObject.SetActive(false);
@@ -207,6 +230,7 @@ public class ClassMenuManager : MonoBehaviour {
                 activateFake();
                 hex_firstWeapon.GetComponentInChildren<Image>().sprite = chainSprite;
                 hex_secondWeapon.GetComponentInChildren<Image>().sprite = needlesSprite;
+                setParametersBars("average", "average");
                 hex_firstWeapon.GetComponentInChildren<Text>().text = "-";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "-";
                 hex_specialAbility.gameObject.SetActive(false);
@@ -216,6 +240,7 @@ public class ClassMenuManager : MonoBehaviour {
                 activateFake();
                 hex_firstWeapon.GetComponentInChildren<Image>().sprite = shieldSprite;
                 hex_secondWeapon.GetComponentInChildren<Image>().sprite = bombSprite;
+                setParametersBars("low", "high");
                 hex_firstWeapon.GetComponentInChildren<Text>().text = "-";
                 hex_secondWeapon.GetComponentInChildren<Text>().text = "12";
                 hex_specialAbility.gameObject.SetActive(false);
@@ -224,6 +249,47 @@ public class ClassMenuManager : MonoBehaviour {
         }
         shortDescription.text = descriptions[configuration];
         classText.text = classNames[configuration];
+    }
+
+    private void setParametersBars(string healthValue, string speedValue)
+    {
+        switch(healthValue)
+        {
+            case "low":
+                healthContainer.sprite = healthLow;
+                healthContainer.rectTransform.sizeDelta = LOW_PARAMETER_SIZE;
+                healthContainer.rectTransform.localPosition = LOW_HEALTH_POSITION;
+                break;
+            case "average":
+                healthContainer.sprite = healthAverage;
+                healthContainer.rectTransform.sizeDelta = AVERAGE_PARAMETER_SIZE;
+                healthContainer.rectTransform.localPosition = AVERAGE_HEALTH_POSITION;
+                break;
+            case "high":
+                healthContainer.sprite = healthHigh;
+                healthContainer.rectTransform.sizeDelta = HIGH_PARAMETER_SIZE;
+                healthContainer.rectTransform.localPosition = HIGH_HEALTH_POSITION;
+                break;
+        }
+
+        switch (speedValue)
+        {
+            case "low":
+                speedContainer.sprite = speedLow;
+                speedContainer.rectTransform.sizeDelta = LOW_PARAMETER_SIZE;
+                speedContainer.rectTransform.localPosition = LOW_SPEED_POSITION;
+                break;
+            case "average":
+                speedContainer.sprite = speedAverage;
+                speedContainer.rectTransform.sizeDelta = AVERAGE_PARAMETER_SIZE;
+                speedContainer.rectTransform.localPosition = AVERAGE_SPEED_POSITION;
+                break;
+            case "high":
+                speedContainer.sprite = speedHigh;
+                speedContainer.rectTransform.sizeDelta = HIGH_PARAMETER_SIZE;
+                speedContainer.rectTransform.localPosition = HIGH_SPEED_POSITION;
+                break;
+        }
     }
 
     private void activateDrifter()
