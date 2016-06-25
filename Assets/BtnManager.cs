@@ -4,14 +4,12 @@ using System;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-/**
-* REMEMBER TO LOAD JOYPAD BUTTONS AFTER
-**/
 
 public class BtnManager : MonoBehaviour {
 
     public Canvas classMeshManager;
     public Canvas classUIManager;
+    public UsernameChanger usernameChanger;
 
     private GameObject canvas;
     private Button[] buttons;
@@ -26,15 +24,24 @@ public class BtnManager : MonoBehaviour {
         classUIManager.gameObject.SetActive(false);
 
         canvas = this.gameObject;
+        usernameChanger = GameObject.Find("TextUsername").GetComponent<UsernameChanger>();
+
         activeColor = new Color(1f, 1f, 1f, 1f);
         inactiveColor = new Color(148 / 255f, 148 / 255f, 148 / 255f, 1f);
+
         interactibleButtonsNames.Add("Btn_NewGame");
         interactibleButtonsNames.Add("Btn_Exit");
         interactibleButtonsNames.Add("Btn2_PrivateGame");
         interactibleButtonsNames.Add("Btn3_Host");
         interactibleButtonsNames.Add("Btn3_Join");
+
+        OpenFirstMenu();
+	}
+
+    public void OpenFirstMenu()
+    {
         buttons = canvas.GetComponentsInChildren<Button>(true);
-        for(int i = 0; i < buttons.Length; i++)
+        for (int i = 0; i < buttons.Length; i++)
         {
             if (interactibleButtonsNames.Contains(buttons[i].name))
                 setButtonInteractible(buttons[i], true);
@@ -43,13 +50,16 @@ public class BtnManager : MonoBehaviour {
 
             if (buttons[i].name.Contains("Btn2") || buttons[i].name.Contains("Btn3"))
                 buttons[i].gameObject.SetActive(false);
+            else
+                buttons[i].gameObject.SetActive(true);
 
             if (buttons[i].name.Contains(firstButton))
                 buttons[i].Select();
         }
-	}
+        usernameChanger.currentMenu = UsernameChanger.FIRST;
+    }
 
-    internal void ReturnToPrivateGameMenu()
+    public void ReturnToPrivateGameMenu()
     {
         classUIManager.gameObject.SetActive(false);
         classMeshManager.gameObject.SetActive(false);
@@ -60,6 +70,7 @@ public class BtnManager : MonoBehaviour {
             if (buttons[i].name.Equals("Btn3_Host"))
                 buttons[i].Select();
         }
+        usernameChanger.currentMenu = UsernameChanger.THIRD;
     }
 
     public void OpenNewGameMenu()
@@ -77,6 +88,7 @@ public class BtnManager : MonoBehaviour {
             else
                 setButtonInteractible(buttons[i], false);
         }
+        usernameChanger.currentMenu = UsernameChanger.SECOND;
     }
 
     public void OpenPrivateGameMenu()
@@ -92,6 +104,7 @@ public class BtnManager : MonoBehaviour {
             else
                 setButtonInteractible(buttons[i], false);
         }
+        usernameChanger.currentMenu = UsernameChanger.THIRD;
     }
 
     public void OpenClassSelection()
@@ -100,6 +113,8 @@ public class BtnManager : MonoBehaviour {
         classUIManager.gameObject.SetActive(true);
 
         classMeshManager.GetComponent<ClassMenuManager>().host = true;
+
+        usernameChanger.currentMenu = UsernameChanger.CLASSES;
 
         CloseEverything();
     }

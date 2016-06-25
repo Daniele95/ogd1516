@@ -7,22 +7,23 @@ public class JoinManager : MonoBehaviour {
     public Canvas btnCanvas;
     public Canvas classMenuManager;
     public Canvas classMenuUIManager;
+    public InputField inputField;
 
     private GameObject canvas;
-    private InputField inputField;
     private Text lbl;
     private BtnManager btnManager;
+    private UsernameChanger usernameChanger;
     private string input;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         canvas = this.gameObject;
-        inputField = canvas.GetComponentInChildren<InputField>();
         lbl = canvas.GetComponentInChildren<Text>();
         lbl.gameObject.SetActive(false);
         inputField.gameObject.SetActive(false);
         btnManager = btnCanvas.GetComponent<BtnManager>();
-	}
+        usernameChanger = GameObject.Find("TextUsername").GetComponent<UsernameChanger>();
+    }
 	
 	public void WakeUp()
     {
@@ -32,6 +33,8 @@ public class JoinManager : MonoBehaviour {
         inputField.ActivateInputField();
         classMenuManager.gameObject.SetActive(false);
         classMenuUIManager.gameObject.SetActive(false);
+
+        usernameChanger.currentMenu = UsernameChanger.JOIN;
     }
 
     public void GoToSleep()
@@ -49,6 +52,8 @@ public class JoinManager : MonoBehaviour {
         else
             classMenuManager.GetComponent<ClassMenuManager>().ipAddress = inputField.text;
 
+        usernameChanger.currentMenu = UsernameChanger.CLASSES;
+
         GoToSleep();
 
         classMenuManager.gameObject.SetActive(true);
@@ -57,7 +62,7 @@ public class JoinManager : MonoBehaviour {
 
     void Update()
     {
-        inputField.text = Regex.Replace(inputField.text, @"[^0-9 .]", "");
+       inputField.text = Regex.Replace(inputField.text, @"[^0-9 .]", "");
        if(Input.GetButtonDown("XboxA") && inputField.isActiveAndEnabled && inputField.isFocused)
        {
             GameObject.Find("Cnvs_main").GetComponent<AudioSource>().Play();
