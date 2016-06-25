@@ -105,8 +105,8 @@ namespace UnityEngine.Networking
 			}
 
 			if (!NetworkClient.active && !host) {
-				SceneManager.LoadScene("Main menu");
-				//startClient (ipAddress);
+				//SceneManager.LoadScene("Main menu");
+				startClient (ipAddress);
 				//print ("START CLIENT");
 			}
 

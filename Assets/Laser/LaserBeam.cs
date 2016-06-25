@@ -82,7 +82,7 @@ public class LaserBeam : NetworkBehaviour {
 			return;
 
 		if (col.gameObject.CompareTag ("VehicleTeam0") && gameObject.CompareTag ("BulletTeam1") || col.gameObject.CompareTag ("VehicleTeam1") && gameObject.CompareTag ("BulletTeam0")) {
-			Physics.IgnoreCollision(col.gameObject.GetComponent<Collider>(), GetComponent<Collider>());
+			//Physics.IgnoreCollision(col.gameObject.GetComponent<Collider>(), GetComponent<Collider>());
 
 			bool found = false;
 
@@ -95,14 +95,11 @@ public class LaserBeam : NetworkBehaviour {
 			//}
 
 			if (!found) {
-				GuiVehicle gui = col.gameObject.GetComponent<GuiVehicle> ();
-				//gui.life -= hitPoints;
+				//GuiVehicle gui = col.gameObject.GetComponent<GuiVehicle> ();
 
-				gui.TakeDamage (hitPoints);
+				//gui.TakeDamage (hitPoints);
 
 				CmdDoExplosion ();
-
-				//print ("hiT:" + hitPoints);
 			}
 
 			//Destroy (gameObject);

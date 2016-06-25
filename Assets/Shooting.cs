@@ -395,17 +395,17 @@ public class Shooting : NetworkBehaviour {
 					AmmoPickupBehaviour pickup = (AmmoPickupBehaviour)pickups [i].GetComponent<AmmoPickupBehaviour> ();
 
 					if (Vector3.Distance (pickups [i].transform.position, transform.position) <= pickup.RADIUS_PICKUP) {
-						if (currentWeapon == 0) {
+						//if (currentWeapon == 0) {
 							numBulletsFirstWeapon += pickup.numBulletsPickup;
 
 							if (numBulletsFirstWeapon > maxNumBulletsFirstWeapon)
 								numBulletsFirstWeapon = maxNumBulletsFirstWeapon;
-						} else if (currentWeapon == 1) {
+						//} else if (currentWeapon == 1) {
 							numBulletsSecondWeapon += pickup.numBulletsPickup;
 
 							if (numBulletsSecondWeapon > maxNumBulletsSecondWeapon)
 								numBulletsSecondWeapon = maxNumBulletsSecondWeapon;
-						}
+						//}
 
 						break;
 					}

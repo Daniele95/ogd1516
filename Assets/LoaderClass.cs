@@ -41,6 +41,11 @@ public class LoaderClass : NetworkBehaviour {
 
 	public Color teamColor;
 
+	public override void OnDeserialize(NetworkReader reader, bool initialState)
+	{
+		base.OnDeserialize(reader, initialState);
+	}
+
     void setSkinModel(int typeClass){
 		GameObject drifterMesh = transform.Find ("drifter").gameObject;
 		GameObject minerMesh = transform.Find ("miner").gameObject;

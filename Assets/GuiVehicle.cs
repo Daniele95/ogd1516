@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class GuiVehicle : NetworkBehaviour {
 	//public bool Player = true;
@@ -44,10 +45,6 @@ public class GuiVehicle : NetworkBehaviour {
 		GameObject shotExplosion = (GameObject)Instantiate (explosion, transform.position, transform.rotation);
 
 		NetworkServer.Spawn (shotExplosion);
-
-        GameObject respawnSound = (GameObject)Instantiate(respawnSoundGameObject, transform.position, transform.rotation);
-
-        NetworkServer.Spawn(respawnSound);
     }
 
 	[Command]
@@ -104,6 +101,8 @@ public class GuiVehicle : NetworkBehaviour {
 
 				CmdDoExplosionRespawn ();
 
+				Instantiate(respawnSoundGameObject, transform.position, transform.rotation);
+
 				scriptMovement.inTunnel = 0;
 
 				int whichTeam;
@@ -155,32 +154,34 @@ public class GuiVehicle : NetworkBehaviour {
 		cameraObject = GameObject.Find ("MainCamera");
 
 		if (isLocalPlayer) {
+			hitLaser = new List<GameObject> ();
+
 			user.gameObject.SetActive (false);
 			//lifeBar.gameObject.SetActive (false);
 		
 			//if (setLifeBar) {
-			Drifter = GameObject.Find ("Life31");
-			Camper = GameObject.Find ("Life17");
-			Miner = GameObject.Find ("Life");
+			Drifter = GameObject.Find ("Life");
+			Camper = GameObject.Find ("Life31");
+			Miner = GameObject.Find ("Life17");
 			
 
 			if (loaderScript.vehicleTypeClass == 1) {                    //if it's a miner
 					Miner.SetActive (true);
 					Drifter.SetActive (false);
 					Camper.SetActive (false);
-					lifeLoader = GameObject.Find ("LifeLoader");     //takes the object LifeLoader
+					lifeLoader = GameObject.Find ("LifeLoader17");     //takes the object LifeLoader
 
 				} else if (loaderScript.vehicleTypeClass == 0) {                //if it's a drifter
 					Drifter.SetActive (true);
 					Miner.SetActive (false);
 					Camper.SetActive (false);
-					lifeLoader = GameObject.Find ("LifeLoader31");    //takes the object LifeLoader31
+					lifeLoader = GameObject.Find ("LifeLoader");    //takes the object LifeLoader31
 
 				} else if (loaderScript.vehicleTypeClass == 2) {                //if it's a camper
 					Camper.SetActive (true);
 					Drifter.SetActive (false);
 					Miner.SetActive (false);
-					lifeLoader = GameObject.Find ("LifeLoader17");    //takes the object LifeLoader17
+					lifeLoader = GameObject.Find ("LifeLoader31");    //takes the object LifeLoader17
 
 				}
 
@@ -189,7 +190,34 @@ public class GuiVehicle : NetworkBehaviour {
 		}
 	}
 
+	private List<GameObject> hitLaser;
+
 	void OnCollisionEnter(Collision col){
+		//if (!isServer)
+		//	return;
+
+
+		print (col.gameObject.transform.GetType ());
+
+		if (col.gameObject.CompareTag ("BulletTeam1") && gameObject.CompareTag ("VehicleTeam0") || col.gameObject.CompareTag ("BulletTeam0") && gameObject.CompareTag ("VehicleTeam1")) {
+			
+
+			if (col.gameObject.name.Contains ("Laser")) {
+				bool found = false;
+
+				//for (int i = 0; i < hitEnemies.Count; i++) {
+				if (hitLaser.Contains (col.gameObject)) {
+					found = true;
+				} else {
+					hitLaser.Add (col.gameObject);
+				}
+				//}
+
+				if (!found) {
+					TakeDamage (col.gameObject.GetComponent<LaserBeam>().hitPoints);
+				}
+			}
+		}
 		/*if (col.gameObject.CompareTag ("HealthPickup")) {
             if (life < maxLife)
             {
@@ -243,6 +271,8 @@ public class GuiVehicle : NetworkBehaviour {
 		text.color = loaderScript.teamColor;
 	}
 
+	float timerGo;
+
 	//private bool setLifeBar = true;
 
 	// Update is called once per frame
@@ -261,13 +291,32 @@ public class GuiVehicle : NetworkBehaviour {
 
 
 
+		Text respawnText = GameObject.Find ("RespawnText").GetComponent<Text>();
+
 		if (life <= 0) {
+			if (isLocalPlayer) {
+				timerGo = 2f;
+
+				respawnText.text = "Respawn in " + (int)timerRespawn + " seconds";
+			}
+
 			timerRespawn -= Time.deltaTime;
 
 			if (timerRespawn <= 0f) {
 				timerRespawn = startTimerRespawn;
 
 				life = maxLife;
+			}
+		} else {
+			if (isLocalPlayer) {
+				timerGo -= Time.deltaTime;
+
+				if (timerGo > 0f) {
+					respawnText.text = "GO!";
+
+					respawnText.color = Color.Lerp (Color.white, Color.green, Mathf.Abs (Mathf.Cos (timerGo * 10f)));
+				} else
+					respawnText.text = "";
 			}
 		}
 
