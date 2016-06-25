@@ -1,5 +1,6 @@
 #if ENABLE_UNET
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace UnityEngine.Networking
 {
@@ -51,6 +52,10 @@ namespace UnityEngine.Networking
 
 		void Update()
 		{
+			if (host && !NetworkServer.active) {
+				SceneManager.LoadScene("Main menu");	
+			}
+
 			if (!showGUI)
 				return;
 
@@ -100,8 +105,9 @@ namespace UnityEngine.Networking
 			}
 
 			if (!NetworkClient.active && !host) {
-				startClient (ipAddress);
-				print ("START CLIENT");
+				SceneManager.LoadScene("Main menu");
+				//startClient (ipAddress);
+				//print ("START CLIENT");
 			}
 
 			if (!showGUI)
@@ -310,6 +316,18 @@ namespace UnityEngine.Networking
 				manager.StartHost();
 			}
         }
+
+		public void stopHost(){
+			if (NetworkServer.active) {
+				manager.StopHost ();
+			}
+		}
+
+		public void stopClient(){
+			if (NetworkClient.active) {
+				manager.StopClient ();
+			}
+		}
 
         public void setClass(int classType)
         {

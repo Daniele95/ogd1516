@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ControllerGaming : NetworkBehaviour {
 	[SyncVar]
@@ -17,6 +18,8 @@ public class ControllerGaming : NetworkBehaviour {
     private GameObject scoreTextTeam1;
     private GameObject timingText;
 	private GameObject timingLoader;
+
+	public GameObject winTeamBG;
 
 	// Use this for initialization
 	void Start () {
@@ -126,7 +129,14 @@ public class ControllerGaming : NetworkBehaviour {
             else
                 res = "Draw";
 
-            GameObject.Find("WinTeam").GetComponent<Text>().text = res;
+			winTeamBG.SetActive (true);
+			GameObject.Find("WinTeam").GetComponent<Text>().text = res + "\n" + scoreTeam0 + " - " + scoreTeam1;
+
+			if (Input.GetButtonDown ("XboxA")) {
+				GameObject.Find ("ControllerNet").GetComponent<CustomNetworkManagerHUD> ().stopHost ();
+				GameObject.Find ("ControllerNet").GetComponent<CustomNetworkManagerHUD> ().stopClient ();
+				SceneManager.LoadScene ("Main menu");
+			}
 		}
 
 		if (!isServer)
