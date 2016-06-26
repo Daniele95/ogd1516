@@ -88,13 +88,13 @@ public class ClassMenuManager : MonoBehaviour {
         classNames[5] = "Chainer";
         classNames[6] = "Defender";
 
-        descriptions[0] = "Hit the enemies drifting, with the machine gun or sideblades if the enemy comes up beside.";
-        descriptions[1] = "Hide mines everywhere to trap the opponent or throw the bombs with a catapult.";
-        descriptions[2] = "Low but strong, knock down the enemy with a bazooka or a laser cannon, choosing the camping modality.";
-        descriptions[3] = "Cure your mates or poison your opponents, following and supporting the team.";
-        descriptions[4] = "Fast and strong, you could break down the enemy only colliding, or burn through a flame thrower.";
-        descriptions[5] = "Enchain the enemy to attack him directly with the needles on your car body.";
-        descriptions[6] = "Protect you and your mate with the shield, throwing bombs around the arena.";
+        descriptions[0] = "This hovercar drives fast and is able to quickly change direction drifting. Open holes wide in your enemies with the two machine guns, or drift your way through them (press <color=#ff0000ff>B</color> to drift).";
+        descriptions[1] = "This hovercar lets you approach the battle in a more tactical way: mining the battlefield or dropping bombs from a distance it'll always be sure to deliver a great deal of damage taking few risks.";
+        descriptions[2] = "This hovercar sure likes fireworks. Slow but sturdy, it is equipped with the Laser Cannon: equipping it with <color=#ffff00ff>Y</color> makes the vehicle go in Camper Mode, where it cannot move but delivers an incredible deal of damage.";
+        descriptions[3] = "This hovercar has a great tactical value. It can cure nearby allies or sting the enemies, making them constantly lose some health over time. <color=#ff0000ff>NOT AVAILABLE IN THIS DEMO</color>";
+        descriptions[4] = "This hovercar likes some contact. It is very fast and effective when thrown right in the middle of the action. It delivers damage either by crashing its enemies or burning them with the flamethrower. <color=#ff0000ff>NOT AVAILABLE IN THIS DEMO</color>";
+        descriptions[5] = "This hovercar doesn't really like all this movement around it. It is able to chain enemies and bring them close, just to sting them with a thousand needles. <color=#ff0000ff>NOT AVAILABLE IN THIS DEMO</color>";
+        descriptions[6] = "This hovercar helps stopping the firepower coming at its team with the shield, and it is also able to deliver some damage from behind it through bombs. <color=#ff0000ff>NOT AVAILABLE IN THIS DEMO</color>";
 
         ShowConfiguration(currentConfiguration);
     }
