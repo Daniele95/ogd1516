@@ -34,6 +34,10 @@ public class BtnManager : MonoBehaviour {
         interactibleButtonsNames.Add("Btn2_PrivateGame");
         interactibleButtonsNames.Add("Btn3_Host");
         interactibleButtonsNames.Add("Btn3_Join");
+        interactibleButtonsNames.Add("Btn4_1v1");
+        interactibleButtonsNames.Add("Btn4_2v2");
+        interactibleButtonsNames.Add("Btn4_3v3");
+        interactibleButtonsNames.Add("Btn4_4v4");
 
         OpenFirstMenu();
 	}
@@ -48,7 +52,7 @@ public class BtnManager : MonoBehaviour {
             else
                 setButtonInteractible(buttons[i], false);
 
-            if (buttons[i].name.Contains("Btn2") || buttons[i].name.Contains("Btn3"))
+            if (buttons[i].name.Contains("Btn2") || buttons[i].name.Contains("Btn3") || buttons[i].name.Contains("Btn4"))
                 buttons[i].gameObject.SetActive(false);
             else
                 buttons[i].gameObject.SetActive(true);
@@ -71,6 +75,20 @@ public class BtnManager : MonoBehaviour {
                 buttons[i].Select();
         }
         usernameChanger.currentMenu = UsernameChanger.THIRD;
+    }
+
+    public void ReturnToHostMenu()
+    {
+        classUIManager.gameObject.SetActive(false);
+        classMeshManager.gameObject.SetActive(false);
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].gameObject.SetActive(true);
+            setButtonInteractible(buttons[i], buttons[i].name.Contains("Btn4") && interactibleButtonsNames.Contains(buttons[i].name));
+            if (buttons[i].name.Equals("Btn4_1v1"))
+                buttons[i].Select();
+        }
+        usernameChanger.currentMenu = UsernameChanger.FOURTH;
     }
 
     public void OpenNewGameMenu()
@@ -107,6 +125,23 @@ public class BtnManager : MonoBehaviour {
         usernameChanger.currentMenu = UsernameChanger.THIRD;
     }
 
+    public void OpenGameModeMenu()
+    {
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (buttons[i].name.Contains("Btn4"))
+            {
+                buttons[i].gameObject.SetActive(true);
+                setButtonInteractible(buttons[i], true);
+                if (buttons[i].name.Contains("1v1"))
+                    buttons[i].Select();
+            }
+            else
+                setButtonInteractible(buttons[i], false);
+        }
+        usernameChanger.currentMenu = UsernameChanger.FOURTH;
+    }
+
     public void OpenClassSelection()
     {
         classMeshManager.gameObject.SetActive(true);
@@ -117,6 +152,11 @@ public class BtnManager : MonoBehaviour {
         usernameChanger.currentMenu = UsernameChanger.CLASSES;
 
         CloseEverything();
+    }
+
+    public void setNumberOfPlayers(int numberOfPlayers)
+    {
+        GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().numberOfPlayers = numberOfPlayers;
     }
   
     public void CloseNewGameMenu()
@@ -141,7 +181,7 @@ public class BtnManager : MonoBehaviour {
     {
         for (int i = 0; i < buttons.Length; i++)
         {
-            if (buttons[i].name.Contains("Btn3"))
+            if (buttons[i].name.Contains("Btn3") || buttons[i].name.Contains("Btn4"))
                 buttons[i].gameObject.SetActive(false);
             else
                 if (interactibleButtonsNames.Contains(buttons[i].name) && buttons[i].name.Contains("Btn2"))
@@ -153,6 +193,26 @@ public class BtnManager : MonoBehaviour {
             else
                 setButtonInteractible(buttons[i], false);
         }
+        usernameChanger.currentMenu = UsernameChanger.SECOND;
+    }
+
+    public void CloseGameModeMenu()
+    {
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (buttons[i].name.Contains("Btn4"))
+                buttons[i].gameObject.SetActive(false);
+            else
+                if (interactibleButtonsNames.Contains(buttons[i].name) && buttons[i].name.Contains("Btn3"))
+                {
+                    setButtonInteractible(buttons[i], true);
+                    if (buttons[i].name.Contains("Host"))
+                        buttons[i].Select();
+                }
+                else
+                    setButtonInteractible(buttons[i], false);
+        }
+        usernameChanger.currentMenu = UsernameChanger.THIRD;
     }
 
     public void CloseEverything()

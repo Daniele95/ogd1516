@@ -17,6 +17,7 @@ public class UsernameChanger : MonoBehaviour {
     public const string FIRST = "first";
     public const string SECOND = "second";
     public const string THIRD = "third";
+    public const string FOURTH = "fourth";
     public const string JOIN = "join";
     public const string CLASSES = "classes";
 
@@ -60,6 +61,7 @@ public class UsernameChanger : MonoBehaviour {
             case FIRST:
             case SECOND:
             case THIRD:
+            case FOURTH:
                 GameObject.Find("Cnvs_btns").GetComponent<BtnManager>().CloseEverything();
                 break;
             case JOIN:
@@ -99,6 +101,12 @@ public class UsernameChanger : MonoBehaviour {
                 GameObject.Find("Cnvs_btns").GetComponent<BtnManager>().OpenFirstMenu();
                 GameObject.Find("Cnvs_btns").GetComponent<BtnManager>().OpenNewGameMenu();
                 GameObject.Find("Cnvs_btns").GetComponent<BtnManager>().OpenPrivateGameMenu();
+                break;
+            case FOURTH:
+                GameObject.Find("Cnvs_btns").GetComponent<BtnManager>().OpenFirstMenu();
+                GameObject.Find("Cnvs_btns").GetComponent<BtnManager>().OpenNewGameMenu();
+                GameObject.Find("Cnvs_btns").GetComponent<BtnManager>().OpenPrivateGameMenu();
+                GameObject.Find("Cnvs_btns").GetComponent<BtnManager>().OpenGameModeMenu();
                 break;
             case JOIN:
                 GameObject.Find("Cnvs_join").GetComponent<JoinManager>().WakeUp();
