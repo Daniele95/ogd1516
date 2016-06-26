@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class UsernameChanger : MonoBehaviour {
 
-    private bool inside;
     private Text username;
 
     public string currentMenu;
@@ -27,19 +26,22 @@ public class UsernameChanger : MonoBehaviour {
         username = gameObject.GetComponent<Text>();
         username.text = GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().player + FORMATTED_UNRANKED;
         currentMenu = FIRST;
-        inside = false;
     }
 
     void Update ()
     {
-        if (Input.GetButtonDown("XboxY") && !inside)
+        if (Input.GetButtonDown("XboxY"))
+        {
             openUsernameCanvas();
+            GameObject.Find("Cnvs_main").GetComponent<AudioSource>().Play();
+        }
 
         if (Input.GetButtonDown("XboxA") && usernameInputField.isActiveAndEnabled && usernameInputField.isFocused)
         {
             GameObject.Find("Cnvs_main").GetComponent<AudioSource>().Play();
             closeUsernameCanvas(true);
         }
+
         if (Input.GetButtonDown("XboxB") && usernameInputField.isActiveAndEnabled && usernameInputField.isFocused)
         {
             GameObject.Find("Cnvs_main").GetComponent<AudioSource>().Play();
