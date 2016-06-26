@@ -10,8 +10,10 @@ public class ClassMenuManager : MonoBehaviour {
     public GameObject minerMesh;
     public GameObject camperMesh;
     public GameObject fakeMesh;
-    public Image arrowRight;
-    public Image arrowLeft;
+    public Image arrowRight_container;
+    public Image arrowLeft_container;
+    public Sprite arrowLeft_idle;
+    public Sprite arrowRight_idle;
     public Sprite arrowLeft_glow;
     public Sprite arrowRight_glow;
     public RawImage hex_firstWeapon;       //hexes contains the logos and ammo information
@@ -53,6 +55,12 @@ public class ClassMenuManager : MonoBehaviour {
 
     public bool host;
 
+    private bool blinkingLeft;
+    private bool blinkingRight;
+    private const float BLINKING_TIME = 0.15f;
+    private float currentBlinkingLeftTime;
+    private float currentBlinkingRightTime;
+
     private GameObject canvas;
     private GameObject activeMesh;
     private string[] descriptions = new string[7];
@@ -79,6 +87,11 @@ public class ClassMenuManager : MonoBehaviour {
         canvas = gameObject;
         axisInUse = false;
         currentConfiguration = 0;
+
+        blinkingLeft = false;
+        blinkingRight = false;
+        currentBlinkingLeftTime = 0;
+        currentBlinkingRightTime = 0;
 
         classNames[0] = "Drifter";
         classNames[1] = "Miner";
@@ -113,12 +126,14 @@ public class ClassMenuManager : MonoBehaviour {
                 if (Input.GetAxisRaw("Horizontal") < -AXIS_THRESHOLD || Input.GetKeyDown(KeyCode.LeftArrow))
                 {
                     previousConfiguration();
-                    //TODO: make leftArrow blink
+                    blinkingLeft = true;
+                    arrowLeft_container.sprite = arrowLeft_glow;
                 }
                 else if (Input.GetAxisRaw("Horizontal") > AXIS_THRESHOLD || Input.GetKeyDown(KeyCode.RightArrow))
                 {
                     nextConfiguration();
-                    //TODO: make rightArrow blink
+                    blinkingRight = true;
+                    arrowRight_container.sprite = arrowRight_glow;
                 }
                 axisInUse = true;
                 GameObject.Find("Cnvs_main").GetComponent<AudioSource>().Play();
@@ -126,6 +141,28 @@ public class ClassMenuManager : MonoBehaviour {
         }
         else
             axisInUse = false;
+
+        if(blinkingLeft)
+        {
+            currentBlinkingLeftTime += Time.deltaTime;
+            if(currentBlinkingLeftTime > BLINKING_TIME)
+            {
+                blinkingLeft = false;
+                arrowLeft_container.sprite = arrowLeft_idle;
+                currentBlinkingLeftTime = 0;
+            }
+        }
+
+        if (blinkingRight)
+        {
+            currentBlinkingRightTime += Time.deltaTime;
+            if (currentBlinkingRightTime > BLINKING_TIME)
+            {
+                blinkingRight = false;
+                arrowRight_container.sprite = arrowRight_idle;
+                currentBlinkingRightTime = 0;
+            }
+        }
 
         if (Input.GetButtonDown("XboxB"))
         {
@@ -135,6 +172,7 @@ public class ClassMenuManager : MonoBehaviour {
                 GameObject.Find("Cnvs_join").GetComponent<JoinManager>().WakeUp();
             GameObject.Find("Cnvs_main").GetComponent<AudioSource>().Play();
         }
+
         if (Input.GetButtonDown("XboxA"))
         {
             if (host && currentConfiguration < 3)
