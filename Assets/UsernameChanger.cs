@@ -11,6 +11,9 @@ public class UsernameChanger : MonoBehaviour {
     public Canvas ClassesUICanvas;
     public Canvas ClassesMeshesCanvas;
     public InputField usernameInputField;
+    public Text lblInputField;
+
+    private bool isUsername;
 
     private const string FORMATTED_UNRANKED = " <color=#808080ff><size=19>unranked</size></color>";
     public const string FIRST = "first";
@@ -26,6 +29,7 @@ public class UsernameChanger : MonoBehaviour {
         username = gameObject.GetComponent<Text>();
         username.text = GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().player + FORMATTED_UNRANKED;
         currentMenu = FIRST;
+        isUsername = true;
     }
 
     void Update ()
@@ -80,15 +84,41 @@ public class UsernameChanger : MonoBehaviour {
             usernameCanvas.transform.GetChild(i).gameObject.SetActive(true);
         }
 
-        usernameInputField.textComponent.text = GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().player;
+        if (isUsername)
+            usernameInputField.textComponent.text = GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().player;
+        else
+            usernameInputField.textComponent.text = GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().ipAddress;
+
+        if (isUsername)
+            lblInputField.text = "Username";
+        else
+            lblInputField.text = "Host Ip Address";
         usernameInputField.Select();
         usernameInputField.ActivateInputField();
     }
 
     public void closeUsernameCanvas(bool submitted)
     {
-        if (submitted)
+        if (submitted && isUsername)
             changeUsername(usernameInputField.text);
+        else
+            if (submitted && !isUsername)
+            {
+                if (usernameInputField.text.Equals(""))
+                    ClassesMeshesCanvas.GetComponent<ClassMenuManager>().ipAddress = "127.0.0.1";
+                else
+                    ClassesMeshesCanvas.GetComponent<ClassMenuManager>().ipAddress = usernameInputField.text;
+
+                this.currentMenu = UsernameChanger.CLASSES;
+
+                isUsername = true;
+                usernameCanvas.gameObject.SetActive(false);
+
+                ClassesMeshesCanvas.gameObject.SetActive(true);
+                ClassesUICanvas.gameObject.SetActive(true);
+
+                return;
+            }
 
         switch(currentMenu)
         {
@@ -118,6 +148,13 @@ public class UsernameChanger : MonoBehaviour {
                 ClassesMeshesCanvas.gameObject.SetActive(true);
                 break;
         }
+        isUsername = true;
         usernameCanvas.gameObject.SetActive(false);
+    }
+
+    public void openJoinCanvas()
+    {
+        isUsername = false;
+        this.openUsernameCanvas();
     }
 }

@@ -69,8 +69,11 @@ public class BtnManager : MonoBehaviour {
         classMeshManager.gameObject.SetActive(false);
         for(int i = 0; i<buttons.Length; i++)
         {
-            buttons[i].gameObject.SetActive(true);
+            if(!buttons[i].name.Contains("Btn4"))
+                buttons[i].gameObject.SetActive(true);
+
             setButtonInteractible(buttons[i], buttons[i].name.Contains("Btn3") && interactibleButtonsNames.Contains(buttons[i].name));
+
             if (buttons[i].name.Equals("Btn3_Host"))
                 buttons[i].Select();
         }

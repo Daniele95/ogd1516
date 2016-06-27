@@ -166,10 +166,10 @@ public class ClassMenuManager : MonoBehaviour {
 
         if (Input.GetButtonDown("XboxB"))
         {
-            if(host)
+            if (host)
                 GameObject.Find("Cnvs_btns").GetComponent<BtnManager>().ReturnToHostMenu();
             else
-                GameObject.Find("Cnvs_join").GetComponent<JoinManager>().WakeUp();
+                GameObject.Find("Cnvs_btns").GetComponent<BtnManager>().ReturnToPrivateGameMenu();
             GameObject.Find("Cnvs_main").GetComponent<AudioSource>().Play();
         }
 
