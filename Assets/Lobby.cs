@@ -33,8 +33,6 @@ public class Lobby : NetworkBehaviour {
 		if (!isServer)
 			return -1;
 
-		print ("MATCHMAKER");
-
 		int team = -1;
 
 		int maxPlayers = GameObject.Find("ControllerNet").GetComponent<ControllerNet> ().maxPlayers;
@@ -69,8 +67,6 @@ public class Lobby : NetworkBehaviour {
 			}
 		}
 
-		print ("B:" + numBlueTeamPlayers + " R:" + numRedTeamPlayers);
-
 		return team;
 	}
 
@@ -81,6 +77,7 @@ public class Lobby : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (!GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay(false) && GameObject.Find("ControllerGame").GetComponent<ControllerGaming>().timer <= 0f)
+			activePlayers = 0;
 	}
 }

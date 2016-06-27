@@ -202,7 +202,7 @@ public class SimpleController : NetworkBehaviour
     {
 		//DRIFTING ANIMATION
 		if (specialPower == 1) {
-			if (isDrifting) {
+			if (isDriftingDamage) {
 				transform.FindChild ("drifter").FindChild ("WHEEL").GetComponent<Animator> ().SetBool ("drifting", true);
 			} else {
 				transform.FindChild ("drifter").FindChild ("WHEEL").GetComponent<Animator> ().SetBool ("drifting", false);
@@ -232,7 +232,7 @@ public class SimpleController : NetworkBehaviour
 			}
 		}
 
-		canPlay = GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay () && GameObject.Find ("ControllerGame").GetComponent<ControllerGaming>().timer > 0f;
+		canPlay = GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay (true);
 
 		if (!canPlay) {
 			body.velocity = Vector3.zero;

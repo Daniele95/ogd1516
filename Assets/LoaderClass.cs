@@ -331,7 +331,7 @@ public class LoaderClass : NetworkBehaviour {
 		setSkinModel(vehicleTypeClass);
 		setTeam (teamPlayer);
 
-		if (needSpawn && GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay ()) {
+		if (needSpawn && GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay (true)) {
 			needSpawn = false;
 
 			SpawnPoints respawn = GetComponent<SpawnPoints> ();

@@ -293,7 +293,7 @@ public class GuiVehicle : NetworkBehaviour {
 
 		Text respawnText = GameObject.Find ("RespawnText").GetComponent<Text>();
 
-		if(!GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay ())
+		if(!GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay (true))
 			timerGo = 2f;
 		
 		if (life <= 0) {

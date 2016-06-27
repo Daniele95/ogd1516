@@ -383,7 +383,7 @@ public class Shooting : NetworkBehaviour {
 			return;
 
 		if (GameObject.Find ("ControllerGame") != null) {
-			canPlay = GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay () && GameObject.Find ("ControllerGame").GetComponent<ControllerGaming> ().timer > 0f;
+			canPlay = GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay (true);
 
 			if (!canPlay)
 				return;

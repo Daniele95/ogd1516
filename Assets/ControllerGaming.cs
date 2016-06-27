@@ -118,8 +118,15 @@ public class ControllerGaming : NetworkBehaviour {
 		RpcTimingArena (timer);
 	}
 
+	private float timerMenu = 5f;
+
 	// Update is called once per frame
 	void Update () {
+		GameObject net = GameObject.Find ("ControllerNet");
+		CustomNetworkManagerHUD netHUD = net.GetComponent<CustomNetworkManagerHUD> ();
+
+		bool canPlay = net.GetComponent<ControllerNet> ().canPlay (false);
+
 		if (timer <= 0f) {
             string res = "";
             if (scoreTeam0 > scoreTeam1)
@@ -132,17 +139,22 @@ public class ControllerGaming : NetworkBehaviour {
 			winTeamBG.SetActive (true);
 			GameObject.Find("WinTeam").GetComponent<Text>().text = res + "\n" + scoreTeam0 + " - " + scoreTeam1;
 
-			if (Input.GetButtonDown ("XboxA")) {
-				GameObject.Find ("ControllerNet").GetComponent<CustomNetworkManagerHUD> ().stopHost ();
-				GameObject.Find ("ControllerNet").GetComponent<CustomNetworkManagerHUD> ().stopClient ();
-				SceneManager.LoadScene ("Main menu");
+			if (!canPlay) {
+				timerMenu -= Time.deltaTime;
+
+				if (Input.GetButtonDown ("XboxA") || timerMenu <= 0f) {
+					netHUD.stopHost ();
+					netHUD.stopClient ();
+
+					SceneManager.LoadScene ("Main menu");
+				}
 			}
 		}
 
 		if (!isServer)
 			return;
 
-		if(GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay ())
+		if(canPlay)
 			CmdUpdateArena ();
 	}
 }

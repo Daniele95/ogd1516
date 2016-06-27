@@ -36,8 +36,8 @@ public class ControllerNet : NetworkManager {
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
 	{
-		if (GameObject.Find("Lobby").GetComponent<Lobby>().activePlayers == maxPlayers)
-			return;
+		//if (GameObject.Find("Lobby").GetComponent<Lobby>().activePlayers == maxPlayers)
+		//	return;
 
 		GameObject player = (GameObject)Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 		//SpawnPoints scriptSpawnPoints = player.GetComponent<SpawnPoints> ();
@@ -83,7 +83,12 @@ public class ControllerNet : NetworkManager {
 		lobby.activePlayers++;
 	}
 
-	public bool canPlay(){
-		return GameObject.Find ("Lobby").GetComponent<Lobby> ().activePlayers == maxPlayers;
+	public bool canPlay(bool checkTime){
+		bool res = GameObject.Find ("Lobby").GetComponent<Lobby> ().activePlayers == maxPlayers;
+
+		if (checkTime) {
+			res &= GameObject.Find ("ControllerGame").GetComponent<ControllerGaming> ().timer > 0f;
+		}
+		return res;
 	}	
 }

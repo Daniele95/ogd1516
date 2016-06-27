@@ -55,21 +55,41 @@ namespace UnityEngine.Networking
 
 		void Update()
 		{
-			if (host && !NetworkServer.active) {
-				SceneManager.LoadScene("Main menu");	
-			}
+			//if (host && !NetworkServer.active) {
+			//	SceneManager.LoadScene("Main menu");	
+			//}
 
-			if (!NetworkClient.active && !host) {
-				//SceneManager.LoadScene("Main menu");
-				//stopClient();
-				timerClient -= Time.deltaTime;
-				if (timerClient <= 0f) {
-					startClient (ipAddress);
+			GameObject net = GameObject.Find ("ControllerNet");
+			GameObject controllerGame = GameObject.Find ("ControllerGame");
 
-					timerClient = timerReconnect;
+			if(controllerGame != null){
+				bool canPlay = controllerGame.GetComponent<ControllerGaming> ().timer > 0f;
+
+				if (!NetworkClient.active && !host && canPlay) {
+					//SceneManager.LoadScene("Main menu");
+					//stopClient();
+					timerClient -= Time.deltaTime;
+					if (timerClient <= 0f) {
+						startClient (ipAddress);
+
+						timerClient = timerReconnect;
+					}
+					//print ("START CLIENT");
 				}
-				//print ("START CLIENT");
 			}
+
+			if (!host) {
+				if (NetworkClient.active && !ClientScene.ready) {
+					if (manager.client.connection != null && manager.client.isConnected) {
+						ClientScene.Ready (manager.client.connection);
+
+						if (ClientScene.localPlayers.Count == 0) {
+							ClientScene.AddPlayer (0);
+						}
+					}
+				}
+			}
+
 
 			if (!showGUI)
 				return;
@@ -106,29 +126,31 @@ namespace UnityEngine.Networking
 			int maxPlayers = GetComponent<ControllerNet> ().maxPlayers;
 			GameObject waitingPlayers = GameObject.Find ("WaitingPlayers");
 
-			//Client ready but not the scene
-			if (numPlayers < maxPlayers) {
-				if (NetworkClient.active && !ClientScene.ready || NetworkServer.active) {
-					string strNumPlayers = "";
+			if (waitingPlayers != null) {
+				//Client ready but not the scene
+				if (numPlayers < maxPlayers) {
+					if (NetworkClient.active && !ClientScene.ready || NetworkServer.active) {
+						string strNumPlayers = "";
 
-					if(numPlayers > 0)
-						strNumPlayers = "Currently " + numPlayers + " of " + maxPlayers;
+						if (numPlayers > 0)
+							strNumPlayers = "Currently " + numPlayers + " of " + maxPlayers;
 
-					waitingPlayers.GetComponent<Text> ().text = "Waiting for other players\n" + strNumPlayers;
-				}
-			} else {
-				if (waitingPlayers != null) {
-					alphaBGWaitingPlayers -= Time.deltaTime;
+						waitingPlayers.GetComponent<Text> ().text = "Waiting for other players\n" + strNumPlayers;
+					}
+				} else {
+					if (waitingPlayers != null) {
+						alphaBGWaitingPlayers -= Time.deltaTime;
 
-					if (alphaBGWaitingPlayers <= 0f) {
-						alphaBGWaitingPlayers = 0f;
-						GameObject.Find ("BGWaitingPlayers").SetActive (false);
-					} else {
-						//
-						Color alphaColor = new Color (1f, 1f, 1f, alphaBGWaitingPlayers);
-						GameObject.Find ("BGWaitingPlayers").GetComponent<Image> ().color = alphaColor;
-						waitingPlayers.GetComponent<Text> ().color = alphaColor;
-						GameObject.Find ("BGWaitingPlayers").transform.FindChild ("Logo").GetComponent<Image> ().color = alphaColor;
+						if (alphaBGWaitingPlayers <= 0f) {
+							alphaBGWaitingPlayers = 0f;
+							GameObject.Find ("BGWaitingPlayers").SetActive (false);
+						} else {
+							//
+							Color alphaColor = new Color (1f, 1f, 1f, alphaBGWaitingPlayers);
+							GameObject.Find ("BGWaitingPlayers").GetComponent<Image> ().color = alphaColor;
+							waitingPlayers.GetComponent<Text> ().color = alphaColor;
+							GameObject.Find ("BGWaitingPlayers").transform.FindChild ("Logo").GetComponent<Image> ().color = alphaColor;
+						}
 					}
 				}
 			}
