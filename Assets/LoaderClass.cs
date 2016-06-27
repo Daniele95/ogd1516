@@ -41,10 +41,10 @@ public class LoaderClass : NetworkBehaviour {
 
 	public Color teamColor;
 
-	public override void OnDeserialize(NetworkReader reader, bool initialState)
+	/*public override void OnDeserialize(NetworkReader reader, bool initialState)
 	{
 		base.OnDeserialize(reader, initialState);
-	}
+	}*/
 
     void setSkinModel(int typeClass){
 		GameObject drifterMesh = transform.Find ("drifter").gameObject;
@@ -331,7 +331,7 @@ public class LoaderClass : NetworkBehaviour {
 		setSkinModel(vehicleTypeClass);
 		setTeam (teamPlayer);
 
-		if (needSpawn) {
+		if (needSpawn && GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay ()) {
 			needSpawn = false;
 
 			SpawnPoints respawn = GetComponent<SpawnPoints> ();

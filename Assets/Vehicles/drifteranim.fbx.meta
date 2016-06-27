@@ -1,0 +1,119 @@
+fileFormatVersion: 2
+guid: 06816ed52a2c3ff468b1f0da9ead8339
+timeCreated: 1467016027
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: BODY
+    100002: CANNON
+    100004: //RootNode
+    100006: WHEEL
+    400000: BODY
+    400002: CANNON
+    400004: //RootNode
+    400006: WHEEL
+    2300000: BODY
+    2300002: CANNON
+    2300004: WHEEL
+    3300000: BODY
+    3300002: CANNON
+    3300004: WHEEL
+    4300000: WHEEL
+    4300002: CANNON
+    4300004: BODY
+    7400000: WHEEL|BODY|BODY|BODY|BODY|drifteraction|BODY|drifteraction|BODY|BODY|
+    7400002: WHEEL|BODY|BODY|CANNON|CANNON|drifteraction|CANNON|drifteraction|BODY
+    7400004: WHEEL|BODY|BODY|WHEEL|WHEEL|drifteraction|WHEEL|drifteraction|BODY|WH
+    7400006: WHEEL|CANNON|CANNON|BODY|BODY|drifteraction|BODY|drifteraction|CANNON
+    7400008: WHEEL|CANNON|CANNON|CANNON|CANNON|drifteraction|CANNON|drifteraction|
+    7400010: WHEEL|CANNON|CANNON|WHEEL|WHEEL|drifteraction|WHEEL|drifteraction|CAN
+    7400012: WHEEL|drift
+    7400014: WHEEL|WHEEL|WHEEL|BODY|BODY|drifteraction|BODY|drifteraction|WHEEL|BO
+    7400016: WHEEL|WHEEL|WHEEL|CANNON|CANNON|drifteraction|CANNON|drifteraction|WH
+    7400018: WHEEL|WHEEL|WHEEL|WHEEL|WHEEL|drifteraction|WHEEL|drifteraction|WHEEL
+    7400020: CANNON|BODY|BODY|BODY|BODY|drifteraction|BODY|drifteraction|BODY|BODY|
+    7400022: CANNON|BODY|BODY|CANNON|CANNON|drifteraction|CANNON|drifteraction|BODY
+    7400024: CANNON|BODY|BODY|WHEEL|WHEEL|drifteraction|WHEEL|drifteraction|BODY|WH
+    7400026: CANNON|CANNON|CANNON|BODY|BODY|drifteraction|BODY|drifteraction|CANNON
+    7400028: CANNON|CANNON|CANNON|CANNON|CANNON|drifteraction|CANNON|drifteraction|
+    7400030: CANNON|CANNON|CANNON|WHEEL|WHEEL|drifteraction|WHEEL|drifteraction|CAN
+    7400032: CANNON|drift
+    7400034: CANNON|WHEEL|WHEEL|BODY|BODY|drifteraction|BODY|drifteraction|WHEEL|BO
+    7400036: CANNON|WHEEL|WHEEL|CANNON|CANNON|drifteraction|CANNON|drifteraction|WH
+    7400038: CANNON|WHEEL|WHEEL|WHEEL|WHEEL|drifteraction|WHEEL|drifteraction|WHEEL
+    7400040: BODY|BODY|BODY|BODY|BODY|drifteraction|BODY|drifteraction|BODY|BODY|
+    7400042: BODY|BODY|BODY|CANNON|CANNON|drifteraction|CANNON|drifteraction|BODY
+    7400044: BODY|BODY|BODY|WHEEL|WHEEL|drifteraction|WHEEL|drifteraction|BODY|WH
+    7400046: BODY|CANNON|CANNON|BODY|BODY|drifteraction|BODY|drifteraction|CANNON
+    7400048: BODY|CANNON|CANNON|CANNON|CANNON|drifteraction|CANNON|drifteraction|
+    7400050: BODY|CANNON|CANNON|WHEEL|WHEEL|drifteraction|WHEEL|drifteraction|CAN
+    7400052: BODY|drift
+    7400054: BODY|WHEEL|WHEEL|BODY|BODY|drifteraction|BODY|drifteraction|WHEEL|BO
+    7400056: BODY|WHEEL|WHEEL|CANNON|CANNON|drifteraction|CANNON|drifteraction|WH
+    7400058: BODY|WHEEL|WHEEL|WHEEL|WHEEL|drifteraction|WHEEL|drifteraction|WHEEL
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

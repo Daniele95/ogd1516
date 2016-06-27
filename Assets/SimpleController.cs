@@ -200,9 +200,27 @@ public class SimpleController : NetworkBehaviour
 
     void Update()
     {
+		//DRIFTING ANIMATION
+		if (specialPower == 1) {
+			if (isDrifting) {
+				transform.FindChild ("drifter").FindChild ("WHEEL").GetComponent<Animator> ().SetBool ("drifting", true);
+			} else {
+				transform.FindChild ("drifter").FindChild ("WHEEL").GetComponent<Animator> ().SetBool ("drifting", false);
+			}
+		}else if (specialPower == 2) {
+			if (isCamping) {
+				transform.FindChild("camper").FindChild("cannon").GetComponent<Animator> ().SetBool ("camping", true);
+				transform.FindChild("camper").FindChild("SIDE").GetComponent<Animator> ().SetBool ("camping", true);
+			} else {
+				transform.FindChild("camper").FindChild("cannon").GetComponent<Animator> ().SetBool ("camping", false);
+				transform.FindChild("camper").FindChild("SIDE").GetComponent<Animator> ().SetBool ("camping", false);
+			}
+		}
+
+
 		if (!isLocalPlayer)
 			return;
-
+		
 		if (setCamera) {
 			GameObject camera = GameObject.Find ("MainCamera");
 

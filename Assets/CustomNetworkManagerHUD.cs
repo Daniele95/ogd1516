@@ -50,10 +50,25 @@ namespace UnityEngine.Networking
 			}
 		}
 
+		public float timerReconnect = 2f;
+		private float timerClient = 0f;
+
 		void Update()
 		{
 			if (host && !NetworkServer.active) {
 				SceneManager.LoadScene("Main menu");	
+			}
+
+			if (!NetworkClient.active && !host) {
+				//SceneManager.LoadScene("Main menu");
+				//stopClient();
+				timerClient -= Time.deltaTime;
+				if (timerClient <= 0f) {
+					startClient (ipAddress);
+
+					timerClient = timerReconnect;
+				}
+				//print ("START CLIENT");
 			}
 
 			if (!showGUI)
@@ -83,6 +98,8 @@ namespace UnityEngine.Networking
 			}
 		}
 
+		private float alphaBGWaitingPlayers = 1f;
+
 		void OnGUI()
 		{
 			int numPlayers = lobby.GetComponent<Lobby> ().activePlayers;
@@ -100,14 +117,20 @@ namespace UnityEngine.Networking
 					waitingPlayers.GetComponent<Text> ().text = "Waiting for other players\n" + strNumPlayers;
 				}
 			} else {
-				if(waitingPlayers != null)
-					GameObject.Find ("BGWaitingPlayers").SetActive (false);
-			}
+				if (waitingPlayers != null) {
+					alphaBGWaitingPlayers -= Time.deltaTime;
 
-			if (!NetworkClient.active && !host) {
-				//SceneManager.LoadScene("Main menu");
-				startClient (ipAddress);
-				//print ("START CLIENT");
+					if (alphaBGWaitingPlayers <= 0f) {
+						alphaBGWaitingPlayers = 0f;
+						GameObject.Find ("BGWaitingPlayers").SetActive (false);
+					} else {
+						//
+						Color alphaColor = new Color (1f, 1f, 1f, alphaBGWaitingPlayers);
+						GameObject.Find ("BGWaitingPlayers").GetComponent<Image> ().color = alphaColor;
+						waitingPlayers.GetComponent<Text> ().color = alphaColor;
+						GameObject.Find ("BGWaitingPlayers").transform.FindChild ("Logo").GetComponent<Image> ().color = alphaColor;
+					}
+				}
 			}
 
 			if (!showGUI)
@@ -328,11 +351,6 @@ namespace UnityEngine.Networking
 				manager.StopClient ();
 			}
 		}
-
-        public void setClass(int classType)
-        {
-            this.classType = classType;
-        }
     }
 };
 #endif //ENABLE_UNET
