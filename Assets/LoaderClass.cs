@@ -117,9 +117,9 @@ public class LoaderClass : NetworkBehaviour {
 			scriptGUI.maxLife = 130;
 			scriptGUI.life = 130;
 
-			scriptShooting.numBulletsFirstWeapon = 8;
-			scriptShooting.maxNumBulletsFirstWeapon = 8;
-			scriptShooting.startTimerShootFirstWeapon = 4f;
+			scriptShooting.numBulletsFirstWeapon = 3;
+			scriptShooting.maxNumBulletsFirstWeapon = 3;
+			scriptShooting.startTimerShootFirstWeapon = 6f;
 			scriptShooting.shoot = bazookaShot;
 
 			scriptShooting.numBulletsSecondWeapon = 10;
