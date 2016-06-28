@@ -8,6 +8,11 @@ public class ControllerNet : NetworkManager {
 
 	public bool matchmaking = true;
 
+    void Start()
+    {
+        maxPlayers = GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().numberOfPlayers;
+    }
+
 	//private bool firstTeam = true;
 
 	/*public override void OnServerConnect(NetworkConnection conn){
