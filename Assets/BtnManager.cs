@@ -178,6 +178,7 @@ public class BtnManager : MonoBehaviour {
                 }
             }
         }
+        usernameChanger.currentMenu = UsernameChanger.FIRST;
     }
 
     public void ClosePrivateGameMenu()
