@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class LaserBeam : NetworkBehaviour {
 	//private Rigidbody body;
 	public float growSpeed = 5f;
-	public int hitPoints = 60;
+	public int hitPoints = 50;
 
 	private float scaleZ = 10f;
 

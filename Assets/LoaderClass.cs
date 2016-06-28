@@ -124,7 +124,7 @@ public class LoaderClass : NetworkBehaviour {
 
 			scriptShooting.numBulletsSecondWeapon = 10;
 			scriptShooting.maxNumBulletsSecondWeapon = 10;
-			scriptShooting.startTimerShootSecondWeapon = 2f;
+			scriptShooting.startTimerShootSecondWeapon = 4f;
 			scriptShooting.shootSecond = laserShot;
 		}
 	}

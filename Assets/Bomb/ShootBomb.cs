@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 
 public class ShootBomb : NetworkBehaviour {
 	private Rigidbody body;
-	public float speed = 50f;
+	public float speed = 80f;
 	public float speedVehicle = 1f;
 	public int hitPoints = 40;
 	public float MAX_SPEED_VEHICLE = 20f;
