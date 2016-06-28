@@ -13,16 +13,18 @@ public class Lobby : NetworkBehaviour {
 	public int numRedTeamPlayers = 0;
 
 	[ClientRpc]
-	void RpcAddPlayer(int players){
+	void RpcAddPlayer(int players, int maxPlayers){
 		//if (isLocalPlayer) {
 		activePlayers = players;
+
+		GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().maxPlayers = maxPlayers;
 		//}
 	}
 
-	public void addPlayer(){
+	public void addPlayer(int maxPlayers){
 		activePlayers++;
 
-		RpcAddPlayer (activePlayers);
+		RpcAddPlayer (activePlayers, maxPlayers);
 	}
 
 	void Awake()
