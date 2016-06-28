@@ -43,6 +43,7 @@ namespace UnityEngine.Networking
                 team = net.GetComponent<NetVehicleContainer>().team;
                 player = net.GetComponent<NetVehicleContainer>().player;
                 ipAddress = net.GetComponent<NetVehicleContainer>().ipAddress;
+				GetComponent<ControllerNet> ().maxPlayers = net.GetComponent<NetVehicleContainer> ().numberOfPlayers;
             }
 
             if (host) {
@@ -52,8 +53,8 @@ namespace UnityEngine.Networking
 			}
 		}
 
-		public float timerReconnect = 2f;
-		private float timerClient = 0f;
+		//public float timerReconnect = 2f;
+		//private float timerClient = 0f;
 
 		private void spawnClient(){
 			if (!host) {
@@ -120,14 +121,18 @@ namespace UnityEngine.Networking
 
 			if (waitingPlayers != null) {
 				//Client ready but not the scene
-				if (numPlayers < maxPlayers) {
+				if (numPlayers < maxPlayers || maxPlayers == -1) {
 					if (NetworkClient.active || NetworkServer.active) {
 						string strNumPlayers = "";
 
 						if (numPlayers == 0)
 							numPlayers = 1;
 						
-							strNumPlayers = "Currently " + numPlayers + " of " + maxPlayers;
+							strNumPlayers = "Currently " + numPlayers;
+
+						if(maxPlayers != -1){
+							strNumPlayers += " of " + maxPlayers;
+						}
 
 						waitingPlayers.GetComponent<Text> ().text = "Waiting for other players\n" + strNumPlayers;
 					}

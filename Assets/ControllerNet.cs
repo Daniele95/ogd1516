@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 using System.Collections.Generic;
 
 public class ControllerNet : NetworkManager {
-	public int maxPlayers = 2;
+	public int maxPlayers = -1;
 
 	public bool matchmaking = true;
 
@@ -101,7 +101,7 @@ public class ControllerNet : NetworkManager {
 
 		lobby = GameObject.Find ("Lobby");
 
-		lobby.GetComponent<Lobby> ().addPlayer();
+		lobby.GetComponent<Lobby> ().addPlayer(maxPlayers);
 	}
 
 	public bool canPlay(bool checkTime){
