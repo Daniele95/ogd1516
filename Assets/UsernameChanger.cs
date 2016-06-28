@@ -99,15 +99,17 @@ public class UsernameChanger : MonoBehaviour {
 
     public void closeUsernameCanvas(bool submitted)
     {
+        string inputFieldValue = usernameInputField.text;
+        usernameInputField.text = "";
         if (submitted && isUsername)
-            changeUsername(usernameInputField.text);
+            changeUsername(inputFieldValue);
         else
             if (submitted && !isUsername)
             {
-                if (usernameInputField.text.Equals(""))
+                if (inputFieldValue.Equals(""))
                     ClassesMeshesCanvas.GetComponent<ClassMenuManager>().ipAddress = "127.0.0.1";
                 else
-                    ClassesMeshesCanvas.GetComponent<ClassMenuManager>().ipAddress = usernameInputField.text;
+                    ClassesMeshesCanvas.GetComponent<ClassMenuManager>().ipAddress = inputFieldValue;
 
                 this.currentMenu = UsernameChanger.CLASSES;
 
