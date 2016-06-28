@@ -82,6 +82,7 @@
      <Compile Include="Assets\Mine\ShootMineBehavior.cs" />
      <Compile Include="Assets\NetVehicleContainer.cs" />
      <Compile Include="Assets\Orbit.cs" />
+     <Compile Include="Assets\PlayVideo.cs" />
      <Compile Include="Assets\Shoot\ShootBehaviour.cs" />
      <Compile Include="Assets\Shoot\SoundShoot.cs" />
      <Compile Include="Assets\Shooting.cs" />

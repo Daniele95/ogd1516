@@ -31,6 +31,8 @@ namespace UnityEngine.Networking
            // DontDestroyOnLoad(transform.gameObject); 
 		}
 
+		public GameObject controllerGame;
+
 		void Start(){
             GameObject net = GameObject.Find("NetVehicleContainer");
 
@@ -53,31 +55,7 @@ namespace UnityEngine.Networking
 		public float timerReconnect = 2f;
 		private float timerClient = 0f;
 
-		void Update()
-		{
-			//if (host && !NetworkServer.active) {
-			//	SceneManager.LoadScene("Main menu");	
-			//}
-
-			GameObject net = GameObject.Find ("ControllerNet");
-			GameObject controllerGame = GameObject.Find ("ControllerGame");
-
-			if(controllerGame != null){
-				bool canPlay = controllerGame.GetComponent<ControllerGaming> ().timer > 0f;
-
-				if (!NetworkClient.active && !host && canPlay) {
-					//SceneManager.LoadScene("Main menu");
-					//stopClient();
-					timerClient -= Time.deltaTime;
-					if (timerClient <= 0f) {
-						startClient (ipAddress);
-
-						timerClient = timerReconnect;
-					}
-					//print ("START CLIENT");
-				}
-			}
-
+		private void spawnClient(){
 			if (!host) {
 				if (NetworkClient.active && !ClientScene.ready) {
 					if (manager.client.connection != null && manager.client.isConnected) {
@@ -85,11 +63,25 @@ namespace UnityEngine.Networking
 
 						if (ClientScene.localPlayers.Count == 0) {
 							ClientScene.AddPlayer (0);
+
+							print ("spawn client");
 						}
 					}
 				}
 			}
+		}
 
+		void Update()
+		{
+			/*if ((!NetworkClient.active || (NetworkClient.active && !ClientScene.ready)) && !host) {
+				timerClient -= Time.deltaTime;
+				if (timerClient <= 0f) {
+					startClient (ipAddress);
+					print ("START CLIENT");
+
+					timerClient = timerReconnect;
+				}
+			}*/
 
 			if (!showGUI)
 				return;
@@ -129,10 +121,12 @@ namespace UnityEngine.Networking
 			if (waitingPlayers != null) {
 				//Client ready but not the scene
 				if (numPlayers < maxPlayers) {
-					if (NetworkClient.active && !ClientScene.ready || NetworkServer.active) {
+					if (NetworkClient.active || NetworkServer.active) {
 						string strNumPlayers = "";
 
-						if (numPlayers > 0)
+						if (numPlayers == 0)
+							numPlayers = 1;
+						
 							strNumPlayers = "Currently " + numPlayers + " of " + maxPlayers;
 
 						waitingPlayers.GetComponent<Text> ().text = "Waiting for other players\n" + strNumPlayers;
@@ -351,7 +345,14 @@ namespace UnityEngine.Networking
         public void startClient(string ipAddress)
         {
             manager.networkAddress = ipAddress;
-            manager.StartClient();
+
+			stopClient ();
+
+			//if (!NetworkClient.active && !ClientScene.ready) {
+				manager.StartClient ();
+				//spawnClient ();
+				print ("start client");
+			//}
         }
 
         public void startHost()

@@ -22,9 +22,12 @@ public class ControllerGaming : NetworkBehaviour {
 	public GameObject winTeamBG;
 
 	// Use this for initialization
+	void Awake(){
+		
+	}
+
 	void Start () {
 		timer = timerArena;
-
         scoreTextTeam0 = GameObject.Find ("ScoreBottomTextTeam0");
         scoreTextTeam1 = GameObject.Find("ScoreBottomTextTeam1");
         timingText = GameObject.Find ("TimingText");
@@ -139,7 +142,7 @@ public class ControllerGaming : NetworkBehaviour {
 			winTeamBG.SetActive (true);
 			GameObject.Find("WinTeam").GetComponent<Text>().text = res + "\n" + scoreTeam0 + " - " + scoreTeam1;
 
-			if (!canPlay) {
+			//if (!canPlay) {
 				timerMenu -= Time.deltaTime;
 
 				if (Input.GetButtonDown ("XboxA") || timerMenu <= 0f) {
@@ -148,13 +151,13 @@ public class ControllerGaming : NetworkBehaviour {
 
 					SceneManager.LoadScene ("Main menu");
 				}
-			}
+			//}
 		}
 
 		if (!isServer)
 			return;
 
-		if(canPlay)
+		if(canPlay && timer > 0f)
 			CmdUpdateArena ();
 	}
 }

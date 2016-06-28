@@ -12,7 +12,18 @@ public class Lobby : NetworkBehaviour {
 	[SyncVar]
 	public int numRedTeamPlayers = 0;
 
+	[ClientRpc]
+	void RpcAddPlayer(int players){
+		//if (isLocalPlayer) {
+		activePlayers = players;
+		//}
+	}
 
+	public void addPlayer(){
+		activePlayers++;
+
+		RpcAddPlayer (activePlayers);
+	}
 
 	void Awake()
 	{
@@ -50,7 +61,7 @@ public class Lobby : NetworkBehaviour {
 
 			float random = Random.Range(0,2);
 
-			print (random);
+			//print (random);
 
 			if (random == 0) {
 				if (numBlueTeamPlayers < maxPlayers / 2) {
@@ -77,7 +88,7 @@ public class Lobby : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay(false) && GameObject.Find("ControllerGame").GetComponent<ControllerGaming>().timer <= 0f)
-			activePlayers = 0;
+		//if (!GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay(false) && GameObject.Find("ControllerGame").GetComponent<ControllerGaming>().timer <= 0f)
+		//	activePlayers = 0;
 	}
 }

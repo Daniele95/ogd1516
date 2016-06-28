@@ -14,12 +14,28 @@ public class ControllerNet : NetworkManager {
 		
 	}*/
 
-	/*public override void OnClientConnect (NetworkConnection conn)
+	public override void OnServerConnect (NetworkConnection conn)
+	{
+		base.OnServerConnect (conn);
+
+		print ("client connect 2 server");
+
+		if (!conn.isReady) {
+			NetworkServer.SetClientReady (conn);
+		}
+	}
+
+	public override void OnClientConnect (NetworkConnection conn)
 	{
 		base.OnClientConnect (conn);
 
+		print ("client connect 2 server 2");
 
-	}*/
+		if (!conn.isReady) {
+			ClientScene.Ready (conn);
+			ClientScene.AddPlayer (0);
+		}
+	}
 
 	/*public override void OnServerConnect (NetworkConnection conn)
 	{
@@ -32,7 +48,7 @@ public class ControllerNet : NetworkManager {
 		print ("ON SERVER CONNNECT: " + loaderScript.typeClass);
 	}*/
 
-	private Lobby lobby;
+	private GameObject lobby;
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
 	{
@@ -78,9 +94,9 @@ public class ControllerNet : NetworkManager {
 		//player.transform.position = spawns [randomRange].transform.position;
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
 
-		lobby = GameObject.Find ("Lobby").GetComponent<Lobby> ();
+		lobby = GameObject.Find ("Lobby");
 
-		lobby.activePlayers++;
+		lobby.GetComponent<Lobby> ().addPlayer();
 	}
 
 	public bool canPlay(bool checkTime){
