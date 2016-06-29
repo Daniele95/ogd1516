@@ -10,7 +10,10 @@ public class ControllerNet : NetworkManager {
 
     void Start()
     {
-        maxPlayers = GameObject.Find("NetVehicleContainer").GetComponent<NetVehicleContainer>().numberOfPlayers;
+		GameObject netContainer = GameObject.Find ("NetVehicleContainer");
+
+		if(netContainer != null)
+			maxPlayers = netContainer.GetComponent<NetVehicleContainer>().numberOfPlayers;
     }
 
 	//private bool firstTeam = true;
@@ -23,9 +26,9 @@ public class ControllerNet : NetworkManager {
 	{
 		base.OnServerConnect (conn);
 
-		print ("client connect 2 server");
+		print ("client connect 2 server "  + conn.address);
 
-		if (!conn.isReady) {
+		if (!conn.isReady && !conn.address.Equals("localServer")) {
 			NetworkServer.SetClientReady (conn);
 		}
 	}
@@ -34,7 +37,7 @@ public class ControllerNet : NetworkManager {
 	{
 		base.OnClientConnect (conn);
 
-		print ("client connect 2 server 2");
+		print ("client connect 2 server");
 
 		if (!conn.isReady) {
 			ClientScene.Ready (conn);

@@ -22,6 +22,9 @@ public class Lobby : NetworkBehaviour {
 	}
 
 	public void addPlayer(int maxPlayers){
+		if (!isServer)
+			return;
+		
 		activePlayers++;
 
 		RpcAddPlayer (activePlayers, maxPlayers);

@@ -36,7 +36,7 @@ namespace UnityEngine.Networking
 		void Start(){
             GameObject net = GameObject.Find("NetVehicleContainer");
 
-            if (net != null)
+			if (net != null)
             {
                 host = net.GetComponent<NetVehicleContainer>().host;
                 classType = net.GetComponent<NetVehicleContainer>().classType;
@@ -72,6 +72,8 @@ namespace UnityEngine.Networking
 			}
 		}
 
+		private float timerMenu = 5f;
+
 		void Update()
 		{
 			/*if ((!NetworkClient.active || (NetworkClient.active && !ClientScene.ready)) && !host) {
@@ -83,6 +85,19 @@ namespace UnityEngine.Networking
 					timerClient = timerReconnect;
 				}
 			}*/
+
+			if (controllerGame.GetComponent<ControllerGaming> ().endMatch) {
+				timerMenu -= Time.deltaTime;
+
+				if (Input.GetButtonDown ("XboxA") || timerMenu <= 0f) {
+					stopHost ();
+					stopClient ();
+
+					Destroy (GameObject.Find ("NetVehicleContainer"));
+
+					SceneManager.LoadScene ("Main menu");
+				}
+			}
 
 			if (!showGUI)
 				return;
