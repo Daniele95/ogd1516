@@ -6,7 +6,7 @@ public class SpawnPoints : MonoBehaviour {
 	//public List<GameObject> spawnpoints;
 	//private Rigidbody body;
 	private SimpleController scriptMovement;
-	public float radiusSpawn = 20f;
+	public float radiusSpawn = 10f;
 
 	// Use this for initialization
 	void Start () {
@@ -37,12 +37,12 @@ public class SpawnPoints : MonoBehaviour {
 		bool canSpawn = false;
 		int randomRange = -1;
 
-		while (!canSpawn) {
+		//while (!canSpawn) {
 			randomRange = Random.Range (0, spawns.Length);
 
-			if (spawns [randomRange].GetComponent<SpawnPoint> ().isEmpty (tagTeam))
+			//if (spawns [randomRange].GetComponent<SpawnPoint> ().isEmpty (tagTeam))
 				canSpawn = true;
-		}
+		//}
 
 		Vector2 circle = Random.insideUnitCircle;
 		Vector3 vector3radius = new Vector3 (circle.x, 0f, circle.y) * radiusSpawn;

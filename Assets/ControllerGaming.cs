@@ -17,6 +17,9 @@ public class ControllerGaming : NetworkBehaviour {
 	[SyncVar]
 	public bool endMatch = false;
 
+	[SyncVar]
+	public bool startMatch = false;
+
 	private GameObject scoreTextTeam0;
     private GameObject scoreTextTeam1;
     private GameObject timingText;
@@ -117,6 +120,8 @@ public class ControllerGaming : NetworkBehaviour {
 	void CmdUpdateArena()
 	{
 		timer -= Time.deltaTime;
+
+		startMatch = true;
 
 		if (timer <= 0f) {
 			timer = 0f;

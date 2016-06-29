@@ -240,6 +240,9 @@ public class LoaderClass : NetworkBehaviour {
 			teamPlayer = team;
 			print ("RPCLOCAL" + teamPlayer);
             assignTeam();
+
+			SpawnPoints respawn = GetComponent<SpawnPoints> ();
+			respawn.respawn ();
         }
 	}
 
@@ -349,23 +352,22 @@ public class LoaderClass : NetworkBehaviour {
 		setTeam (teamPlayer);
 
 		if (needSpawn && GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay (true)) {
-			needSpawn = false;
+			if (GameObject.Find ("ControllerGame").GetComponent<ControllerGaming> ().startMatch) {
+				needSpawn = false;
 
-			GameObject net = GameObject.Find("ControllerNet");
-			CustomNetworkManagerHUD netScript = net.GetComponent<CustomNetworkManagerHUD>();
-			ControllerNet controllerNetScript = net.GetComponent<ControllerNet>();
+				GameObject net = GameObject.Find ("ControllerNet");
+				CustomNetworkManagerHUD netScript = net.GetComponent<CustomNetworkManagerHUD> ();
+				ControllerNet controllerNetScript = net.GetComponent<ControllerNet> ();
 
-			if (controllerNetScript.matchmaking) {
-				if (isServer) {
-					teamPlayer = GameObject.Find ("Lobby").GetComponent<Lobby> ().matchmaker ();
-					//CmdSetTeam (teamPlayer);
-					RpcMatchMaking(teamPlayer);
-					print ("TEAMPLAYER:" + teamPlayer);
+				if (controllerNetScript.matchmaking) {
+					if (isServer) {
+						teamPlayer = GameObject.Find ("Lobby").GetComponent<Lobby> ().matchmaker ();
+						//CmdSetTeam (teamPlayer);
+						RpcMatchMaking (teamPlayer);
+						print ("TEAMPLAYER:" + teamPlayer);
+					}
 				}
 			}
-
-			SpawnPoints respawn = GetComponent<SpawnPoints> ();
-			respawn.respawn ();
 		}
 	}
 }
