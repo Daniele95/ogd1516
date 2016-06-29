@@ -199,7 +199,7 @@ public class GuiVehicle : NetworkBehaviour {
 		//	return;
 
 
-		if (col.gameObject.CompareTag ("BulletTeam1") && gameObject.CompareTag ("VehicleTeam0") || col.gameObject.CompareTag ("BulletTeam0") && gameObject.CompareTag ("VehicleTeam1")) {
+		/*if (col.gameObject.CompareTag ("BulletTeam1") && gameObject.CompareTag ("VehicleTeam0") || col.gameObject.CompareTag ("BulletTeam0") && gameObject.CompareTag ("VehicleTeam1")) {
 			
 
 			if (col.gameObject.name.Contains ("Laser")) {
@@ -217,7 +217,7 @@ public class GuiVehicle : NetworkBehaviour {
 					TakeDamage (col.gameObject.GetComponent<LaserBeam>().hitPoints);
 				}
 			}
-		}
+		}*/
 		/*if (col.gameObject.CompareTag ("HealthPickup")) {
             if (life < maxLife)
             {

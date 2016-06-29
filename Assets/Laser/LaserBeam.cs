@@ -95,9 +95,11 @@ public class LaserBeam : NetworkBehaviour {
 			//}
 
 			if (!found) {
-				//GuiVehicle gui = col.gameObject.GetComponent<GuiVehicle> ();
+				print ("laser:" + col.gameObject);
 
-				//gui.TakeDamage (hitPoints);
+				GuiVehicle gui = col.gameObject.GetComponent<GuiVehicle> ();
+
+				gui.TakeDamage (hitPoints);
 
 				CmdDoExplosion ();
 			}
