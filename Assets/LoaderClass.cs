@@ -83,15 +83,15 @@ public class LoaderClass : NetworkBehaviour {
 			scriptGUI.maxLife = 100;
 			scriptGUI.life = 100;
 
-			scriptShooting.numBulletsFirstWeapon = 125;
-			scriptShooting.maxNumBulletsFirstWeapon = 125;
-			scriptShooting.startTimerShootFirstWeapon = 0.125f;
+			scriptShooting.numBulletsFirstWeapon = 150;
+			scriptShooting.maxNumBulletsFirstWeapon = 150;
+			scriptShooting.startTimerShootFirstWeapon = 0.200f;
 			scriptShooting.shoot = machineGunShoot;
 
 			scriptShooting.numBulletsSecondWeapon = 0;
 			scriptShooting.maxNumBulletsSecondWeapon = 0;
 			scriptShooting.startTimerShootSecondWeapon = 0.125f;
-			scriptMovement.damageDrift = 5;
+			scriptMovement.damageDrift = 15;
 			scriptShooting.shootSecond = null;
 		}else if(typeClass == 1){//MINER
 			scriptMovement.acceleration = 15000f;
@@ -238,7 +238,6 @@ public class LoaderClass : NetworkBehaviour {
 	void RpcMatchMaking(int team){
 		if (isLocalPlayer) {
 			teamPlayer = team;
-			print ("RPCLOCAL" + teamPlayer);
             assignTeam();
 
 			SpawnPoints respawn = GetComponent<SpawnPoints> ();
@@ -270,8 +269,6 @@ public class LoaderClass : NetworkBehaviour {
                 {
                     teamPlayer = netScript.team;
                 }
-
-                print("TEAM:" + teamPlayer);
 
                 vehicleTypeClass = netScript.classType;
                 userPlayer = netScript.player;
@@ -364,7 +361,6 @@ public class LoaderClass : NetworkBehaviour {
 						teamPlayer = GameObject.Find ("Lobby").GetComponent<Lobby> ().matchmaker ();
 						//CmdSetTeam (teamPlayer);
 						RpcMatchMaking (teamPlayer);
-						print ("TEAMPLAYER:" + teamPlayer);
 					}
 				}
 			}

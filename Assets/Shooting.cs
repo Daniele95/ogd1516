@@ -448,7 +448,10 @@ public class Shooting : NetworkBehaviour {
 								//Quaternion rot = shooter.rotation;
 								CmdDoFire (0, Vector3.Distance (controller.body.velocity, Vector3.zero) <= 0.1f);//rot.eulerAngles.x, rot.eulerAngles.y, rot.eulerAngles.z
 
-								dropBullets (currentWeapon, 1);
+                                if (scriptClass.vehicleTypeClass == 0)
+                                    dropBullets(currentWeapon, 2);
+                                else
+                                    dropBullets(currentWeapon, 1);
 							}
 						}
 					}

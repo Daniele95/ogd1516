@@ -64,9 +64,7 @@ namespace UnityEngine.Networking
 
 						if (ClientScene.localPlayers.Count == 0) {
 							ClientScene.AddPlayer (0);
-
-							print ("spawn client");
-						}
+                        }
 					}
 				}
 			}
@@ -385,7 +383,6 @@ namespace UnityEngine.Networking
 			//if (!NetworkClient.active && !ClientScene.ready) {
 				manager.StartClient ();
 				//spawnClient ();
-				print ("start client");
 			//}
         }
 

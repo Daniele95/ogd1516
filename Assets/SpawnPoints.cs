@@ -20,7 +20,6 @@ public class SpawnPoints : MonoBehaviour {
 	}
 
 	public void respawn(){
-		print ("respawn");
 		string whichTagTeam = "";
 		int tagTeam = -1;
 
