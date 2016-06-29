@@ -13,7 +13,7 @@ public class Lobby : NetworkBehaviour {
 	public int numRedTeamPlayers = 0;
 
 	[ClientRpc]
-	void RpcAddPlayer(int players, int maxPlayers){
+	void RpcPlayerCount(int players, int maxPlayers){
 		//if (isLocalPlayer) {
 		activePlayers = players;
 
@@ -22,9 +22,21 @@ public class Lobby : NetworkBehaviour {
 	}
 
 	public void addPlayer(int maxPlayers){
+		if (!isServer)
+			return;
+		
 		activePlayers++;
 
-		RpcAddPlayer (activePlayers, maxPlayers);
+		RpcPlayerCount (activePlayers, maxPlayers);
+	}
+
+	public void removePlayer(int maxPlayers){
+		if (!isServer)
+			return;
+
+		activePlayers--;
+
+		RpcPlayerCount (activePlayers, maxPlayers);
 	}
 
 	void Awake()

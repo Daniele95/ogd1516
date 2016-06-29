@@ -219,20 +219,9 @@ public class LoaderClass : NetworkBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        GameObject net = GameObject.Find("ControllerNet");
-        CustomNetworkManagerHUD netScript = net.GetComponent<CustomNetworkManagerHUD>();
-        ControllerNet controllerNetScript = net.GetComponent<ControllerNet>();
+        
 
-        if (controllerNetScript.matchmaking) {
-			if (isServer) {
-				teamPlayer = GameObject.Find ("Lobby").GetComponent<Lobby> ().matchmaker ();
-				//CmdSetTeam (teamPlayer);
-				RpcMatchMaking(teamPlayer);
-				print ("TEAMPLAYER:" + teamPlayer);
-			}
-		}
-
-        assignTeam();
+        //assignTeam();
 	}
 
     public void assignTeam()
@@ -333,6 +322,19 @@ public class LoaderClass : NetworkBehaviour {
 
 		if (needSpawn && GameObject.Find ("ControllerNet").GetComponent<ControllerNet> ().canPlay (true)) {
 			needSpawn = false;
+
+			GameObject net = GameObject.Find("ControllerNet");
+			CustomNetworkManagerHUD netScript = net.GetComponent<CustomNetworkManagerHUD>();
+			ControllerNet controllerNetScript = net.GetComponent<ControllerNet>();
+
+			if (controllerNetScript.matchmaking) {
+				if (isServer) {
+					teamPlayer = GameObject.Find ("Lobby").GetComponent<Lobby> ().matchmaker ();
+					//CmdSetTeam (teamPlayer);
+					RpcMatchMaking(teamPlayer);
+					print ("TEAMPLAYER:" + teamPlayer);
+				}
+			}
 
 			SpawnPoints respawn = GetComponent<SpawnPoints> ();
 			respawn.respawn ();

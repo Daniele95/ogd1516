@@ -14,6 +14,9 @@ public class ControllerGaming : NetworkBehaviour {
 	[SyncVar]
 	public float timer = 0f;
 
+	[SyncVar]
+	public bool endMatch = false;
+
 	private GameObject scoreTextTeam0;
     private GameObject scoreTextTeam1;
     private GameObject timingText;
@@ -109,6 +112,7 @@ public class ControllerGaming : NetworkBehaviour {
 		CmdAddScoreTeam (team);
 	}
 
+
 	[Command]
 	void CmdUpdateArena()
 	{
@@ -116,48 +120,56 @@ public class ControllerGaming : NetworkBehaviour {
 
 		if (timer <= 0f) {
 			timer = 0f;
+
+			endMatch = true;
 		}
 
 		RpcTimingArena (timer);
 	}
 
-	private float timerMenu = 5f;
+	private float alphaBGWinTeam = 0f;
 
 	// Update is called once per frame
 	void Update () {
-		GameObject net = GameObject.Find ("ControllerNet");
-		CustomNetworkManagerHUD netHUD = net.GetComponent<CustomNetworkManagerHUD> ();
-
-		bool canPlay = net.GetComponent<ControllerNet> ().canPlay (false);
-
-		if (timer <= 0f) {
-            string res = "";
-            if (scoreTeam0 > scoreTeam1)
-                res = "Green Team  wins!";
-            else if (scoreTeam1 > scoreTeam0)
-                res = "Violet Team wins!";
-            else
-                res = "Draw";
+		if (endMatch) {
+			string res = "";
+			if (scoreTeam0 > scoreTeam1)
+				res = "Green Team  wins!";
+			else if (scoreTeam1 > scoreTeam0)
+				res = "Violet Team wins!";
+			else
+				res = "Draw";
 
 			winTeamBG.SetActive (true);
-			GameObject.Find("WinTeam").GetComponent<Text>().text = res + "\n" + scoreTeam0 + " - " + scoreTeam1;
+			alphaBGWinTeam += Time.deltaTime;
 
-			//if (!canPlay) {
-				timerMenu -= Time.deltaTime;
+			if (alphaBGWinTeam > 1f)
+				alphaBGWinTeam = 1f;
 
-				if (Input.GetButtonDown ("XboxA") || timerMenu <= 0f) {
-					netHUD.stopHost ();
-					netHUD.stopClient ();
+			GameObject winTeamText = GameObject.Find ("WinTeam");
 
-					SceneManager.LoadScene ("Main menu");
-				}
-			//}
+			Color alphaColor = new Color (1f, 1f, 1f, alphaBGWinTeam);
+			winTeamBG.GetComponent<Image> ().color = alphaColor;
+			winTeamText.GetComponent<Text> ().color = alphaColor;
+			winTeamBG.transform.FindChild ("Logo").GetComponent<Image> ().color = alphaColor;
+			winTeamBG.transform.FindChild ("XboxA").GetComponent<Image> ().color = alphaColor;
+			winTeamBG.transform.FindChild ("XboxA").FindChild ("Cancel").GetComponent<Text> ().color = alphaColor;
+
+			winTeamText.GetComponent<Text> ().text = res + "\n" + scoreTeam0 + " - " + scoreTeam1;
 		}
+	
 
 		if (!isServer)
 			return;
 
-		if(canPlay && timer > 0f)
-			CmdUpdateArena ();
+		GameObject net = GameObject.Find ("ControllerNet");
+
+		if (net != null) {
+			if (net.GetComponent<ControllerNet> ().canPlay (false)) {
+
+				if (timer > 0f)
+					CmdUpdateArena ();
+			}
+		}
 	}
 }
