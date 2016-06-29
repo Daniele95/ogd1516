@@ -127,12 +127,11 @@ public class ControllerGaming : NetworkBehaviour {
 		RpcTimingArena (timer);
 	}
 
-
-
+	private float alphaBGWinTeam = 0f;
 
 	// Update is called once per frame
 	void Update () {
-		if (timer <= 0f) {
+		if (endMatch) {
 			string res = "";
 			if (scoreTeam0 > scoreTeam1)
 				res = "Green Team  wins!";
@@ -142,7 +141,21 @@ public class ControllerGaming : NetworkBehaviour {
 				res = "Draw";
 
 			winTeamBG.SetActive (true);
-			GameObject.Find ("WinTeam").GetComponent<Text> ().text = res + "\n" + scoreTeam0 + " - " + scoreTeam1;
+			alphaBGWinTeam += Time.deltaTime;
+
+			if (alphaBGWinTeam > 1f)
+				alphaBGWinTeam = 1f;
+
+			GameObject winTeamText = GameObject.Find ("WinTeam");
+
+			Color alphaColor = new Color (1f, 1f, 1f, alphaBGWinTeam);
+			winTeamBG.GetComponent<Image> ().color = alphaColor;
+			winTeamText.GetComponent<Text> ().color = alphaColor;
+			winTeamBG.transform.FindChild ("Logo").GetComponent<Image> ().color = alphaColor;
+			winTeamBG.transform.FindChild ("XboxA").GetComponent<Image> ().color = alphaColor;
+			winTeamBG.transform.FindChild ("XboxA").FindChild ("Cancel").GetComponent<Text> ().color = alphaColor;
+
+			winTeamText.GetComponent<Text> ().text = res + "\n" + scoreTeam0 + " - " + scoreTeam1;
 		}
 	
 

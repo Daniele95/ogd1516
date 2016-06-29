@@ -124,10 +124,18 @@ public class ControllerNet : NetworkManager {
 	}
 
 	public bool canPlay(bool checkTime){
-		bool res = GameObject.Find ("Lobby").GetComponent<Lobby> ().activePlayers == maxPlayers;
+		bool res = false;
+
+		lobby = GameObject.Find ("Lobby");
+
+		if(lobby != null)
+			res = lobby.GetComponent<Lobby> ().activePlayers == maxPlayers;
 
 		if (checkTime) {
-			res &= GameObject.Find ("ControllerGame").GetComponent<ControllerGaming> ().timer > 0f;
+			GameObject game = GameObject.Find ("ControllerGame");
+			if (game != null) {
+				res &= game.GetComponent<ControllerGaming> ().timer > 0f;
+			}
 		}
 		return res;
 	}	
