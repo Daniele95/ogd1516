@@ -14,8 +14,12 @@ public class PlayVideo : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (!movTexture.isPlaying)
+            SceneManager.LoadScene("Main menu");
+         if(Input.GetButtonDown("XboxA") || Input.GetButtonDown("XboxStart"))
         {
+            movTexture.Stop();
             SceneManager.LoadScene("Main menu");
         }
-	}
+
+    }
 }

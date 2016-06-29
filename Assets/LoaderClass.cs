@@ -117,14 +117,14 @@ public class LoaderClass : NetworkBehaviour {
 			scriptGUI.maxLife = 130;
 			scriptGUI.life = 130;
 
-			scriptShooting.numBulletsFirstWeapon = 3;
-			scriptShooting.maxNumBulletsFirstWeapon = 3;
-			scriptShooting.startTimerShootFirstWeapon = 6f;
+			scriptShooting.numBulletsFirstWeapon = 10;
+			scriptShooting.maxNumBulletsFirstWeapon = 10;
+			scriptShooting.startTimerShootFirstWeapon = 4f;
 			scriptShooting.shoot = bazookaShot;
 
-			scriptShooting.numBulletsSecondWeapon = 10;
-			scriptShooting.maxNumBulletsSecondWeapon = 10;
-			scriptShooting.startTimerShootSecondWeapon = 4f;
+			scriptShooting.numBulletsSecondWeapon = 3;
+			scriptShooting.maxNumBulletsSecondWeapon = 3;
+			scriptShooting.startTimerShootSecondWeapon = 6f;
 			scriptShooting.shootSecond = laserShot;
 		}
 	}
