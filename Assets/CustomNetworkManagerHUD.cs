@@ -99,6 +99,20 @@ namespace UnityEngine.Networking
 				}
 			}
 
+			int numPlayers = lobby.GetComponent<Lobby> ().activePlayers;
+			int maxPlayers = GetComponent<ControllerNet> ().maxPlayers;
+
+			if (numPlayers != maxPlayers) {
+				if (Input.GetButtonDown ("XboxB")) {
+					stopHost ();
+					stopClient ();
+
+					Destroy (GameObject.Find ("NetVehicleContainer"));
+
+					SceneManager.LoadScene ("Main menu");
+				}
+			}
+
 			if (!showGUI)
 				return;
 

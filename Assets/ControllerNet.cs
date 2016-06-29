@@ -22,11 +22,27 @@ public class ControllerNet : NetworkManager {
 		
 	}*/
 
+	public override void OnServerDisconnect(NetworkConnection conn){
+		base.OnServerDisconnect (conn);
+
+		lobby = GameObject.Find ("Lobby");
+
+		lobby.GetComponent<Lobby> ().removePlayer(maxPlayers);
+	}
+
+	//public override void OnServerRemovePlayer(NetworkConnection conn, PlayerController player){
+	//	print ("client disconnect1");
+	//}
+
+	//public override void OnStopClient(){
+	//	print ("client disconnect2");		
+	//}
+
 	public override void OnServerConnect (NetworkConnection conn)
 	{
 		base.OnServerConnect (conn);
 
-		print ("client connect 2 server "  + conn.address);
+		//print ("client connect 2 server "  + conn.address);
 
 		if (!conn.isReady && !conn.address.Equals("localServer")) {
 			NetworkServer.SetClientReady (conn);
@@ -37,7 +53,7 @@ public class ControllerNet : NetworkManager {
 	{
 		base.OnClientConnect (conn);
 
-		print ("client connect 2 server");
+		//print ("client connect 2 server");
 
 		if (!conn.isReady) {
 			ClientScene.Ready (conn);
