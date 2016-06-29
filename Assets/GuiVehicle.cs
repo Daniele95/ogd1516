@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 public class GuiVehicle : NetworkBehaviour {
 	//public bool Player = true;
+	public GameObject soundPickup;
+
 	[SyncVar(hook = "OnChangeHealth")]
 	public int life = 100;
 
@@ -197,8 +199,6 @@ public class GuiVehicle : NetworkBehaviour {
 		//	return;
 
 
-		print (col.gameObject.transform.GetType ());
-
 		if (col.gameObject.CompareTag ("BulletTeam1") && gameObject.CompareTag ("VehicleTeam0") || col.gameObject.CompareTag ("BulletTeam0") && gameObject.CompareTag ("VehicleTeam1")) {
 			
 
@@ -323,8 +323,9 @@ public class GuiVehicle : NetworkBehaviour {
 			}
 		}
 
-        if (life < maxLife)
-        {
+		if(isLocalPlayer){
+       // if (life < maxLife)
+        //{
             GameObject[] pickups = GameObject.FindGameObjectsWithTag("HealthPickup");
 
             for (int i = 0; i < pickups.Length; i++)
@@ -338,9 +339,14 @@ public class GuiVehicle : NetworkBehaviour {
                     if (life > maxLife)
                         life = maxLife;
 
-                    break;
+					if (!pickup.getPickup) {
+						Instantiate (soundPickup, transform.position, Quaternion.identity);
+					}
+				
+					break;
                 }
             }
-        }
+        //}
+		}
     }
 }

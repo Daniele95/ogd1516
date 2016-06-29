@@ -158,9 +158,16 @@ public class LoaderClass : NetworkBehaviour {
 				//print (materials [i].name);
 				if(materials[i].name.Contains("METALLO")){
 					teamColor = new Color(167 / 255f, 25 / 255f, 123 / 255f);
+
 					materials [i].SetColor ("_Color", teamColor);//0.82f, 0.92f, 0.17f
 
-					break;
+					//break;
+				}
+
+				if (GetComponent<GuiVehicle> ().life == 0) {
+					Color tmpColor = materials [i].color;
+					tmpColor.a = 0.1f;
+					materials [i].SetColor ("_Color", tmpColor);
 				}
 			}
 		} else if (whichTeam == 1)  {
@@ -175,12 +182,33 @@ public class LoaderClass : NetworkBehaviour {
 				//print (materials [i].name);
 				if(materials[i].name.Contains("METALLO")){
 					teamColor = new Color(208 / 255f, 234 / 255f, 43 / 255f);
+
 					materials [i].SetColor ("_Color", teamColor);//0.82f, 0.92f, 0.17f
 
-					break;
+					//break;
+				}
+
+				if (GetComponent<GuiVehicle> ().life == 0) {
+					Color tmpColor = materials [i].color;
+					tmpColor.a = 0.1f;
+					materials [i].SetColor ("_Color", tmpColor);
 				}
 			}
 		}
+
+		/*
+			for (int j = 0; j < drifterMesh.transform.childCount; j++) {
+				Renderer material1 = drifterMesh.transform.GetChild (j).GetComponent<Renderer> ();
+
+				Material[] materials1 = material1.materials;
+
+				for (int i = 0; i < materials1.Length; i++) {
+					if (materials [i].name.Contains ("METALLO")) {
+						materials1 [i].SetColor ("_Color", teamColor);
+					}
+				}
+			}
+		}*/
 	}
 
 	[Command]

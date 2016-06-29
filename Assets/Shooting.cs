@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Shooting : NetworkBehaviour {
 	//public bool Player = true;
+	public GameObject soundPickup;
+
 	public GameObject shoot;
 	public GameObject shootSecond;
 
@@ -388,32 +390,36 @@ public class Shooting : NetworkBehaviour {
 			if (!canPlay)
 				return;
 
-			if (currentWeapon == 0 && numBulletsFirstWeapon < maxNumBulletsFirstWeapon || currentWeapon == 1 && numBulletsSecondWeapon < maxNumBulletsSecondWeapon) {
-				GameObject[] pickups = GameObject.FindGameObjectsWithTag ("AmmoPickup");
-
-				for (int i = 0; i < pickups.Length; i++) {
-					AmmoPickupBehaviour pickup = (AmmoPickupBehaviour)pickups [i].GetComponent<AmmoPickupBehaviour> ();
-
-					if (Vector3.Distance (pickups [i].transform.position, transform.position) <= pickup.RADIUS_PICKUP) {
-						//if (currentWeapon == 0) {
-							numBulletsFirstWeapon += pickup.numBulletsPickup;
-
-							if (numBulletsFirstWeapon > maxNumBulletsFirstWeapon)
-								numBulletsFirstWeapon = maxNumBulletsFirstWeapon;
-						//} else if (currentWeapon == 1) {
-							numBulletsSecondWeapon += pickup.numBulletsPickup;
-
-							if (numBulletsSecondWeapon > maxNumBulletsSecondWeapon)
-								numBulletsSecondWeapon = maxNumBulletsSecondWeapon;
-						//}
-
-						break;
-					}
-				}
-			}
-
 			if (!isLocalPlayer)
 				return;
+
+			//if (currentWeapon == 0 && numBulletsFirstWeapon < maxNumBulletsFirstWeapon || currentWeapon == 1 && numBulletsSecondWeapon < maxNumBulletsSecondWeapon) {
+			GameObject[] pickups = GameObject.FindGameObjectsWithTag ("AmmoPickup");
+
+			for (int i = 0; i < pickups.Length; i++) {
+				AmmoPickupBehaviour pickup = (AmmoPickupBehaviour)pickups [i].GetComponent<AmmoPickupBehaviour> ();
+
+				if (Vector3.Distance (pickups [i].transform.position, transform.position) <= pickup.RADIUS_PICKUP) {
+					//if (currentWeapon == 0) {
+					if (!pickup.getPickup) {
+						Instantiate (soundPickup, transform.position, Quaternion.identity);
+					}
+
+					numBulletsFirstWeapon += pickup.numBulletsPickup;
+
+					if (numBulletsFirstWeapon > maxNumBulletsFirstWeapon)
+						numBulletsFirstWeapon = maxNumBulletsFirstWeapon;
+					//} else if (currentWeapon == 1) {
+					numBulletsSecondWeapon += pickup.numBulletsPickup;
+
+					if (numBulletsSecondWeapon > maxNumBulletsSecondWeapon)
+						numBulletsSecondWeapon = maxNumBulletsSecondWeapon;
+					//}
+
+					break;
+				}
+			}
+			//}
 
 			if (Input.GetKeyDown (KeyCode.A) || Input.GetButtonDown("XboxY")) {
 				if (scriptClass.vehicleTypeClass != 0) {
